@@ -10,7 +10,7 @@ export const createIncident: RequestHandler = (req, res, next) => {
   incidentsCache.push(newIncident);
 
   res.status(201).json({
-    message: 'Create incident successfully.',
+    message: 'Create incident successfully!!!',
     createIncident: newIncident,
   });
 };

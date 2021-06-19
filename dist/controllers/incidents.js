@@ -9,7 +9,7 @@ var createIncident = function (req, res, next) {
     var newIncident = new incident_1.Incident(uuid_1.v4(), title);
     incidentsCache.push(newIncident);
     res.status(201).json({
-        message: 'Create incident successfully.',
+        message: 'Create incident successfully!!!',
         createIncident: newIncident,
     });
 };

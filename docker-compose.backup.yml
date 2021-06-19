@@ -1,0 +1,11 @@
+version: '3.9'
+services:
+  node-app:
+    build: .
+    ports:
+      - '3000:8080'
+    volumes:
+      - ./:/app:ro #Read Only Bind Mount
+      - /app/node_modules
+    environment:
+      - PORT=3000
