@@ -6,8 +6,8 @@ services:
       args:
         NODE_ENV: development
     volumes:
-      - ./:/app:ro #Read Only Bind Mount
-      - /app/node_modules
+      - ./:/app:ro #Read Only Bind Mount Volume
+      - /app/node_modules #Anonymous Volume
     environment:
       - NODE_ENV=development
     command: npm run dev

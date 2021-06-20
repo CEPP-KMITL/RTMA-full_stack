@@ -31,13 +31,7 @@ Stop dev and delete all volume
 
 ## Docker Documentation
 
-Go to the project directory
-
-```bash
-  cd RTMA-api
-```
-
-Build Image Command
+Go to the project directory then build image command
 
 ```bash
   docker build -t rtma-api-image .
