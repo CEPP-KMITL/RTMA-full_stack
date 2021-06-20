@@ -23,10 +23,10 @@ Start dev detach or with console (Use Windows PowerShell)
   docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 ```
 
-Stop dev and delete all volume
+Stop dev
 
 ```bash
-  docker-compose down -v
+  docker-compose down
 ```
 
 ## Docker Documentation

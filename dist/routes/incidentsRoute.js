@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = require("express");
+var incidentsController_1 = require("../controllers/incidentsController");
+var router = express_1.Router();
+router.get('/getAllIncidents', incidentsController_1.getAllIncidents);
+router.get('/getIncident', incidentsController_1.getIncident);
+router.patch('/patchIncident', incidentsController_1.updateIncident);
+router.post('/postIncident', incidentsController_1.createIncident);
+router.delete('/deleteIncident', incidentsController_1.deleteIncident);
+exports.default = router;
