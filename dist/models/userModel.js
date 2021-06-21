@@ -3,17 +3,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Incident = void 0;
+exports.User = void 0;
 var mongoose_1 = __importDefault(require("mongoose"));
-var incidentSchema = new mongoose_1.default.Schema({
-    title: {
+var userSchema = new mongoose_1.default.Schema({
+    username: {
         type: String,
-        require: [true, 'Incident must have title'],
+        require: [true, 'User must have a username'],
+        unique: true,
     },
-    body: {
+    password: {
         type: String,
-        require: [true, 'Incident must have body'],
+        require: [true, 'User must have a password'],
     },
 });
-var Incident = mongoose_1.default.model('Incident', incidentSchema);
-exports.Incident = Incident;
+var User = mongoose_1.default.model('User', userSchema);
+exports.User = User;

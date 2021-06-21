@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { json } from 'body-parser';
 import { CONFIG } from './config/config';
 import incidentRoutes from './routes/incidentsRoute';
+import userRoutes from './routes/userRoute';
 const PORT: number = Number(process.env.PORT) || 3000;
 const mongoURL: string =
   'mongodb://' +
@@ -36,6 +37,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     message: err.message,
   });
 });
-app.use('/incidents', incidentRoutes);
+app.use('/api/v1/incidents', incidentRoutes);
+app.use('/api/v1/auth', userRoutes);
 app.listen(PORT, () => console.log("It's alive on http://localhost:" + PORT));
 connectWithRetry();

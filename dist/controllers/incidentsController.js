@@ -37,30 +37,34 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteIncident = exports.updateIncident = exports.getIncident = exports.getAllIncidents = exports.createIncident = void 0;
-var uuid_1 = require("uuid");
 var incidentModel_1 = require("../models/incidentModel");
+function ObjectLength(object) {
+    var length = 0;
+    for (var key in object) {
+        if (object.hasOwnProperty(key)) {
+            ++length;
+        }
+    }
+    return length;
+}
 var createIncident = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var title, description, newIncident, e_1;
+    var newIncident, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                title = req.body.title;
-                description = req.body
-                    .body;
-                newIncident = new incidentModel_1.IncidentObject(uuid_1.v4(), title, description);
-                return [4 /*yield*/, incidentModel_1.Incident.create(newIncident)];
+                return [4 /*yield*/, incidentModel_1.Incident.create(req.body)];
             case 1:
-                _a.sent();
+                newIncident = _a.sent();
                 res.status(201).json({
-                    message: 'Create incident successfully!!!',
-                    createIncident: newIncident,
+                    message: 'Create incident successfully.',
+                    createdIncident: newIncident,
                 });
                 return [3 /*break*/, 3];
             case 2:
                 e_1 = _a.sent();
                 res.status(400).json({
-                    message: 'Fail to reate incident.',
+                    message: 'Fail to create incident' + ' : ' + e_1,
                 });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
@@ -79,14 +83,14 @@ var getAllIncidents = function (req, res, next) { return __awaiter(void 0, void 
                 allIncidents = _a.sent();
                 res.status(201).json({
                     message: 'Get all current incidents successfully.',
-                    results: incidentModel_1.Incident.length,
+                    results: ObjectLength(allIncidents),
                     getIncidents: allIncidents,
                 });
                 return [3 /*break*/, 3];
             case 2:
                 e_2 = _a.sent();
                 res.status(400).json({
-                    message: 'Fail to get all current incidents.',
+                    message: 'Fail to get all current incidents ' + ' : ' + e_2,
                 });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
@@ -111,7 +115,7 @@ var getIncident = function (req, res, next) { return __awaiter(void 0, void 0, v
             case 2:
                 e_3 = _a.sent();
                 res.status(400).json({
-                    message: 'Fail to get the incidents.',
+                    message: 'Fail to get the incidents' + ' : ' + e_3,
                 });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
@@ -136,7 +140,7 @@ var updateIncident = function (req, res, next) { return __awaiter(void 0, void 0
             case 2:
                 e_4 = _a.sent();
                 res.status(400).json({
-                    message: 'Fail to update the incident.',
+                    message: 'Fail to update the incident' + ' : ' + e_4,
                 });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
@@ -161,7 +165,7 @@ var deleteIncident = function (req, res, next) { return __awaiter(void 0, void 0
             case 2:
                 e_5 = _a.sent();
                 res.status(400).json({
-                    message: 'Fail to delete the incident.',
+                    message: 'Fail to delete the incident' + ' : ' + e_5,
                 });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];

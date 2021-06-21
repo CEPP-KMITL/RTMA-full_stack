@@ -9,9 +9,9 @@ import {
 const router = Router();
 
 router.get('/getAllIncidents', getAllIncidents);
-router.get('/getIncident', getIncident);
-router.patch('/patchIncident', updateIncident);
+router.get('/getIncident/:id', getIncident);
+router.patch('/patchIncident/:id', updateIncident);
 router.post('/postIncident', createIncident);
-router.delete('/deleteIncident', deleteIncident);
+router.delete('/deleteIncident/:id', deleteIncident);
 
 export default router;

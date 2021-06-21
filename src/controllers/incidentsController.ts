@@ -1,25 +1,26 @@
 import { RequestHandler } from 'express';
-import { v4 as uuidv4 } from 'uuid';
-import { Incident, IncidentObject } from '../models/incidentModel';
+import { Incident } from '../models/incidentModel';
+
+function ObjectLength(object: Array<object>) {
+  var length = 0;
+  for (var key in object) {
+    if (object.hasOwnProperty(key)) {
+      ++length;
+    }
+  }
+  return length;
+}
 
 export const createIncident: RequestHandler = async (req, res, next) => {
   try {
-    const title: string = (req.body as { title: string; body: string }).title;
-    const description: string = (req.body as { title: string; body: string })
-      .body;
-    const newIncident: IncidentObject = new IncidentObject(
-      uuidv4(),
-      title,
-      description
-    );
-    await Incident.create(newIncident);
+    const newIncident = await Incident.create(req.body);
     res.status(201).json({
-      message: 'Create incident successfully!!!',
-      createIncident: newIncident,
+      message: 'Create incident successfully.',
+      createdIncident: newIncident,
     });
   } catch (e) {
     res.status(400).json({
-      message: 'Fail to reate incident.',
+      message: 'Fail to create incident' + ' : ' + e,
     });
   }
 };
@@ -29,12 +30,12 @@ export const getAllIncidents: RequestHandler = async (req, res, next) => {
     const allIncidents = await Incident.find();
     res.status(201).json({
       message: 'Get all current incidents successfully.',
-      results: Incident.length,
+      results: ObjectLength(allIncidents),
       getIncidents: allIncidents,
     });
   } catch (e) {
     res.status(400).json({
-      message: 'Fail to get all current incidents.',
+      message: 'Fail to get all current incidents ' + ' : ' + e,
     });
   }
 };
@@ -48,7 +49,7 @@ export const getIncident: RequestHandler = async (req, res, next) => {
     });
   } catch (e) {
     res.status(400).json({
-      message: 'Fail to get the incidents.',
+      message: 'Fail to get the incidents' + ' : ' + e,
     });
   }
 };
@@ -66,7 +67,7 @@ export const updateIncident: RequestHandler = async (req, res, next) => {
     });
   } catch (e) {
     res.status(400).json({
-      message: 'Fail to update the incident.',
+      message: 'Fail to update the incident' + ' : ' + e,
     });
   }
 };
@@ -80,7 +81,7 @@ export const deleteIncident: RequestHandler = async (req, res, next) => {
     });
   } catch (e) {
     res.status(400).json({
-      message: 'Fail to delete the incident.',
+      message: 'Fail to delete the incident' + ' : ' + e,
     });
   }
 };
