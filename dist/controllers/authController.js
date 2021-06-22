@@ -36,30 +36,77 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signUp = void 0;
+exports.login = exports.signUp = void 0;
 var userModel_1 = require("../models/userModel");
+var bcrypt = require('bcryptjs');
+var hashStrength = 12;
 var signUp = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var newUser, e_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _a, username, password, hashpassword, newUser, e_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userModel_1.User.create(req.body)];
+                _b.trys.push([0, 3, , 4]);
+                _a = req.body, username = _a.username, password = _a.password;
+                return [4 /*yield*/, bcrypt.hash(password, 12)];
             case 1:
-                newUser = _a.sent();
+                hashpassword = _b.sent();
+                return [4 /*yield*/, userModel_1.User.create({
+                        username: username,
+                        password: hashpassword,
+                    })];
+            case 2:
+                newUser = _b.sent();
+                req.session.user = newUser;
                 res.status(201).json({
                     message: 'Create user successfully.',
                     createdUser: newUser,
                 });
-                return [3 /*break*/, 3];
-            case 2:
-                e_1 = _a.sent();
+                return [3 /*break*/, 4];
+            case 3:
+                e_1 = _b.sent();
                 res.status(400).json({
                     message: 'Fail to create user' + ' : ' + e_1,
                 });
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
 exports.signUp = signUp;
+var login = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, username, password, existUser, isCorrect, e_2;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 3, , 4]);
+                _a = req.body, username = _a.username, password = _a.password;
+                return [4 /*yield*/, userModel_1.User.findOne({ username: username })];
+            case 1:
+                existUser = _b.sent();
+                if (!existUser) {
+                    throw new Error('User not found');
+                }
+                return [4 /*yield*/, bcrypt.compare(password, existUser.password)];
+            case 2:
+                isCorrect = _b.sent();
+                if (isCorrect) {
+                    req.session.user = existUser;
+                    res.status(201).json({
+                        message: 'Login successfully.',
+                    });
+                }
+                else {
+                    throw new Error('Wrong password.');
+                }
+                return [3 /*break*/, 4];
+            case 3:
+                e_2 = _b.sent();
+                res.status(400).json({
+                    message: 'Fail to login with user' + ' : ' + e_2,
+                });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.login = login;

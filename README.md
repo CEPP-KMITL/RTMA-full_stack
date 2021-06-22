@@ -9,6 +9,14 @@ Data aggregation of news archive that allows user to historically search through
 - [@DearSmc](https://github.com/DearSmc)
 - [@moondamon](https://github.com/moondamon)
 
+## Dependency Note
+
+Adds the third-party package to the package's development dependencies. It won't be installed when someone runs npm install directly to install your package.
+
+```bash
+  npm install ${package name} --save-dev
+```
+
 ## Run Locally For Dev
 
 Clone the project then go to the project directory
@@ -16,11 +24,11 @@ Clone the project then go to the project directory
 Start dev detach or with console (Use Windows PowerShell)
 
 ```bash
-  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build -V
 ```
 
 ```bash
-  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build -V
 ```
 
 Stop dev

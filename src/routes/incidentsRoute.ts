@@ -6,12 +6,13 @@ import {
   deleteIncident,
   getIncident,
 } from '../controllers/incidentsController';
+const authProtect = require('../middleware/authMiddleware');
 const router = Router();
 
+router.route('/patchIncident/:id').patch(authProtect, updateIncident);
+router.route('/deleteIncident/:id').delete(authProtect, deleteIncident);
+router.route('/postIncident').post(authProtect, createIncident);
 router.get('/getAllIncidents', getAllIncidents);
 router.get('/getIncident/:id', getIncident);
-router.patch('/patchIncident/:id', updateIncident);
-router.post('/postIncident', createIncident);
-router.delete('/deleteIncident/:id', deleteIncident);
 
 export default router;

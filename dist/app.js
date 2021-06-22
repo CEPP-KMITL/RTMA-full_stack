@@ -9,6 +9,13 @@ var body_parser_1 = require("body-parser");
 var config_1 = require("./config/config");
 var incidentsRoute_1 = __importDefault(require("./routes/incidentsRoute"));
 var userRoute_1 = __importDefault(require("./routes/userRoute"));
+var redis = require('redis');
+var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
+var redisClient = redis.createClient({
+    host: config_1.CONFIG.REDIS_URL,
+    port: config_1.CONFIG.REDIS_PORT,
+});
 var PORT = Number(process.env.PORT) || 3000;
 var mongoURL = 'mongodb://' +
     config_1.CONFIG.MONGO_USER +
@@ -20,6 +27,18 @@ var mongoURL = 'mongodb://' +
     config_1.CONFIG.MONGO_PORT +
     '/?authSource=admin';
 var app = express_1.default();
+app.use(session({
+    store: new RedisStore({ client: redisClient }),
+    secret: config_1.CONFIG.SESSION_SECRET,
+    cookie: {
+        cookieName: 'sessioncookie',
+        resave: false,
+        saveUninitialized: false,
+        secure: false,
+        httpOnly: true,
+        maxAge: 3000000,
+    },
+}));
 var connectWithRetry = function () {
     mongoose_1.default
         .connect(mongoURL, {

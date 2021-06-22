@@ -4,6 +4,15 @@ import { json } from 'body-parser';
 import { CONFIG } from './config/config';
 import incidentRoutes from './routes/incidentsRoute';
 import userRoutes from './routes/userRoute';
+
+const redis = require('redis');
+const session = require('express-session');
+let RedisStore = require('connect-redis')(session);
+let redisClient = redis.createClient({
+  host: CONFIG.REDIS_URL,
+  port: CONFIG.REDIS_PORT,
+});
+
 const PORT: number = Number(process.env.PORT) || 3000;
 const mongoURL: string =
   'mongodb://' +
@@ -16,6 +25,20 @@ const mongoURL: string =
   CONFIG.MONGO_PORT +
   '/?authSource=admin';
 const app = express();
+app.use(
+  session({
+    store: new RedisStore({ client: redisClient }),
+    secret: CONFIG.SESSION_SECRET,
+    cookie: {
+      cookieName: 'sessioncookie',
+      resave: false,
+      saveUninitialized: false,
+      secure: false,
+      httpOnly: true,
+      maxAge: 3000000,
+    },
+  })
+);
 const connectWithRetry = () => {
   mongoose
     .connect(mongoURL, {
