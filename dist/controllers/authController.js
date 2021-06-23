@@ -47,7 +47,7 @@ var signUp = function (req, res, next) { return __awaiter(void 0, void 0, void 0
             case 0:
                 _b.trys.push([0, 3, , 4]);
                 _a = req.body, username = _a.username, password = _a.password;
-                return [4 /*yield*/, bcrypt.hash(password, 12)];
+                return [4 /*yield*/, bcrypt.hash(password, hashStrength)];
             case 1:
                 hashpassword = _b.sent();
                 return [4 /*yield*/, userModel_1.User.create({

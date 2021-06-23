@@ -48,7 +48,7 @@ Go to the project directory then build image command
 Run container command with read-only bind mount
 
 ```bash
-  docker run -v ${pwd}:/app:ro -v /app/node_modules --env-file ./.env -p 3000:8080 -d --name rtma-api-app rtma-api-image
+  docker run -v ${pwd}:/app:ro -v /app/node_modules --env-file ./.env -p 8000:3000 -d --name rtma-api-app rtma-api-image
 ```
 
 Get in container

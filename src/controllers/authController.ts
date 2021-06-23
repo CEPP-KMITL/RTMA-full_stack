@@ -12,7 +12,7 @@ export const signUp: RequestHandler = async (req, res, next) => {
   try {
     const { username, password }: { username: string; password: string } =
       req.body;
-    const hashpassword = await bcrypt.hash(password, 12);
+    const hashpassword = await bcrypt.hash(password, hashStrength);
     const newUser = await User.create({
       username,
       password: hashpassword,
