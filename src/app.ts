@@ -7,6 +7,7 @@ import userRoutes from './routes/userRoute';
 
 const redis = require('redis');
 const session = require('express-session');
+const cors = require('cors');
 let RedisStore = require('connect-redis')(session);
 let redisClient = redis.createClient({
   host: CONFIG.REDIS_URL,
@@ -25,6 +26,8 @@ const mongoURL: string =
   CONFIG.MONGO_PORT +
   '/?authSource=admin';
 const app = express();
+app.enable('trust proxy');
+app.use(cors({}));
 app.use(
   session({
     store: new RedisStore({ client: redisClient }),

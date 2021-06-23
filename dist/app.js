@@ -11,6 +11,7 @@ var incidentsRoute_1 = __importDefault(require("./routes/incidentsRoute"));
 var userRoute_1 = __importDefault(require("./routes/userRoute"));
 var redis = require('redis');
 var session = require('express-session');
+var cors = require('cors');
 var RedisStore = require('connect-redis')(session);
 var redisClient = redis.createClient({
     host: config_1.CONFIG.REDIS_URL,
@@ -27,6 +28,8 @@ var mongoURL = 'mongodb://' +
     config_1.CONFIG.MONGO_PORT +
     '/?authSource=admin';
 var app = express_1.default();
+app.enable('trust proxy');
+app.use(cors({}));
 app.use(session({
     store: new RedisStore({ client: redisClient }),
     secret: config_1.CONFIG.SESSION_SECRET,
