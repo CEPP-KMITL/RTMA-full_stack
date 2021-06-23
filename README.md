@@ -45,8 +45,32 @@ Go to the project directory then build image command
   docker build -t rtma-api-image .
 ```
 
-Run Container Command With Read-Only Bind Mount
+Run container command with read-only bind mount
 
 ```bash
   docker run -v ${pwd}:/app:ro -v /app/node_modules --env-file ./.env -p 3000:8080 -d --name rtma-api-app rtma-api-image
+```
+
+Get in container
+
+```bash
+  docker exec -it ${container_name} bash
+```
+
+Get in mongo
+
+```bash
+  mongo -u "${username}" -p "${password}"
+```
+
+Show all mongo database
+
+```bash
+  show dbs
+```
+
+Select mongo database
+
+```bash
+  use ${database_name}
 ```
