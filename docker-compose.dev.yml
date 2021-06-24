@@ -19,3 +19,12 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=myusername
       - MONGO_INITDB_ROOT_PASSWORD=mypassword
+  vue-ui:
+    build:
+      dockerfile: Dockerfile
+      context: ./frontend
+      args:
+        NODE_ENV: development
+    volumes:
+      - ./frontend/:/front-end-app:ro #Read Only Bind Mount Volume
+      - /frontend-app/node_modules #Anonymous Volume
