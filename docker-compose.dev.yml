@@ -2,12 +2,13 @@ version: '3.9'
 services:
   node-app:
     build:
-      context: .
+      dockerfile: Dockerfile
+      context: ./backend
       args:
         NODE_ENV: development
     volumes:
-      - ./:/app:ro #Read Only Bind Mount Volume
-      - /app/node_modules #Anonymous Volume
+      - ./backend/:/back-end-app:ro #Read Only Bind Mount Volume
+      - /backend-app/node_modules #Anonymous Volume
     environment:
       - NODE_ENV=development
       - MONGO_USER=myusername

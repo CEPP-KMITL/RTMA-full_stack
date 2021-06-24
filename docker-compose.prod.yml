@@ -2,7 +2,7 @@ version: '3.9'
 services:
   node-app:
     build:
-      context: .
+      context: ./backend
       args:
         NODE_ENV: production
     environment:

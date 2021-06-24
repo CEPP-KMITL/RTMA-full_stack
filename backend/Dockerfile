@@ -1,5 +1,5 @@
 FROM node:latest
-WORKDIR /app
+WORKDIR /backend-app
 COPY package.json .
 
 ARG NODE_ENV
