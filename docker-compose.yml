@@ -17,6 +17,12 @@ services:
       - mongo
     container_name: node-app
 
+  scraping-app:
+    build: .
+    environment:
+      - PORT=4000
+    container_name: scraping-app
+
   mongo:
     image: mongo
     environment:

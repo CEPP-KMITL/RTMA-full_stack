@@ -15,6 +15,17 @@ services:
       - MONGO_PASSWORD=mypassword
       - SESSION_SECRET=secretja
     command: npm run dev
+  scraping-app:
+    build:
+      dockerfile: Dockerfile
+      context: ./scraping
+      args:
+        NODE_ENV: development
+    volumes:
+      - ./scraping/:/scraping-app:ro #Read Only Bind Mount Volume
+      - /scraping-app/node_modules #Anonymous Volume
+    environment:
+      - NODE_ENV=development
   mongo:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=myusername
