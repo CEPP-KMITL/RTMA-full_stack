@@ -57,6 +57,26 @@ Stop dev
   docker-compose down -v
 ```
 
+## Run Locally For Scraping Dev
+
+Clone the project then go to the project directory (cd into RTMA-full_stack)
+
+Start dev detach or with console (Use Windows PowerShell)
+
+```bash
+  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate scraping-app
+```
+
+```bash
+  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate scraping-app
+```
+
+Stop dev
+
+```bash
+  docker-compose down -v
+```
+
 ## Useful Commands
 
 ```bash
