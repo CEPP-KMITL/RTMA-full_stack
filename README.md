@@ -24,17 +24,17 @@ Clone the project then go to the project directory (cd into RTMA-full_stack)
 Start dev detach or with console (Use Windows PowerShell)
 
 ```bash
-  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate nginx node-app mongo redis
+  make up-backend
 ```
 
 ```bash
-  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate nginx node-app mongo redis
+  make up-backend-d
 ```
 
 Stop dev
 
 ```bash
-  docker-compose down -v
+  make down
 ```
 
 ## Run Locally For Front-end Dev
@@ -44,17 +44,17 @@ Clone the project then go to the project directory (cd into RTMA-full_stack)
 Start dev detach or with console (Use Windows PowerShell)
 
 ```bash
-  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate vue-ui
+  make up-frontend
 ```
 
 ```bash
-  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate vue-ui
+  make up-frontend-d
 ```
 
 Stop dev
 
 ```bash
-  docker-compose down -v
+  make down
 ```
 
 ## Run Locally For Scraping Dev
@@ -64,20 +64,34 @@ Clone the project then go to the project directory (cd into RTMA-full_stack)
 Start dev detach or with console (Use Windows PowerShell)
 
 ```bash
-  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate scraping-app
+  make up-scraping
 ```
 
 ```bash
-  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate scraping-app
+  make up-scraping-d
 ```
 
 Stop dev
 
 ```bash
-  docker-compose down -v
+  make down
 ```
 
-## Useful Commands
+## Purging All Unused or Dangling Images, Containers, Volumes, and Networks
+
+A single command that will clean up any resources — images, containers, volumes, and networks — that are dangling (not associated with a container)
+
+```bash
+  make prune
+```
+
+To additionally remove any stopped containers and all unused images (not just dangling images)
+
+```bash
+  make prune-all
+```
+
+## Useful Docker Commands
 
 ```bash
   // create and start containers
