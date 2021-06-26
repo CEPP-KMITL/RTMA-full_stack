@@ -1,5 +1,5 @@
 FROM node:latest
-WORKDIR /scraping-app
+WORKDIR /scraping
 COPY package.json .
 
 ARG NODE_ENV

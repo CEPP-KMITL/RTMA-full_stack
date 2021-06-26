@@ -7,8 +7,8 @@ services:
       args:
         NODE_ENV: development
     volumes:
-      - ./backend/:/back-end-app:ro #Read Only Bind Mount Volume
-      - /backend-app/node_modules #Anonymous Volume
+      - ./backend/:/backend:ro #Read Only Bind Mount Volume
+      - /backend/node_modules #Anonymous Volume
     environment:
       - NODE_ENV=development
       - MONGO_USER=myusername
@@ -22,8 +22,8 @@ services:
       args:
         NODE_ENV: development
     volumes:
-      - ./scraping/:/scraping-app:ro #Read Only Bind Mount Volume
-      - /scraping-app/node_modules #Anonymous Volume
+      - ./scraping/:/scraping:ro #Read Only Bind Mount Volume
+      - /scraping/node_modules #Anonymous Volume
     environment:
       - NODE_ENV=development
   mongo:
@@ -37,5 +37,5 @@ services:
       args:
         NODE_ENV: development
     volumes:
-      - ./frontend/:/front-end-app:ro #Read Only Bind Mount Volume
-      - /frontend-app/node_modules #Anonymous Volume
+      - ./frontend/:/frontend:ro #Read Only Bind Mount Volume
+      - /frontend/node_modules #Anonymous Volume
