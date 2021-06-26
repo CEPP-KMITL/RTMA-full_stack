@@ -10,16 +10,13 @@ on:
     branches: [ main ]
 
 jobs:
-  test_all_node-app:
+  test_node-app:
     runs-on: ubuntu-latest
     env:
-      backend-working-directory: ./backend
-      frontend-working-directory: ./frontend
-      scraping-working-directory: ./scraping
+      working-directory: ./backend
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
-        all-working-directory: [./backend,./frontend,./scraping]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
     - name: Checkout
@@ -28,14 +25,66 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - name: NPM INSTALL On ${{ matrix.all-working-directory }}
-      working-directory: ${{matrix.all-working-directory}}
+    - name: NPM INSTALL
+      working-directory: ${{env.working-directory}}
       run: npm ci
-    - name: NPM RUN BUILD (If Present) On ${{ matrix.all-working-directory }}
-      working-directory: ${{matrix.all-working-directory}}
+    - name: NPM RUN BUILD (If Present)
+      working-directory: ${{env.working-directory}}
       run: npm run build --if-present
-    - name: NPM TEST (If Present) On ${{ matrix.all-working-directory }}
-      working-directory: ${{ matrix.all-working-directory }}
+    - name: NPM TEST (If Present)
+      working-directory: ${{env.working-directory}}
       run: npm test --if-present
+
+  test_vue-ui:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./frontend
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: NPM INSTALL
+      working-directory: ${{env.working-directory}}
+      run: npm ci
+    - name: NPM RUN BUILD (If Present)
+      working-directory: ${{env.working-directory}}
+      run: npm run build --if-present
+    - name: NPM TEST (If Present)
+      working-directory: ${{env.working-directory}}
+      run: npm test --if-present
+  
+  test_scraping-app:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./scraping
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: NPM INSTALL
+      working-directory: ${{env.working-directory}}
+      run: npm ci
+    - name: NPM RUN BUILD (If Present)
+      working-directory: ${{env.working-directory}}
+      run: npm run build --if-present
+    - name: NPM TEST (If Present)
+      working-directory: ${{env.working-directory}}
+      run: npm test --if-present
+
+
 
 
