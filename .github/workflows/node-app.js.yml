@@ -10,7 +10,7 @@ on:
     branches: [ main ]
 
 jobs:
-  test_node-app:
+  npm_test_node-app:
     runs-on: ubuntu-latest
     env:
       working-directory: ./backend
@@ -35,7 +35,7 @@ jobs:
       working-directory: ${{env.working-directory}}
       run: npm test --if-present
 
-  test_vue-ui:
+  npm_test_vue-ui:
     runs-on: ubuntu-latest
     env:
       working-directory: ./frontend
@@ -60,7 +60,7 @@ jobs:
       working-directory: ${{env.working-directory}}
       run: npm test --if-present
   
-  test_scraping-app:
+  npm_test_scraping-app:
     runs-on: ubuntu-latest
     env:
       working-directory: ./scraping
