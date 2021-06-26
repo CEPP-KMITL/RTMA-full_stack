@@ -24,11 +24,11 @@ Clone the project then go to the project directory (cd into RTMA-full_stack)
 Start dev detach or with console (Use Windows PowerShell)
 
 ```bash
-  make up-backend
+  make up-backend-d
 ```
 
 ```bash
-  make up-backend-d
+  make up-backend
 ```
 
 Stop dev
@@ -44,11 +44,11 @@ Clone the project then go to the project directory (cd into RTMA-full_stack)
 Start dev detach or with console (Use Windows PowerShell)
 
 ```bash
-  make up-frontend
+  make up-frontend-d
 ```
 
 ```bash
-  make up-frontend-d
+  make up-frontend
 ```
 
 Stop dev
@@ -64,11 +64,11 @@ Clone the project then go to the project directory (cd into RTMA-full_stack)
 Start dev detach or with console (Use Windows PowerShell)
 
 ```bash
-  make up-scraping
+  make up-scraping-d
 ```
 
 ```bash
-  make up-scraping-d
+  make up-scraping
 ```
 
 Stop dev
