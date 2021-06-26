@@ -4,7 +4,6 @@
   "description": "Real Time Monitoring Accident and Casualty in Thailand Back-end in DevOps with Node.js & Express.",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
     "dev": "nodemon -L dist/app.js"
   },
   "author": "",
