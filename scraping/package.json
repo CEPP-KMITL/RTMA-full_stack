@@ -4,10 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "node dist/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "cors": "^2.8.5",
+    "get-urls": "^10.0.0",
+    "node-fetch": "^2.6.1",
     "puppeteer": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.29",
+    "@types/cors": "^2.8.10",
+    "@types/node-fetch": "^2.5.10",
+    "@types/puppeteer": "^5.4.3",
+    "jest": "^27.0.5"
   }
 }

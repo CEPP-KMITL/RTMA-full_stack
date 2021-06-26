@@ -1,5 +1,5 @@
 FROM node:latest
-WORKDIR /scraping-app
+WORKDIR /social_api-app
 COPY package.json .
 
 ARG NODE_ENV
@@ -9,6 +9,6 @@ RUN if [ "$NODE_ENV" = "development" ]; \
     fi
 
 COPY . ./
-ENV PORT 5000
+ENV PORT 6000
 EXPOSE $PORT
-CMD ["npm","run","dev"]
+CMD ["npm","run","start"]
