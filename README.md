@@ -77,6 +77,32 @@ Stop dev
   make down
 ```
 
+## See Whole Container Logs
+
+```bash
+  make logs
+```
+
+## Get Into Service CLI
+
+node-app (Back-end)
+
+```bash
+  make into-node-app
+```
+
+mongo (Database)
+
+```bash
+  make into-mongo
+```
+
+vue-app (Front-end)
+
+```bash
+  make into-vue-app
+```
+
 ## Purging All Unused or Dangling Images, Containers, Volumes, and Networks
 
 A single command that will clean up any resources — images, containers, volumes, and networks — that are dangling (not associated with a container)
