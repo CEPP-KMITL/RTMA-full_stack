@@ -7,8 +7,8 @@ services:
       args:
         NODE_ENV: development
     volumes:
-      - ./backend/:/backend:ro #Read Only Bind Mount Volume
-      - /backend/node_modules #Anonymous Volume
+      - ./backend/:/backend-app:ro #Read Only Bind Mount Volume
+      - /backend-app/node_modules #Anonymous Volume to Prevent Bind Mount From Overwriting node_modules In Container
     environment:
       - NODE_ENV=development
       - MONGO_USER=myusername
@@ -22,8 +22,8 @@ services:
       args:
         NODE_ENV: development
     volumes:
-      - ./scraping/:/scraping:ro #Read Only Bind Mount Volume
-      - /scraping/node_modules #Anonymous Volume
+      - ./scraping/:/scraping-app:ro #Read Only Bind Mount Volume
+      - /scraping-app/node_modules #Anonymous Volume
     environment:
       - NODE_ENV=development
   mongo:
@@ -37,5 +37,5 @@ services:
       args:
         NODE_ENV: development
     volumes:
-      - ./frontend/:/frontend:ro #Read Only Bind Mount Volume
-      - /frontend/node_modules #Anonymous Volume
+      - ./frontend/:/frontend-app:ro #Read Only Bind Mount Volume
+      - /frontend-app/node_modules #Anonymous Volume
