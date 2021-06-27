@@ -4,8 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node dist/index.js"
+    "dev": "node dist/index.js",
+    "test": "jest",
+    "fulltest": "jest --watchAll --verbose --coverage"
   },
+  "jest": {
+    "testMatch": [
+        "**/?(*.)+(spec|test).[j]s?(x)"
+    ]},
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -18,6 +24,7 @@
   "devDependencies": {
     "@types/cheerio": "^0.22.29",
     "@types/cors": "^2.8.10",
+    "@types/jest": "^26.0.23",
     "@types/node-fetch": "^2.5.10",
     "@types/puppeteer": "^5.4.3",
     "jest": "^27.0.5"

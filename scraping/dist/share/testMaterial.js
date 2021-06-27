@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.testIncomingRawStringResult = exports.testIncomingRawString = void 0;
+exports.testIncomingRawString = 'sdada sdsd adsas da https://www.bangkokpost.com/thailand/general/2137111/cargo-truck-in-fiery-fatal-plunge asdasdasdas';
+exports.testIncomingRawStringResult = [
+    {
+        url: 'https://bangkokpost.com/thailand/general/2137111/cargo-truck-in-fiery-fatal-plunge',
+        title: 'Cargo truck in fiery fatal plunge',
+        favicon: '/favicon.ico',
+        description: 'SONGKHLA: An articulated truck loaded with containers plunged from a bridge onto a road below and exploded in flames in Hat Yai district late on Tuesday night.',
+        image: 'https://static.bangkokpost.com/media/content/20210623/c1_2137111_210623101457_700.jpg',
+        author: 'Bangkok Post Public Company Limited',
+    },
+];
