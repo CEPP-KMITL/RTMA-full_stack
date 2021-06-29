@@ -36,45 +36,56 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.scrapeMetatags = void 0;
-var cors = require('cors')({ origin: true });
-var cheerio = require('cheerio');
-var getUrls = require('get-urls');
-var fetch = require('node-fetch');
-var scrapeMetatags = function (text) {
-    try {
-        var urls = Array.from(getUrls(text));
-        var requests = urls.map(function (url) { return __awaiter(void 0, void 0, void 0, function () {
-            var res, html, $, getMetatag;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, fetch(url)];
-                    case 1:
-                        res = _a.sent();
-                        return [4 /*yield*/, res.text()];
-                    case 2:
-                        html = _a.sent();
-                        $ = cheerio.load(html);
-                        getMetatag = function (name) {
-                            return $("meta[name=" + name + "]").attr('content') ||
-                                $("meta[name=\"og:" + name + "\"]").attr('content') ||
-                                $("meta[name=\"twitter:" + name + "\"]").attr('content');
-                        };
-                        return [2 /*return*/, {
-                                url: url,
-                                title: $('title').first().text(),
-                                favicon: $('link[rel="shortcut icon"]').attr('href'),
-                                description: getMetatag('description'),
-                                image: getMetatag('image'),
-                                author: getMetatag('author'),
-                            }];
-                }
-            });
-        }); });
-        return Promise.all(requests);
-    }
-    catch (e) {
-        return e;
-    }
-};
-exports.scrapeMetatags = scrapeMetatags;
+var puppeteer = require('puppeteer');
+var selector_1 = require("../../share/selector");
+var scrapeNews = function (targetURL) { return __awaiter(void 0, void 0, void 0, function () {
+    var browser, page, data, e_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 7, , 8]);
+                return [4 /*yield*/, puppeteer.launch({ headless: true })];
+            case 1:
+                browser = _a.sent();
+                return [4 /*yield*/, browser.newPage()];
+            case 2:
+                page = _a.sent();
+                return [4 /*yield*/, page.goto(targetURL)];
+            case 3:
+                _a.sent();
+                return [4 /*yield*/, page.waitFor(5000)];
+            case 4:
+                _a.sent();
+                console.log('Start page.evaluate');
+                return [4 /*yield*/, page.evaluate(function () {
+                        var title = document.querySelector(selector_1.thairat_title);
+                        // let date: string = page.$eval(thairat_date, (elem: HTMLElement) => {
+                        //   (elem as HTMLElement).innerText;
+                        // });
+                        // let body: string = page.$eval(thairat_body, (elem: HTMLElement) => {
+                        //   (elem as HTMLElement).innerText;
+                        // });
+                        // let image_src = $(`meta[name=${'image'}]`).attr('content');
+                        return title;
+                        // title: title,
+                        // favicon: $('link[rel="shortcut icon"]').attr('href'),
+                        // description: body,
+                        // image: image_src,
+                        // date: date,
+                    })];
+            case 5:
+                data = _a.sent();
+                console.log('Close browser');
+                return [4 /*yield*/, browser.close()];
+            case 6:
+                _a.sent();
+                console.log(data);
+                return [2 /*return*/, data];
+            case 7:
+                e_1 = _a.sent();
+                return [2 /*return*/, e_1];
+            case 8: return [2 /*return*/];
+        }
+    });
+}); };
+scrapeNews('https://www.thairath.co.th/news/local/central/2124297');

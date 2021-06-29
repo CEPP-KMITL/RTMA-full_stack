@@ -10,8 +10,9 @@
   },
   "jest": {
     "testMatch": [
-        "**/?(*.)+(spec|test).[j]s?(x)"
-    ]},
+      "**/?(*.)+(spec|test).[j]s?(x)"
+    ]
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -25,6 +26,7 @@
     "@types/cheerio": "^0.22.29",
     "@types/cors": "^2.8.10",
     "@types/jest": "^26.0.23",
+    "@types/jquery": "^3.5.5",
     "@types/node-fetch": "^2.5.10",
     "@types/puppeteer": "^5.4.3",
     "jest": "^27.0.5"
