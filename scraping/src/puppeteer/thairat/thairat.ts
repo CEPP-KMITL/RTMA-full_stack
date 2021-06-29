@@ -12,22 +12,26 @@ const scrapeNews = async (targetURL: string) => {
     await page.goto(targetURL);
     await page.waitFor(5000);
     console.log('Start page.evaluate');
-    const data = await page.evaluate(() => {
-      let title = document.querySelector(thairat_title)!;
-      // let date: string = page.$eval(thairat_date, (elem: HTMLElement) => {
-      //   (elem as HTMLElement).innerText;
-      // });
-      // let body: string = page.$eval(thairat_body, (elem: HTMLElement) => {
-      //   (elem as HTMLElement).innerText;
-      // });
-      // let image_src = $(`meta[name=${'image'}]`).attr('content');
-      return title;
-      // title: title,
-      // favicon: $('link[rel="shortcut icon"]').attr('href'),
-      // description: body,
-      // image: image_src,
-      // date: date,
-    });
+    // const data = await page.evaluate(() => {
+    //   let title = document.querySelector(thairat_title)!;
+    //   // let date: string = page.$eval(thairat_date, (elem: HTMLElement) => {
+    //   //   (elem as HTMLElement).innerText;
+    //   // });
+    //   // let body: string = page.$eval(thairat_body, (elem: HTMLElement) => {
+    //   //   (elem as HTMLElement).innerText;
+    //   // });
+    //   // let image_src = $(`meta[name=${'image'}]`).attr('content');
+    //   return title;
+    //   // title: title,
+    //   // favicon: $('link[rel="shortcut icon"]').attr('href'),
+    //   // description: body,
+    //   // image: image_src,
+    //   // date: date,
+    // });
+    const data = await page.$eval(
+      thairat_title,
+      (elem: HTMLElement) => (elem as HTMLElement).innerText
+    );
     console.log('Close browser');
     await browser.close();
     console.log(data);

@@ -57,22 +57,7 @@ var scrapeNews = function (targetURL) { return __awaiter(void 0, void 0, void 0,
             case 4:
                 _a.sent();
                 console.log('Start page.evaluate');
-                return [4 /*yield*/, page.evaluate(function () {
-                        var title = document.querySelector(selector_1.thairat_title);
-                        // let date: string = page.$eval(thairat_date, (elem: HTMLElement) => {
-                        //   (elem as HTMLElement).innerText;
-                        // });
-                        // let body: string = page.$eval(thairat_body, (elem: HTMLElement) => {
-                        //   (elem as HTMLElement).innerText;
-                        // });
-                        // let image_src = $(`meta[name=${'image'}]`).attr('content');
-                        return title;
-                        // title: title,
-                        // favicon: $('link[rel="shortcut icon"]').attr('href'),
-                        // description: body,
-                        // image: image_src,
-                        // date: date,
-                    })];
+                return [4 /*yield*/, page.$eval(selector_1.thairat_title, function (elem) { return elem.innerText; })];
             case 5:
                 data = _a.sent();
                 console.log('Close browser');
