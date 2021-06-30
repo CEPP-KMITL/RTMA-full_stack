@@ -1,8 +1,15 @@
 import { scrapeMetatags } from './scrapeMetatags';
+import { scrapeThairatNews } from './puppeteer/thairat/thairat';
 
-const testUrl: string =
-  'https://www.bangkokpost.com/thailand/general/2137111/cargo-truck-in-fiery-fatal-plunge';
+const testMetaUrl: string =
+  'https://www.thairath.co.th/news/local/central/2124297';
 
-scrapeMetatags(testUrl)!.then(function (result: Array<any>) {
+scrapeMetatags(testMetaUrl)!.then(function (result: Array<any>) {
+  console.log(result);
+});
+
+scrapeThairatNews(
+  'https://www.thairath.co.th/news/local/central/2124297'
+)!.then(function (result) {
   console.log(result);
 });

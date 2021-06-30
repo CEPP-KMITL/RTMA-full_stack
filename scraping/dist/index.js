@@ -1,7 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var scrapeMetatags_1 = require("./scrapeMetatags");
-var testUrl = 'https://www.bangkokpost.com/thailand/general/2137111/cargo-truck-in-fiery-fatal-plunge';
-scrapeMetatags_1.scrapeMetatags(testUrl).then(function (result) {
+var thairat_1 = require("./puppeteer/thairat/thairat");
+var testMetaUrl = 'https://www.thairath.co.th/news/local/central/2124297';
+scrapeMetatags_1.scrapeMetatags(testMetaUrl).then(function (result) {
+    console.log(result);
+});
+thairat_1.scrapeThairatNews('https://www.thairath.co.th/news/local/central/2124297').then(function (result) {
     console.log(result);
 });

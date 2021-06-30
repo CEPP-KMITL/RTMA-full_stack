@@ -36,41 +36,66 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var puppeteer = require('puppeteer');
+exports.scrapeThairatNews = void 0;
+var scrapeMetatags_1 = require("../../scrapeMetatags");
+var puppeteer = require('puppeteer-extra');
 var selector_1 = require("../../share/selector");
-var scrapeNews = function (targetURL) { return __awaiter(void 0, void 0, void 0, function () {
-    var browser, page, data, e_1;
+var AdblockerPlugin = require('puppeteer-extra-plugin-adblocker');
+puppeteer.use(AdblockerPlugin());
+var scrapeThairatNews = function (targetURL) { return __awaiter(void 0, void 0, void 0, function () {
+    var browser_1, page, meta, title, body, date, tag, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 7, , 8]);
+                _a.trys.push([0, 12, , 13]);
                 return [4 /*yield*/, puppeteer.launch({ headless: true })];
             case 1:
-                browser = _a.sent();
-                return [4 /*yield*/, browser.newPage()];
+                browser_1 = _a.sent();
+                return [4 /*yield*/, browser_1.newPage()];
             case 2:
                 page = _a.sent();
-                return [4 /*yield*/, page.goto(targetURL)];
+                return [4 /*yield*/, scrapeMetatags_1.scrapeMetatags(targetURL)];
             case 3:
+                meta = _a.sent();
+                return [4 /*yield*/, page.goto(targetURL)];
+            case 4:
                 _a.sent();
                 return [4 /*yield*/, page.waitFor(5000)];
-            case 4:
+            case 5:
+                _a.sent();
+                return [4 /*yield*/, page.screenshot({ path: 'response.png', fullPage: true })];
+            case 6:
                 _a.sent();
                 console.log('Start page.evaluate');
                 return [4 /*yield*/, page.$eval(selector_1.thairat_title, function (elem) { return elem.innerText; })];
-            case 5:
-                data = _a.sent();
-                console.log('Close browser');
-                return [4 /*yield*/, browser.close()];
-            case 6:
-                _a.sent();
-                console.log(data);
-                return [2 /*return*/, data];
             case 7:
+                title = _a.sent();
+                return [4 /*yield*/, page.$eval(selector_1.thairat_body, function (elem) { return elem.innerText; })];
+            case 8:
+                body = _a.sent();
+                return [4 /*yield*/, page.$eval(selector_1.thairat_date, function (elem) { return elem.innerText; })];
+            case 9:
+                date = _a.sent();
+                return [4 /*yield*/, page.$eval(selector_1.thairat_tag, function (elem) { return elem.innerText; })];
+            case 10:
+                tag = _a.sent();
+                console.log('Close browser');
+                return [4 /*yield*/, browser_1.close()];
+            case 11:
+                _a.sent();
+                return [2 /*return*/, {
+                        targetURL: targetURL,
+                        title: title,
+                        body: body.replace(/\n/g, '').trim(),
+                        date: date,
+                        tag: tag,
+                        image: meta[0].image,
+                    }];
+            case 12:
                 e_1 = _a.sent();
                 return [2 /*return*/, e_1];
-            case 8: return [2 /*return*/];
+            case 13: return [2 /*return*/];
         }
     });
 }); };
-scrapeNews('https://www.thairath.co.th/news/local/central/2124297');
+exports.scrapeThairatNews = scrapeThairatNews;
