@@ -1,6 +1,6 @@
 FROM node:latest
 WORKDIR /social_api-app
-COPY package.json .
+COPY package*.json .
 
 ARG NODE_ENV
 RUN if [ "$NODE_ENV" = "development" ]; \

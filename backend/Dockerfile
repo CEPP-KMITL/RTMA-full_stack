@@ -1,6 +1,6 @@
 FROM node:latest
 WORKDIR /backend-app
-COPY package.json .
+COPY package*.json .
 
 ARG NODE_ENV
 RUN if [ "$NODE_ENV" = "development" ]; \
