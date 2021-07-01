@@ -1,16 +1,16 @@
 <template>
   <router-view>
-      <div style="text-align:center">
+      <!-- <div style="text-align:center;z-index:1;position:relative">
           <h4>YOUR POSITION</h4>
           <h4>Latitude: {{ currPos.lat }}, Longitude: {{ currPos.lng }}</h4>
-          <div ref="mapDiv" style="height: 100%;position: absolute; top: 0; bottom: -200px; left: 0; right: 0; z-index: 0;" />
-      </div>
+      </div> -->
+      <div ref="mapDiv" style="height: 100%;position: absolute; top: 0; bottom: -200px; left: 0; right: 0; z-index: 0;" />
   </router-view>
   
   
 </template>
 <script>
-import { defineComponent, computed, ref, onMounted } from 'vue';
+import { defineComponent, computed, ref,onMounted } from 'vue';
 import { useGeolocation } from './useGeolocation.js';
 import { Loader } from '@googlemaps/js-api-loader';
 
@@ -31,7 +31,10 @@ export default defineComponent({
       await loader.load()
       new google.maps.Map(mapDiv.value, {
         center: {lat: 13, lng: 100},
-        zoom: 7
+        zoom: 7,
+        streetViewControl: false,
+        mapTypeControl: false,
+        zoomControl:false
       })
     })
     return { currPos, mapDiv }
