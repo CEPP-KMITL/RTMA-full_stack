@@ -2,7 +2,7 @@ REVERSE_PROXY := nginx
 BACKEND := node-app
 DATABASE := mongo
 REDIS := redis
-FRONTEND := vue-ui
+FRONTEND := quasar
 SCRAPING := scraping-app
 
 up-backend:

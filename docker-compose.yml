@@ -38,11 +38,11 @@ services:
     image: redis
     container_name: redis
 
-  vue-ui:
+  quasar:
     build: .
     ports:
       - '8080:8080'
-    container_name: vue-ui
+    container_name: quasar
 
 volumes:
   mongo-db:
