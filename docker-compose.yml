@@ -44,5 +44,10 @@ services:
       - '8080:8080'
     container_name: quasar
 
+  filter:
+    build: .
+    ports:
+      - '5000:5000'
+
 volumes:
   mongo-db:

@@ -1,7 +1,7 @@
 FROM node:13.14-alpine
 WORKDIR /frontend-app
 COPY package*.json .
-RUN npm install -g @quasar/cli
+#RUN npm install -g @quasar/cli
 
 ARG NODE_ENV
 RUN if [ "$NODE_ENV" = "development" ]; \

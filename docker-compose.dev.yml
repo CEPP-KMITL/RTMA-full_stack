@@ -39,3 +39,13 @@ services:
     volumes:
       - ./frontend/:/frontend-app #Read Only Bind Mount Volume
       - /frontend-app/node_modules #Anonymous Volume
+  filter:
+    build:
+      dockerfile: Dockerfile
+      context: ./filter
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./filter/:/filter-app
+    environment:
+      FLASK_ENV: development
