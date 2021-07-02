@@ -8,6 +8,6 @@ RUN if [ "$NODE_ENV" = "development" ]; \
     else npm install --only=production; \
     fi
 
-COPY . ./
+COPY . /scraping-app
 ENV PORT 4000
 EXPOSE $PORT
