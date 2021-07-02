@@ -17,6 +17,10 @@ Adds the third-party package to the package's development dependencies. It won't
   npm install ${package name} --save-dev
 ```
 
+```bash
+  npm i -D ${package name}
+```
+
 ## Run Locally For Back-end Dev
 
 Clone the project then go to the project directory (cd into RTMA-full_stack)

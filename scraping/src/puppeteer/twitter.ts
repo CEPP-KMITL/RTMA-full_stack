@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-import { CONFIG } from '../../config/config';
+import { CONFIG } from '../config/config';
 export const scrapeTwitterNews = async (username: string) => {
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();

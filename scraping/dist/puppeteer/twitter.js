@@ -35,62 +35,45 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.scrapeThairatNews = void 0;
-var scrapeMetatags_1 = require("../../scrapeMetatags");
-var puppeteer = require('puppeteer-extra');
-var selector_1 = require("../../share/selector");
-var AdblockerPlugin = require('puppeteer-extra-plugin-adblocker');
-puppeteer.use(AdblockerPlugin());
-var scrapeThairatNews = function (targetURL) { return __awaiter(void 0, void 0, void 0, function () {
-    var browser_1, page, meta, title, body, date, tag, e_1;
+exports.__esModule = true;
+exports.scrapeTwitterNews = void 0;
+var puppeteer = require('puppeteer');
+var config_1 = require("../config/config");
+var scrapeTwitterNews = function (username) { return __awaiter(void 0, void 0, void 0, function () {
+    var browser, page;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 11, , 12]);
-                return [4 /*yield*/, puppeteer.launch({ headless: true })];
+            case 0: return [4 /*yield*/, puppeteer.launch({ headless: true })];
             case 1:
-                browser_1 = _a.sent();
-                return [4 /*yield*/, browser_1.newPage()];
+                browser = _a.sent();
+                return [4 /*yield*/, browser.newPage()];
             case 2:
                 page = _a.sent();
-                return [4 /*yield*/, scrapeMetatags_1.scrapeMetatags(targetURL)];
+                return [4 /*yield*/, page.goto('https://twitter.com/login?lang=th')];
             case 3:
-                meta = _a.sent();
-                return [4 /*yield*/, page.goto(targetURL)];
-            case 4:
                 _a.sent();
                 return [4 /*yield*/, page.waitFor(5000)];
+            case 4:
+                _a.sent();
+                // Login form
+                return [4 /*yield*/, page.screenshot({ path: '1.png' })];
             case 5:
+                // Login form
                 _a.sent();
-                return [4 /*yield*/, page.$eval(selector_1.THAIRAT.TITLE, function (elem) { return elem.innerText; })];
+                return [4 /*yield*/, page.type('[name=text]', config_1.CONFIG.RTMA_TWITTER_USERNAME)];
             case 6:
-                title = _a.sent();
-                return [4 /*yield*/, page.$eval(selector_1.THAIRAT.BODY, function (elem) { return elem.innerText; })];
-            case 7:
-                body = _a.sent();
-                return [4 /*yield*/, page.$eval(selector_1.THAIRAT.DATE, function (elem) { return elem.innerText; })];
-            case 8:
-                date = _a.sent();
-                return [4 /*yield*/, page.$eval(selector_1.THAIRAT.TAG, function (elem) { return elem.innerText; })];
-            case 9:
-                tag = _a.sent();
-                return [4 /*yield*/, browser_1.close()];
-            case 10:
                 _a.sent();
-                return [2 /*return*/, {
-                        targetURL: targetURL,
-                        title: title,
-                        body: body.replace(/\n/g, '').trim(),
-                        date: date,
-                        tag: tag,
-                        image: meta[0].image,
-                    }];
-            case 11:
-                e_1 = _a.sent();
-                return [2 /*return*/, e_1];
-            case 12: return [2 /*return*/];
+                return [4 /*yield*/, page.type('[name=password]', config_1.CONFIG.RTMA_TWITTER_PASSWORD)];
+            case 7:
+                _a.sent();
+                return [4 /*yield*/, page.screenshot({ path: '2.png' })];
+            case 8:
+                _a.sent();
+                return [4 /*yield*/, page.click('[type=submit]')];
+            case 9:
+                _a.sent();
+                return [2 /*return*/];
         }
     });
 }); };
-exports.scrapeThairatNews = scrapeThairatNews;
+exports.scrapeTwitterNews = scrapeTwitterNews;

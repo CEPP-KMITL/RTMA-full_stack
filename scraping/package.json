@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node dist/index.js",
+    "dev": "nodemon -L src/index.ts",
     "test": "jest",
     "fulltest": "jest --watchAll --verbose --coverage"
   },
@@ -31,6 +31,8 @@
     "@types/jquery": "^3.5.5",
     "@types/node-fetch": "^2.5.10",
     "@types/puppeteer": "^5.4.3",
-    "jest": "^27.0.5"
+    "jest": "^27.0.5",
+    "nodemon": "^2.0.9",
+    "ts-node": "^10.0.0"
   }
 }

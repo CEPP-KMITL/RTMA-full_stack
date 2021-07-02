@@ -1,6 +1,6 @@
-import { scrapeMetatags } from '../../scrapeMetatags';
+import { scrapeMetatags } from '../scrapeMetatags';
 const puppeteer = require('puppeteer-extra');
-import { THAIRAT } from '../../share/selector';
+import { THAIRAT } from '../share/selector';
 
 const AdblockerPlugin = require('puppeteer-extra-plugin-adblocker');
 puppeteer.use(AdblockerPlugin());
@@ -14,19 +14,19 @@ export const scrapeThairatNews = async (targetURL: string) => {
     //await page.screenshot({ path: 'response.png', fullPage: true });
     const title = await page.$eval(
       THAIRAT.TITLE,
-      (elem: HTMLElement) => (elem as HTMLElement).innerText
+      (elem: HTMLElement) => (elem as HTMLElement).innerText,
     );
     const body = await page.$eval(
       THAIRAT.BODY,
-      (elem: HTMLElement) => (elem as HTMLElement).innerText
+      (elem: HTMLElement) => (elem as HTMLElement).innerText,
     );
     const date = await page.$eval(
       THAIRAT.DATE,
-      (elem: HTMLElement) => (elem as HTMLElement).innerText
+      (elem: HTMLElement) => (elem as HTMLElement).innerText,
     );
     const tag = await page.$eval(
       THAIRAT.TAG,
-      (elem: HTMLElement) => (elem as HTMLElement).innerText
+      (elem: HTMLElement) => (elem as HTMLElement).innerText,
     );
     await browser.close();
     return {

@@ -40,7 +40,7 @@ app.use(
       httpOnly: true,
       maxAge: 3000000,
     },
-  })
+  }),
 );
 const connectWithRetry = () => {
   mongoose

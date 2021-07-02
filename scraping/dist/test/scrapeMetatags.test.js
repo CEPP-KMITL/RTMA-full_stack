@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var scrapeMetatags_1 = require("../scrapeMetatags");
 var testMaterial_1 = require("../share/testMaterial");
 describe('scrapeMetatags function test', function () {

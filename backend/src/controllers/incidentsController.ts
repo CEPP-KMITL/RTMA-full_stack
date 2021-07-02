@@ -59,7 +59,7 @@ export const updateIncident: RequestHandler = async (req, res, next) => {
     const targetIncident = await Incident.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
     res.status(201).json({
       message: 'Update the incident successfully.',

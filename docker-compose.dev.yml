@@ -26,6 +26,7 @@ services:
       - /scraping-app/node_modules #Anonymous Volume
     environment:
       - NODE_ENV=development
+    command: npm run dev
   mongo:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=myusername

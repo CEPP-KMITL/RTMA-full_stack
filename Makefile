@@ -7,15 +7,27 @@ SCRAPING := scraping-app
 FILTER := filter
 
 up-backend:
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up $(REVERSE_PROXY) $(BACKEND) $(DATABASE) $(REDIS)
+
+up-backend-fb:
 	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate $(REVERSE_PROXY) $(BACKEND) $(DATABASE) $(REDIS)
 
 up-frontend:
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up $(FRONTEND)
+	
+up-frontend-fb:
 	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate $(FRONTEND)
 
 up-scraping:
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up $(SCRAPING)
+
+up-scraping-fb:
 	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate $(SCRAPING)
 
 up-filter:
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up $(FILTER)
+
+up-filter-fb:
 	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate $(FILTER)
 
 up-backend-d:
