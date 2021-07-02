@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "joi": "^17.4.0",
+    "typescript": "^4.3.4"
+  },
+  "dependencies": {
+    "express-load": "^1.1.16"
+  }
+}

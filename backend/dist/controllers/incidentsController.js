@@ -52,22 +52,52 @@ var createIncident = function (req, res, next) { return __awaiter(void 0, void 0
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, incidentModel_1.Incident.create(req.body)];
+                if (!(req.body.title == undefined)) return [3 /*break*/, 1];
+                res.status(400).json({
+                    message: 'Fail to create incident'
+                });
+                return [3 /*break*/, 8];
             case 1:
+                if (!(req.body.information == undefined)) return [3 /*break*/, 2];
+                res.status(400).json({
+                    message: 'Fail to create incident'
+                });
+                return [3 /*break*/, 8];
+            case 2:
+                if (!(req.body.type == undefined)) return [3 /*break*/, 3];
+                res.status(400).json({
+                    message: 'Fail to create incident'
+                });
+                return [3 /*break*/, 8];
+            case 3:
+                if (!(req.body.source == undefined)) return [3 /*break*/, 4];
+                res.status(400).json({
+                    message: 'Fail to create incident'
+                });
+                return [3 /*break*/, 8];
+            case 4:
+                if (!(req.body.location == undefined)) return [3 /*break*/, 5];
+                res.status(400).json({
+                    message: 'Fail to create incident'
+                });
+                return [3 /*break*/, 8];
+            case 5:
+                _a.trys.push([5, 7, , 8]);
+                return [4 /*yield*/, incidentModel_1.Incident.create(req.body)];
+            case 6:
                 newIncident = _a.sent();
                 res.status(201).json({
                     message: 'Create incident successfully.',
                     createdIncident: newIncident,
                 });
-                return [3 /*break*/, 3];
-            case 2:
+                return [3 /*break*/, 8];
+            case 7:
                 e_1 = _a.sent();
                 res.status(400).json({
                     message: 'Fail to create incident' + ' : ' + e_1,
                 });
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 8];
+            case 8: return [2 /*return*/];
         }
     });
 }); };
