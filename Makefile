@@ -5,6 +5,7 @@ REDIS := redis
 FRONTEND := quasar
 SCRAPING := scraping-app
 FILTER := filter
+TWINT := twint
 
 up-backend:
 	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up $(REVERSE_PROXY) $(BACKEND) $(DATABASE) $(REDIS)
@@ -29,6 +30,12 @@ up-filter:
 
 up-filter-fb:
 	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate $(FILTER)
+
+up-twint:
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up $(TWINT)
+
+up-twint-fb:
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate $(TWINT)
 
 up-backend-d:
 	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate $(REVERSE_PROXY) $(BACKEND) $(DATABASE) $(REDIS)

@@ -50,3 +50,13 @@ services:
       - ./filter/:/filter-app
     environment:
       FLASK_ENV: development
+  twint:
+    build:
+      dockerfile: Dockerfile
+      context: ./twint
+    ports:
+      - '6000:6000'
+    volumes:
+      - ./twint/:/twint-app
+    environment:
+      FLASK_ENV: development
