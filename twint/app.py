@@ -1,12 +1,16 @@
-import twint
+from schedule import runTwint
+import sched
+import time
+from formatDate import formatTwintTimeNow
 
-# Configure
-c = twint.Config()
-c.Username = "js100radio"
-c.Search = "อุบัติเหตุ"
-c.Output = "tweets.csv"
-c.Store_csv = True
-c.Links = "include"
+delaySec = 600
+twintTwitterPriority = 1
+schedulerNumber = 0
+twitterUsernameTarget = "GMMTV"
+twitterSearch = "อุบัติเหตุ"
 
-# Run
-twint.run.Search(c)
+since = formatTwintTimeNow()
+s = sched.scheduler(time.time, time.sleep)
+s.enter(delaySec, twintTwitterPriority, runTwint, (
+    s, delaySec, schedulerNumber, twintTwitterPriority, twitterUsernameTarget, twitterSearch, since,))
+s.run()
