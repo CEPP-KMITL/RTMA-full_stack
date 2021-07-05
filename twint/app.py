@@ -1,16 +1,6 @@
-from schedule import runTwint
-import sched
-import time
-from formatDate import formatTwintTimeNow
+from TwintClass import TwintSearch
 
-delaySec = 600
-twintTwitterPriority = 1
-schedulerNumber = 0
-twitterUsernameTarget = "GMMTV"
-twitterSearch = "อุบัติเหตุ"
+username_target = ["mthai"]
+search_string = []
 
-since = formatTwintTimeNow()
-s = sched.scheduler(time.time, time.sleep)
-s.enter(delaySec, twintTwitterPriority, runTwint, (
-    s, delaySec, schedulerNumber, twintTwitterPriority, twitterUsernameTarget, twitterSearch, since,))
-s.run()
+scraping = TwintSearch(15, username_target, search_string)
