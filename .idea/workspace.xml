@@ -4,7 +4,6 @@
     <list default="true" id="b4df6195-e6e3-4195-946a-407d860f01b0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/twint/TwintClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/twint/TwintClass.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/twint/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/twint/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +71,7 @@
       <updated>1624959923124</updated>
       <workItem from="1624959926295" duration="75000" />
       <workItem from="1625491833605" duration="11219000" />
-      <workItem from="1625555881853" duration="9688000" />
+      <workItem from="1625555881853" duration="10597000" />
     </task>
     <servers />
   </component>
