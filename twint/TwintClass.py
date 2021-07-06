@@ -67,9 +67,8 @@ class TwintSearch:
         search_engine.Store_json = True
         search_engine.Links = "include"
         search_engine.Since = since_time
-        search_engine.Custom["tweet"] = ["id","created_at", "username","datestamp","timestamp","timezone","username","name","place","tweet","urls","photos","hashtags","link","geo"]
-        # search_engine.Since = "2021-7-3 20:30:15"
-        search_engine.Resume
+        search_engine.Custom["tweet"] = ["id", "created_at", "username","date","time","timezone","name","place","tweet","urls","photos","hashtags","link","geo"]
+        #search_engine.Since = "2021-7-5 20:30:15"
         # Run
         twint.run.Search(search_engine)
 
@@ -103,8 +102,8 @@ class TwintSearch:
                 body = {"body": single_data}
                 packaging_timestamp = {"packaging_timestamp" : self.format_twint_time_now(self)}
                 dict_pack = username | search_keyword | body | packaging_timestamp
-                package_json = json.dumps(dict_pack)
-                print("Package JSON = " + package_json)
+                package_json = json.dumps(dict_pack, ensure_ascii=False).encode('utf8')
+                print("Package JSON = " + package_json.decode('utf8'))
                 self.post_api(self.API_ENDPOINT, package_json)
             os.remove(process_file_name)
             print("Processing File Complete, Delete Processing File : " + process_file_name)
