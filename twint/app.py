@@ -1,6 +1,6 @@
 from TwintClass import TwintSearch
-
-username_target = ["mthai"]
+API_ENDPOINT = "http://pastebin.com/api/api_post.php"
+username_target = ["GMMTV","js100radio"]
 search_string = []
 
-scraping = TwintSearch(15, username_target, search_string)
+scraping = TwintSearch(30, username_target, search_string,API_ENDPOINT)
