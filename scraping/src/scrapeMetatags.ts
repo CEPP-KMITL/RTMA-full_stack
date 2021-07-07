@@ -17,12 +17,10 @@ export const scrapeMetatags = (text: string) => {
         $(`meta[name=${name}]`).attr('content') ||
         $(`meta[name="og:${name}"]`).attr('content') ||
         $(`meta[name="twitter:${name}"]`).attr('content');
-      //return html;
       return {
         url,
         title: $('title').first().text(),
         favicon: $('link[rel="shortcut icon"]').attr('href'),
-        // description: $('meta[name=description]').attr('content'),
         description: getMetatag('description'),
         image: getMetatag('image'),
         author: getMetatag('author'),

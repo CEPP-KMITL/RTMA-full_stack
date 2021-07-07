@@ -2,17 +2,40 @@ REVERSE_PROXY := nginx
 BACKEND := node-app
 DATABASE := mongo
 REDIS := redis
-FRONTEND := vue-ui
+FRONTEND := quasar
 SCRAPING := scraping-app
+FILTER := filter
+TWINT := twint
 
 up-backend:
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up $(REVERSE_PROXY) $(BACKEND) $(DATABASE) $(REDIS)
+
+up-backend-fb:
 	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate $(REVERSE_PROXY) $(BACKEND) $(DATABASE) $(REDIS)
 
 up-frontend:
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up $(FRONTEND)
+	
+up-frontend-fb:
 	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate $(FRONTEND)
 
 up-scraping:
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up $(SCRAPING)
+
+up-scraping-fb:
 	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate $(SCRAPING)
+
+up-filter:
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up $(FILTER)
+
+up-filter-fb:
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate $(FILTER)
+
+up-twint:
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up $(TWINT)
+
+up-twint-fb:
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate $(TWINT)
 
 up-backend-d:
 	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate $(REVERSE_PROXY) $(BACKEND) $(DATABASE) $(REDIS)
@@ -22,6 +45,9 @@ up-frontend-d:
 
 up-scraping-d:
 	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate $(SCRAPING)
+
+up-filter-d:
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate $(FILTER)
 
 down:
 	powershell docker-compose down -v

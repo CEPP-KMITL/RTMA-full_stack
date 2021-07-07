@@ -7,7 +7,7 @@ services:
       args:
         NODE_ENV: development
     volumes:
-      - ./backend/:/backend-app:ro #Read Only Bind Mount Volume
+      - ./backend/src:/backend-app/src:ro #Read Only Bind Mount Volume
       - /backend-app/node_modules #Anonymous Volume to Prevent Bind Mount From Overwriting node_modules In Container
     environment:
       - NODE_ENV=development
@@ -22,22 +22,41 @@ services:
       args:
         NODE_ENV: development
     volumes:
-      - ./scraping/:/scraping-app:ro #Read Only Bind Mount Volume
+      - ./scraping/src:/scraping-app/src:ro #Read Only Bind Mount Volume
       - /scraping-app/node_modules #Anonymous Volume
     environment:
       - NODE_ENV=development
+    command: npm run dev
   mongo:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=myusername
       - MONGO_INITDB_ROOT_PASSWORD=mypassword
-  vue-ui:
+  quasar:
     build:
       dockerfile: Dockerfile
       context: ./frontend
       args:
         NODE_ENV: development
-    environment:
-      - CHOKIDAR_USEPOLLING=true
     volumes:
-      - ./frontend/:/frontend-app:ro #Read Only Bind Mount Volume
+      - ./frontend/:/frontend-app #Read Only Bind Mount Volume
       - /frontend-app/node_modules #Anonymous Volume
+  filter:
+    build:
+      dockerfile: Dockerfile
+      context: ./filter
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./filter/:/filter-app
+    environment:
+      FLASK_ENV: development
+  twint:
+    build:
+      dockerfile: Dockerfile
+      context: ./twint
+    ports:
+      - '6000:6000'
+    volumes:
+      - ./twint/:/twint-app
+    environment:
+      FLASK_ENV: development

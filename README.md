@@ -17,6 +17,10 @@ Adds the third-party package to the package's development dependencies. It won't
   npm install ${package name} --save-dev
 ```
 
+```bash
+  npm i -D ${package name}
+```
+
 ## Run Locally For Back-end Dev
 
 Clone the project then go to the project directory (cd into RTMA-full_stack)
@@ -69,6 +73,26 @@ Start dev detach or with console (Use Windows PowerShell)
 
 ```bash
   make up-scraping
+```
+
+Stop dev
+
+```bash
+  make down
+```
+
+## Run Locally For Filter Dev
+
+Clone the project then go to the project directory (cd into RTMA-full_stack)
+
+Start dev detach or with console (Use Windows PowerShell)
+
+```bash
+  make up-filter-d
+```
+
+```bash
+  make up-filter
 ```
 
 Stop dev
