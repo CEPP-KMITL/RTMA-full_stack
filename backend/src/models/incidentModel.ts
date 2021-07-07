@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 const incidentSchema = new mongoose.Schema({
   title: {
     type: String,
-    require: [true, 'Incident must have title']
+    require: [true, 'Incident must have title'],
+    unique: true
   },
   information: {
     type: String,

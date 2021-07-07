@@ -4,6 +4,7 @@ const incidentRawSchema = new mongoose.Schema({
   title: {
     type: String,
     require: [true, 'Incident must have title'],
+    unique: true
   },
   body: {
     type: String,
