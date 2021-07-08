@@ -24,7 +24,8 @@ class TwintSearch:
 
         self.is_valid = self.__is_valid()
         if not self.is_valid:
-            raise TypeError("This TwintSearch Object Is Not Properly Instantiated")
+            raise TypeError(
+                "This TwintSearch Object Is Not Properly Instantiated")
         else:
             self.add_schedule()
             self.sched_object.run()
@@ -54,7 +55,8 @@ class TwintSearch:
             since_time) + " - " + "Search For : " + str(search_string) + " - " + "From : " + str(
             username_target) + " - " + "With Priority : " + str(
             twint_priority))
-        self.search_twint(username_target, search_string, str(username_target) + ".json", since_time)
+        self.search_twint(username_target, search_string, str(
+            username_target) + ".json", since_time)
         self.process_file(str(username_target), str(search_string))
 
     def search_twint(self, username_target: str, search_target: str, output_target: str, since_time: str):
@@ -67,7 +69,8 @@ class TwintSearch:
         search_engine.Store_json = True
         search_engine.Links = "include"
         search_engine.Since = since_time
-        search_engine.Custom["tweet"] = ["id", "created_at", "username","date","time","timezone","name","place","tweet","urls","photos","hashtags","link","geo"]
+        search_engine.Custom["tweet"] = ["id", "created_at", "username", "date", "time",
+                                         "timezone", "name", "place", "tweet", "urls", "photos", "hashtags", "link", "geo"]
         #search_engine.Since = "2021-7-5 20:30:15"
         # Run
         twint.run.Search(search_engine)
@@ -76,7 +79,8 @@ class TwintSearch:
         full_file_name = target_file_name + ".json"
         process_file_name = target_file_name + "_processing.json"
         if not path.exists(process_file_name):
-            print("Cannot Detect Processing File, Trying To Looking For Raw File : " + process_file_name)
+            print(
+                "Cannot Detect Processing File, Trying To Looking For Raw File : " + process_file_name)
             if path.exists(full_file_name):
                 print("Detect Raw File : " + full_file_name)
                 os.rename(full_file_name, process_file_name)
@@ -100,13 +104,16 @@ class TwintSearch:
                     }
                 username = {"from": target_file_name}
                 body = {"body": single_data}
-                packaging_timestamp = {"packaging_timestamp" : self.format_twint_time_now(self)}
+                packaging_timestamp = {
+                    "packaging_timestamp": self.format_twint_time_now(self)}
                 dict_pack = username | search_keyword | body | packaging_timestamp
-                package_json = json.dumps(dict_pack, ensure_ascii=False).encode('utf8')
+                package_json = json.dumps(
+                    dict_pack, ensure_ascii=False).encode('utf8')
                 print("Package JSON = " + package_json.decode('utf8'))
                 self.post_api(self.API_ENDPOINT, package_json)
             os.remove(process_file_name)
-            print("Processing File Complete, Delete Processing File : " + process_file_name)
+            print("Processing File Complete, Delete Processing File : " +
+                  process_file_name)
 
     def post_api(self, API_ENDPOINT: str, post_data):
         r = requests.post(url=API_ENDPOINT, data=post_data)
