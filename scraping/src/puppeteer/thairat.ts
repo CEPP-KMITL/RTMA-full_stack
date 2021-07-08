@@ -20,6 +20,8 @@ function extractLink(rawHTML: string) {
       }
     }
   }
+  newList.splice(0, 1);
+  console.log(newList);
   return newList;
 }
 
@@ -27,14 +29,12 @@ const AdblockerPlugin = require('puppeteer-extra-plugin-adblocker');
 puppeteer.use(AdblockerPlugin());
 export const scrapeThairatNews = async (targetURL: string) => {
   try {
+    let allScrapeNews: Array<object> = [];
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
-    const meta = await scrapeMetatags(targetURL);
     await page.goto(targetURL);
     await page.waitFor(500);
-    await page.click(
-      '#__next > main > div > div.css-12hswaw.e1jz6ffu7 > div > div.css-ezm0i3.e1jz6ffu8 > div.css-lxjczt.e1jz6ffu16 > div.css-kzedlk.e1jz6ffu17 > a',
-    );
+    await page.click(THAIRAT.SEE_MORE);
     await page.waitFor(500);
     await page.screenshot({ path: 'response.png', fullPage: true });
     const links_news = await page.$eval(
@@ -42,31 +42,43 @@ export const scrapeThairatNews = async (targetURL: string) => {
       (elem: HTMLElement) => (elem as HTMLElement).innerHTML,
     );
     let allTargetNews: Array<string> = extractLink(links_news);
-    // const title = await page.$eval(
-    //   THAIRAT.TITLE,
-    //   (elem: HTMLElement) => (elem as HTMLElement).innerText,
-    // );
-    // const body = await page.$eval(
-    //   THAIRAT.BODY,
-    //   (elem: HTMLElement) => (elem as HTMLElement).innerText,
-    // );
-    // const date = await page.$eval(
-    //   THAIRAT.DATE,
-    //   (elem: HTMLElement) => (elem as HTMLElement).innerText,
-    // );
-    // const tag = await page.$eval(
-    //   THAIRAT.TAG,
-    //   (elem: HTMLElement) => (elem as HTMLElement).innerText,
-    // );
+    for (let i = 0; i < allTargetNews.length; i++) {
+      const meta = await scrapeMetatags(allTargetNews[i]);
+      await page.waitFor(500);
+      await page.goto(allTargetNews[i]);
+      await page.waitFor(500);
+      const title = await page.$eval(
+        THAIRAT.TITLE,
+        (elem: HTMLElement) => (elem as HTMLElement).innerText,
+      );
+      const body = await page.$eval(
+        THAIRAT.BODY,
+        (elem: HTMLElement) => (elem as HTMLElement).innerText,
+      );
+      const date = await page.$eval(
+        THAIRAT.DATE,
+        (elem: HTMLElement) => (elem as HTMLElement).innerText,
+      );
+      const tag = await page.$eval(
+        THAIRAT.TAG,
+        (elem: HTMLElement) => (elem as HTMLElement).innerText,
+      );
+
+      allScrapeNews.push({
+        metaScrape: meta[0],
+        deepScrape: {
+          targetURL: allTargetNews[i],
+          title: title,
+          body: body.replace(/\n/g, '').trim(),
+          date: date,
+          tag: tag,
+          image: meta[0].image,
+        },
+      });
+    }
+
     await browser.close();
-    // return {
-    //   targetURL,
-    //   title: title,
-    //   body: body.replace(/\n/g, '').trim(),
-    //   date: date,
-    //   tag: tag,
-    //   image: meta[0].image,
-    // };
+    return allScrapeNews;
   } catch (e) {
     return e;
   }

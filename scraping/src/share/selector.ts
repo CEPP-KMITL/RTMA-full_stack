@@ -6,4 +6,6 @@ export const THAIRAT = {
   TAG: '#_popIn_read_more_container > div.css-sq8bxp.evs3ejl16',
   HREF_NEWS:
     '#__next > main > div > div.css-12hswaw.e1jz6ffu7 > div > div.css-ezm0i3.e1jz6ffu8 > div.css-lxjczt.e1jz6ffu16',
+  SEE_MORE:
+    '#__next > main > div > div.css-12hswaw.e1jz6ffu7 > div > div.css-ezm0i3.e1jz6ffu8 > div.css-lxjczt.e1jz6ffu16 > div.css-kzedlk.e1jz6ffu17 > a',
 };
