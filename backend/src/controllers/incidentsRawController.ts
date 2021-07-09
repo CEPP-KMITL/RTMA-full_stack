@@ -33,17 +33,46 @@ export const createIncident: RequestHandler = async (req, res, next) => {
     });
   }
   else{
-    try {
-      const newIncident = await IncidentRaw.create({...req.body,type:"อิอิ"});
-      res.status(201).json({
-        message: 'Create incident successfully.',
-        createdIncident: newIncident,
-      });
-    } catch (e) {
-      res.status(400).json({
-        message: 'Fail to create incident' + ' : ' + e,
-      });
+    if(req.body.search_keyword.includes('ชน')){
+      try {
+        const newIncident = await IncidentRaw.create({...req.body,type:"รถชน"});
+        res.status(201).json({
+          message: 'Create incident successfully.',
+          createdIncident: newIncident,
+        });
+      } catch (e) {
+        res.status(400).json({
+          message: 'Fail to create incident' + ' : ' + e,
+        });
+      }
     }
+    else if(req.body.search_keyword.includes('ไหม้')){
+      try {
+        const newIncident = await IncidentRaw.create({...req.body,type:"ไฟไหม้"});
+        res.status(201).json({
+          message: 'Create incident successfully.',
+          createdIncident: newIncident,
+        });
+      } catch (e) {
+        res.status(400).json({
+          message: 'Fail to create incident' + ' : ' + e,
+        });
+      }
+    }
+    else{
+      try {
+        const newIncident = await IncidentRaw.create({...req.body,type:"อุบัติเหตุอื่นๆ"});
+        res.status(201).json({
+          message: 'Create incident successfully.',
+          createdIncident: newIncident,
+        });
+      } catch (e) {
+        res.status(400).json({
+          message: 'Fail to create incident' + ' : ' + e,
+        });
+      }
+    }
+    
   }
 };
 
