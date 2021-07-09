@@ -66,9 +66,9 @@ class TwintSearch:
         search_engine.Output = output_target
         search_engine.Store_json = True
         search_engine.Links = "include"
-        search_engine.Since = since_time
+        #search_engine.Since = since_time
         search_engine.Custom["tweet"] = ["id", "created_at", "username","date","time","timezone","name","place","tweet","urls","photos","hashtags","link","geo"]
-        #search_engine.Since = "2021-7-5 20:30:15"
+        search_engine.Since = "2021-7-5 20:30:15"
         # Run
         twint.run.Search(search_engine)
 

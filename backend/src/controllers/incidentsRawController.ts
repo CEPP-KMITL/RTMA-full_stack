@@ -14,17 +14,27 @@ function ObjectLength(object: Array<object>) {
 export const createIncident: RequestHandler = async (req, res, next) => {
   if (req.body.title == undefined){
     res.status(400).json({
-      message: 'Fail to create incident'
+      message: 'Fail to create title'
     });
   }
   else if (req.body.body == undefined){
     res.status(400).json({
-      message: 'Fail to create incident'
+      message: 'Fail to create body'
+    });
+  }
+  else if (req.body.packaging_timestamp == undefined){
+    res.status(400).json({
+      message: 'Fail to create packaging_timestamp'
+    });
+  }
+  else if (req.body.search_keyword == undefined){
+    res.status(400).json({
+      message: 'Fail to create search_keyword'
     });
   }
   else{
     try {
-      const newIncident = await IncidentRaw.create(req.body);
+      const newIncident = await IncidentRaw.create({...req.body,type:"อิอิ"});
       res.status(201).json({
         message: 'Create incident successfully.',
         createdIncident: newIncident,
@@ -73,6 +83,11 @@ export const updateIncident: RequestHandler = async (req, res, next) => {
     });
   }
   else if (req.body.body == undefined){
+    res.status(400).json({
+      message: 'Fail to create incident'
+    });
+  }
+  else if (req.body.packaging_timestamp == undefined){
     res.status(400).json({
       message: 'Fail to create incident'
     });
