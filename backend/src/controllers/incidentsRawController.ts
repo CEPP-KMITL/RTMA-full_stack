@@ -35,7 +35,7 @@ export const createIncident: RequestHandler = async (req, res, next) => {
   else{
     if(req.body.search_keyword.includes('ชน')){
       try {
-        const newIncident = await IncidentRaw.create({...req.body,type:"รถชน"});
+        const newIncident = await IncidentRaw.create({...req.body,type:"รถชน",check:false});
         res.status(201).json({
           message: 'Create incident successfully.',
           createdIncident: newIncident,
@@ -48,7 +48,7 @@ export const createIncident: RequestHandler = async (req, res, next) => {
     }
     else if(req.body.search_keyword.includes('ไหม้')){
       try {
-        const newIncident = await IncidentRaw.create({...req.body,type:"ไฟไหม้"});
+        const newIncident = await IncidentRaw.create({...req.body,type:"ไฟไหม้",check:false});
         res.status(201).json({
           message: 'Create incident successfully.',
           createdIncident: newIncident,
@@ -61,7 +61,7 @@ export const createIncident: RequestHandler = async (req, res, next) => {
     }
     else{
       try {
-        const newIncident = await IncidentRaw.create({...req.body,type:"อุบัติเหตุอื่นๆ"});
+        const newIncident = await IncidentRaw.create({...req.body,type:"อุบัติเหตุอื่นๆ",check:false});
         res.status(201).json({
           message: 'Create incident successfully.',
           createdIncident: newIncident,
