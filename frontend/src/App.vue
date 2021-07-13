@@ -1,43 +1,65 @@
 <template>
   <router-view>
-      <!-- <div style="text-align:center;z-index:1;position:relative">
-          <h4>YOUR POSITION</h4>
-          <h4>Latitude: {{ currPos.lat }}, Longitude: {{ currPos.lng }}</h4>
-      </div> -->
-      <div ref="mapDiv" style="height: 100%;position: absolute; top: 0; bottom: -200px; left: 0; right: 0; z-index: 0;" />
+      <input id="searchInput" class="controls" type="text" placeholder="Enter a location">
+    <div
+      ref="mapDiv"
+      style="
+        height: 100%;
+        position: absolute;
+        top: 0;
+        bottom: -200px;
+        left: 0;
+        right: 0;
+        z-index: 0;
+      "
+    />
+    <div>
+        <myMenu></myMenu>
+    </div>
+    
   </router-view>
-  
-  
 </template>
 <script>
-import { defineComponent, computed, ref,onMounted } from 'vue';
-import { useGeolocation } from './useGeolocation.js';
-import { Loader } from '@googlemaps/js-api-loader';
+import { defineComponent, computed, ref, onMounted } from "vue";
+import { useGeolocation } from "./useGeolocation.js";
+import { Loader } from "@googlemaps/js-api-loader";
+import mainMenu from "./components/mainMenu.vue";
+import dropDownBtn from "./components/dropDownBtn.vue";
+import productName from "./components/productName.vue";
 
-const GOOGLE_MAPS_API_KEY = 'AIzaSyD5OVCmPbVf6YZv6XRpN3NEfI1PzzOwBcU'
+const GOOGLE_MAPS_API_KEY = "AIzaSyD5OVCmPbVf6YZv6XRpN3NEfI1PzzOwBcU";
 
 export default defineComponent({
-  name: 'App',
-  setup(){
-      const { coords } = useGeolocation();
-      const currPos = computed(()=> ({
-          lat: coords.value.latitude,
-          lng: coords.value.longitude
-      }))
+  name: "App",
+  components: {
+    myMenu: mainMenu,
+    dBtn: dropDownBtn,
+    pName: productName,
+  },
+  setup() {
+    const { coords } = useGeolocation();
+    const currPos = computed(() => ({
+      lat: coords.value.latitude,
+      lng: coords.value.longitude,
+    }));
 
-      const loader = new Loader({ apiKey: GOOGLE_MAPS_API_KEY })
-    const mapDiv = ref(null)
+    const loader = new Loader({ apiKey: GOOGLE_MAPS_API_KEY });
+    const mapDiv = ref(null);
     onMounted(async () => {
-      await loader.load()
+      await loader.load();
       new google.maps.Map(mapDiv.value, {
-        center: {lat: 13, lng: 100},
+        center: { lat: 13, lng: 100 },
         zoom: 7,
         streetViewControl: false,
         mapTypeControl: false,
-        zoomControl:false
-      })
-    })
-    return { currPos, mapDiv }
-  }
-})
+        zoomControl: false,
+      });
+    });
+    return { currPos, mapDiv };
+  },
+  data() {
+    return {
+    };
+  },
+});
 </script>
