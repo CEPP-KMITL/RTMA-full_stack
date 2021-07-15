@@ -1,6 +1,5 @@
 <template>
   <router-view>
-      <input id="searchInput" class="controls" type="text" placeholder="Enter a location">
     <div
       ref="mapDiv"
       style="
@@ -14,23 +13,22 @@
       "
     />
     <div>
-        <myMenu></myMenu>
+      <myMenu></myMenu>
     </div>
-    
   </router-view>
 </template>
 <script>
-import { defineComponent, computed, ref, onMounted } from "vue";
-import { useGeolocation } from "./useGeolocation.js";
-import { Loader } from "@googlemaps/js-api-loader";
-import mainMenu from "./components/mainMenu.vue";
-import dropDownBtn from "./components/dropDownBtn.vue";
-import productName from "./components/productName.vue";
+import { defineComponent, computed, ref, onMounted } from 'vue';
+import { useGeolocation } from './useGeolocation.js';
+import { Loader } from '@googlemaps/js-api-loader';
+import mainMenu from './components/mainMenu.vue';
+import dropDownBtn from './components/dropDownBtn.vue';
+import productName from './components/productName.vue';
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyD5OVCmPbVf6YZv6XRpN3NEfI1PzzOwBcU";
+const GOOGLE_MAPS_API_KEY = 'AIzaSyD5OVCmPbVf6YZv6XRpN3NEfI1PzzOwBcU';
 
 export default defineComponent({
-  name: "App",
+  name: 'App',
   components: {
     myMenu: mainMenu,
     dBtn: dropDownBtn,
@@ -43,7 +41,7 @@ export default defineComponent({
       lng: coords.value.longitude,
     }));
 
-    const loader = new Loader({ apiKey: GOOGLE_MAPS_API_KEY });
+    const loader = new Loader({ apiKey: GOOGLE_MAPS_API_KEY,libraries: ["places"] });
     const mapDiv = ref(null);
     onMounted(async () => {
       await loader.load();
@@ -54,12 +52,18 @@ export default defineComponent({
         mapTypeControl: false,
         zoomControl: false,
       });
+      new google.maps.places.Autocomplete(
+          document.getElementById("searchInput")
+      )
+    //   var input = document.getElementById('searchInput');
+    //   myMap.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
     });
+
+    // var autocomplete = new google
     return { currPos, mapDiv };
   },
   data() {
-    return {
-    };
+    return {};
   },
 });
 </script>

@@ -1,1 +1,94 @@
 /* app global css */
+.myButton {
+  display: none;
+}
+.myButton:hover {
+  cursor: pointer;
+}
+
+.myButton.selected {
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  border-radius: 8px;
+  font-family: Arial;
+  color: #222831;
+  font-size: 20px;
+  background: #f2b963;
+  margin-top: 16px;
+  width: 180px;
+  height: 48px;
+  text-align: start center;
+  padding: 0;
+  border: solid #707070 1px;
+  text-decoration: none;
+  display: inline-flex;
+  animation: fadeIn 600ms;
+  align-items: center;
+}
+.layerButton {
+  display: none;
+}
+.layerButton:hover {
+  cursor: pointer;
+}
+.layerButton.selected {
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  border-radius: 8px;
+  font-family: Arial;
+  color: #222831;
+  font-size: 20px;
+  background: #f2b963;
+  width: 40px;
+  height: 40px;
+  margin-left: 8px;
+  text-align: start center;
+  padding: 0;
+  border: solid #707070 1px;
+  text-decoration: none;
+  display: inline-flex;
+  animation: fadeIn 600ms;
+  align-items: center;
+}
+
+.myMenu {
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  border-radius: 8px;
+  font-family: Arial;
+  color: #222831 /*#F1ECE3 */;
+  font-size: 20px;
+  background: transparent;
+  margin-top: 16px;
+  width: 180px;
+  height: 48px;
+  text-align: start center;
+  padding: 0;
+  border: transparent 1px;
+  text-decoration: none;
+  display: inline-flex;
+  animation: fadeIn 600ms;
+  align-items: center;
+}
+.searchBar{
+    margin-left: 128px;
+    opacity : 50%;
+    transition:450ms;
+
+}
+.searchBar:hover{
+    opacity : 100%;
+    transition:300ms;
+}
+.searchBar:focus{
+    opacity : 100%;
+    /* background-color: #f2b963; */
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

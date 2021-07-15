@@ -17,6 +17,7 @@
           <hBtn></hBtn>
         </span>
         <span style="font-family: Prompt; font-weight: 750;font-size:30px;margin-left:8px">SONAR</span>
+        <span><searchBar></searchBar></span>
       </button>
     </div>
     <div>
@@ -146,11 +147,13 @@
 <script>
 import dropDownBtn from "./dropDownBtn.vue";
 import hamburgerBtn from "./hamburgerBtn.vue";
+import searchbar from "./searchBar.vue"
 export default {
   name: "component2",
   components: {
     dBtn: dropDownBtn,
     hBtn: hamburgerBtn,
+    searchBar: searchbar
   },
   data() {
     return {
@@ -175,85 +178,3 @@ export default {
 };
 </script>
 
-<style>
-.myButton {
-  display: none;
-}
-.myButton:hover {
-  cursor: pointer;
-}
-
-.myButton.selected {
-  -webkit-border-radius: 8;
-  -moz-border-radius: 8;
-  border-radius: 8px;
-  font-family: Arial;
-  color: #222831;
-  font-size: 20px;
-  background: #f2b963;
-  margin-top: 16px;
-  width: 180px;
-  height: 48px;
-  text-align: start center;
-  padding: 0;
-  border: solid #707070 1px;
-  text-decoration: none;
-  display: inline-flex;
-  animation: fadeIn 600ms;
-  align-items: center;
-}
-.layerButton {
-  display: none;
-}
-.layerButton:hover {
-  cursor: pointer;
-}
-.layerButton.selected {
-  -webkit-border-radius: 8;
-  -moz-border-radius: 8;
-  border-radius: 8px;
-  font-family: Arial;
-  color: #222831;
-  font-size: 20px;
-  background: #f2b963;
-  width: 40px;
-  height: 40px;
-  margin-left: 8px;
-  text-align: start center;
-  padding: 0;
-  border: solid #707070 1px;
-  text-decoration: none;
-  display: inline-flex;
-  animation: fadeIn 600ms;
-  align-items: center;
-}
-
-.myMenu {
-  -webkit-border-radius: 8;
-  -moz-border-radius: 8;
-  border-radius: 8px;
-  font-family: Arial;
-  color: #222831 /*#F1ECE3 */;
-  font-size: 20px;
-  background: transparent;
-  margin-top: 16px;
-  width: 180px;
-  height: 48px;
-  text-align: start center;
-  padding: 0;
-  border: transparent 1px;
-  text-decoration: none;
-  display: inline-flex;
-  animation: fadeIn 600ms;
-  align-items: center;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-</style>
