@@ -13,7 +13,7 @@ jobs:
   python_test_scraping:
     runs-on: ubuntu-latest
     env:
-      working-directory: ./scraping
+      working-directory: ./twint
     strategy:
       fail-fast: false
       matrix:
