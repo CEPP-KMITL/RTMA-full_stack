@@ -40,56 +40,112 @@ exports.scrapeThairatNews = void 0;
 var scrapeMetatags_1 = require("../scrapeMetatags");
 var puppeteer = require('puppeteer-extra');
 var selector_1 = require("../share/selector");
+function extractLink(rawHTML) {
+    var listString = rawHTML.split(' ');
+    var newList = [];
+    var arrayLength = listString.length;
+    for (var i = 0; i < arrayLength; i++) {
+        if (String(listString[i]).includes('href=')) {
+            var expression = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/gi;
+            var rawLink = listString[i];
+            var match = rawLink.match(expression);
+            if (match !== null) {
+                match[0] = match[0].replace('"', '');
+                if (!newList.includes(match[0])) {
+                    newList.push(match[0]);
+                }
+            }
+        }
+    }
+    newList.splice(0, 1);
+    console.log(newList);
+    return newList;
+}
 var AdblockerPlugin = require('puppeteer-extra-plugin-adblocker');
 puppeteer.use(AdblockerPlugin());
 var scrapeThairatNews = function (targetURL) { return __awaiter(void 0, void 0, void 0, function () {
-    var browser_1, page, meta, title, body, date, tag, e_1;
+    var allScrapeNews, browser_1, page, links_news, allTargetNews, i, meta, title, body, date, tag, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 11, , 12]);
+                _a.trys.push([0, 21, , 22]);
+                allScrapeNews = [];
                 return [4 /*yield*/, puppeteer.launch({ headless: true })];
             case 1:
                 browser_1 = _a.sent();
                 return [4 /*yield*/, browser_1.newPage()];
             case 2:
                 page = _a.sent();
-                return [4 /*yield*/, scrapeMetatags_1.scrapeMetatags(targetURL)];
-            case 3:
-                meta = _a.sent();
                 return [4 /*yield*/, page.goto(targetURL)];
+            case 3:
+                _a.sent();
+                return [4 /*yield*/, page.waitFor(500)];
             case 4:
                 _a.sent();
-                return [4 /*yield*/, page.waitFor(5000)];
+                return [4 /*yield*/, page.click(selector_1.THAIRAT.SEE_MORE)];
             case 5:
                 _a.sent();
-                return [4 /*yield*/, page.$eval(selector_1.THAIRAT.TITLE, function (elem) { return elem.innerText; })];
+                return [4 /*yield*/, page.waitFor(500)];
             case 6:
+                _a.sent();
+                return [4 /*yield*/, page.screenshot({ path: 'response.png', fullPage: true })];
+            case 7:
+                _a.sent();
+                return [4 /*yield*/, page.$eval(selector_1.THAIRAT.HREF_NEWS, function (elem) { return elem.innerHTML; })];
+            case 8:
+                links_news = _a.sent();
+                allTargetNews = extractLink(links_news);
+                i = 0;
+                _a.label = 9;
+            case 9:
+                if (!(i < allTargetNews.length)) return [3 /*break*/, 19];
+                return [4 /*yield*/, scrapeMetatags_1.scrapeMetatags(allTargetNews[i])];
+            case 10:
+                meta = _a.sent();
+                return [4 /*yield*/, page.waitFor(500)];
+            case 11:
+                _a.sent();
+                return [4 /*yield*/, page.goto(allTargetNews[i])];
+            case 12:
+                _a.sent();
+                return [4 /*yield*/, page.waitFor(500)];
+            case 13:
+                _a.sent();
+                return [4 /*yield*/, page.$eval(selector_1.THAIRAT.TITLE, function (elem) { return elem.innerText; })];
+            case 14:
                 title = _a.sent();
                 return [4 /*yield*/, page.$eval(selector_1.THAIRAT.BODY, function (elem) { return elem.innerText; })];
-            case 7:
+            case 15:
                 body = _a.sent();
                 return [4 /*yield*/, page.$eval(selector_1.THAIRAT.DATE, function (elem) { return elem.innerText; })];
-            case 8:
+            case 16:
                 date = _a.sent();
                 return [4 /*yield*/, page.$eval(selector_1.THAIRAT.TAG, function (elem) { return elem.innerText; })];
-            case 9:
+            case 17:
                 tag = _a.sent();
-                return [4 /*yield*/, browser_1.close()];
-            case 10:
-                _a.sent();
-                return [2 /*return*/, {
-                        targetURL: targetURL,
+                allScrapeNews.push({
+                    metaScrape: meta[0],
+                    deepScrape: {
+                        targetURL: allTargetNews[i],
                         title: title,
                         body: body.replace(/\n/g, '').trim(),
                         date: date,
                         tag: tag,
                         image: meta[0].image
-                    }];
-            case 11:
+                    }
+                });
+                _a.label = 18;
+            case 18:
+                i++;
+                return [3 /*break*/, 9];
+            case 19: return [4 /*yield*/, browser_1.close()];
+            case 20:
+                _a.sent();
+                return [2 /*return*/, allScrapeNews];
+            case 21:
                 e_1 = _a.sent();
                 return [2 /*return*/, e_1];
-            case 12: return [2 /*return*/];
+            case 22: return [2 /*return*/];
         }
     });
 }); };

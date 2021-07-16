@@ -2,9 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4df6195-e6e3-4195-946a-407d860f01b0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraping/.dockerignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraping/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraping/dist/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/scraping/dist/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraping/dist/puppeteer/thairat.js" beforeDir="false" afterPath="$PROJECT_DIR$/scraping/dist/puppeteer/thairat.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraping/dist/share/selector.js" beforeDir="false" afterPath="$PROJECT_DIR$/scraping/dist/share/selector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraping/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/scraping/src/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/twint/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/twint/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/twint/TwintClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/twint/TwintClass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/twint/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/twint/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +84,7 @@
       <workItem from="1625598529427" duration="881000" />
       <workItem from="1625599513082" duration="152000" />
       <workItem from="1625730728628" duration="66000" />
+      <workItem from="1626248169323" duration="594000" />
     </task>
     <servers />
   </component>
