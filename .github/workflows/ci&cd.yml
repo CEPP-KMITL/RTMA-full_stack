@@ -1,0 +1,165 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  python_test_scraping:
+      runs-on: ubuntu-latest
+      env:
+        working-directory: ./twint
+      strategy:
+        fail-fast: false
+        matrix:
+          python-version: [3.7, 3.8, 3.9]
+
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        working-directory: ${{env.working-directory}}
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install flake8 pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Lint with flake8
+        working-directory: ${{env.working-directory}}
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+  python_test_filter:
+      runs-on: ubuntu-latest
+      env:
+        working-directory: ./filter
+      strategy:
+        fail-fast: false
+        matrix:
+          python-version: [3.7, 3.8, 3.9]
+
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        working-directory: ${{env.working-directory}}
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install flake8 pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Lint with flake8
+        working-directory: ${{env.working-directory}}
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+          
+  npm_test_node-app:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./backend
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: NPM INSTALL
+      working-directory: ${{env.working-directory}}
+      run: npm ci
+    - name: NPM RUN BUILD (If Present)
+      working-directory: ${{env.working-directory}}
+      run: npm run build --if-present
+    - name: NPM TEST (If Present)
+      working-directory: ${{env.working-directory}}
+      run: npm test --if-present
+
+  npm_test_vue-ui:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./frontend
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: NPM INSTALL
+      working-directory: ${{env.working-directory}}
+      run: npm ci
+    - name: NPM RUN BUILD (If Present)
+      working-directory: ${{env.working-directory}}
+      run: npm run build --if-present
+    - name: NPM TEST (If Present)
+      working-directory: ${{env.working-directory}}
+      run: npm test --if-present
+  
+  npm_test_scraping-app:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./scraping
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: NPM INSTALL
+      working-directory: ${{env.working-directory}}
+      run: npm ci
+    - name: NPM RUN BUILD (If Present)
+      working-directory: ${{env.working-directory}}
+      run: npm run build --if-present
+    - name: NPM TEST (If Present)
+      working-directory: ${{env.working-directory}}
+      run: npm test --if-present
+
+  build_scraping-app:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./scraping
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
+      - run: npm install
+        working-directory: ${{env.working-directory}}
+      - run: npm run build
+        working-directory: ${{env.working-directory}}
+
+
+
+

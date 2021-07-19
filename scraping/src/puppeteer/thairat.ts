@@ -47,29 +47,48 @@ export const scrapeThairatNews = async (targetURL: string) => {
       await page.waitFor(500);
       await page.goto(allTargetNews[i]);
       await page.waitFor(500);
-      const title = await page.$eval(
-        THAIRAT.TITLE,
-        (elem: HTMLElement) => (elem as HTMLElement).innerText,
-      );
-      const body = await page.$eval(
-        THAIRAT.BODY,
-        (elem: HTMLElement) => (elem as HTMLElement).innerText,
-      );
-      const date = await page.$eval(
-        THAIRAT.DATE,
-        (elem: HTMLElement) => (elem as HTMLElement).innerText,
-      );
-      const tag = await page.$eval(
-        THAIRAT.TAG,
-        (elem: HTMLElement) => (elem as HTMLElement).innerText,
-      );
-
+      let title = '';
+      try {
+        title = await page.$eval(
+          THAIRAT.TITLE,
+          (elem: HTMLElement) => (elem as HTMLElement).innerText,
+        );
+      } catch (e) {}
+      let body = '';
+      try {
+        body = await page.$eval(
+          THAIRAT.BODY,
+          (elem: HTMLElement) => (elem as HTMLElement).innerText,
+        );
+      } catch (e) {}
+      let date = '';
+      try {
+        date = await page.$eval(
+          THAIRAT.DATE,
+          (elem: HTMLElement) => (elem as HTMLElement).innerText,
+        );
+      } catch (e) {}
+      let tag = '';
+      try {
+        tag = await page.$eval(
+          THAIRAT.TAG,
+          (elem: HTMLElement) => (elem as HTMLElement).innerText,
+        );
+      } catch (e) {}
+      let trimBody = 'error';
+      if (body === undefined) {
+      } else {
+        trimBody = body.replace(/\n/g, '').trim();
+      }
+      if (trimBody === 'ข่าวแนะนำ') {
+        trimBody = '';
+      }
       allScrapeNews.push({
         metaScrape: meta[0],
         deepScrape: {
           targetURL: allTargetNews[i],
           title: title,
-          body: body.replace(/\n/g, '').trim(),
+          body: trimBody,
           date: date,
           tag: tag,
           image: meta[0].image,
