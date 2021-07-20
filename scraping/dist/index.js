@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var thairat_1 = require("./puppeteer/thairat");
-setInterval(runScrapeThairatNews, 30000);
+setInterval(runScrapeThairatNews, 60000);
 // ! Missing API_URI
 // TODO Add URL
 function runScrapeThairatNews() {
@@ -10,5 +10,6 @@ function runScrapeThairatNews() {
         // fetch('API_URL_HERE', { method: 'POST', body: result })
         //   .then((result) => result.json())
         //   .then(console.log);
+        console.log('END SCRAPING');
     });
 }
