@@ -15,7 +15,9 @@ services:
       - PORT=3000
     depends_on:
       - mongo
-    container_name: node-app
+      - redis
+      - nginx
+    #container_name: node-app
 
   mongo:
     image: mongo
@@ -42,10 +44,13 @@ services:
     build: .
     ports:
       - '5000:5000'
+    container_name: filter
 
   twint:
     build: .
     ports:
       - '6000:6000'
+    container_name: twint
+
 volumes:
   mongo-db:

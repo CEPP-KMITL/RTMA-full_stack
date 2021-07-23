@@ -21,7 +21,6 @@ function extractLink(rawHTML: string) {
     }
   }
   newList.splice(0, 1);
-  console.log(newList);
   return newList;
 }
 

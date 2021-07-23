@@ -8,46 +8,46 @@ FILTER := filter
 TWINT := twint
 
 up-backend:
-	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up $(REVERSE_PROXY) $(BACKEND) $(DATABASE) $(REDIS)
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -V $(REVERSE_PROXY) $(BACKEND) $(DATABASE) $(REDIS)
 
 up-backend-fb:
-	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate $(REVERSE_PROXY) $(BACKEND) $(DATABASE) $(REDIS)
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate -V $(REVERSE_PROXY) $(BACKEND) $(DATABASE) $(REDIS)
 
 up-frontend:
-	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up $(FRONTEND)
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -V $(FRONTEND)
 	
 up-frontend-fb:
-	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate $(FRONTEND)
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate -V $(FRONTEND)
 
 up-scraping:
-	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up $(SCRAPING)
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -V $(SCRAPING)
 
 up-scraping-fb:
-	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate $(SCRAPING)
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate -V $(SCRAPING)
 
 up-filter:
-	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up $(FILTER)
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -V $(FILTER)
 
 up-filter-fb:
-	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate $(FILTER)
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate -V $(FILTER)
 
 up-twint:
-	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up $(TWINT)
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -V $(TWINT)
 
 up-twint-fb:
-	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate $(TWINT)
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate -V $(TWINT)
 
 up-backend-d:
-	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate $(REVERSE_PROXY) $(BACKEND) $(DATABASE) $(REDIS)
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate -V $(REVERSE_PROXY) $(BACKEND) $(DATABASE) $(REDIS)
 
 up-frontend-d:
-	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate $(FRONTEND)
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate -V $(FRONTEND)
 
 up-scraping-d:
-	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate $(SCRAPING)
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate -V $(SCRAPING)
 
 up-filter-d:
-	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate $(FILTER)
+	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate -V $(FILTER)
 
 down:
 	powershell docker-compose down -v
