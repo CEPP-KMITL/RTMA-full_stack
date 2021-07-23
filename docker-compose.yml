@@ -11,13 +11,14 @@ services:
 
   node-app:
     build: .
+    image: tpakorn/rtma-node
     environment:
       - PORT=3000
     depends_on:
       - mongo
       - redis
       - nginx
-    #container_name: node-app
+    container_name: node-app
 
   mongo:
     image: mongo
