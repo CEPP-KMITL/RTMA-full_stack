@@ -18,7 +18,6 @@ services:
       - mongo
       - redis
       - nginx
-    container_name: node-app
 
   mongo:
     image: mongo
