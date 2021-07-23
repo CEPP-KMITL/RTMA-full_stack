@@ -1,32 +1,31 @@
 import mongoose from 'mongoose';
 
-const BodyAccidentSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    require: [true, 'Incident must have id'],
-    unique: true
-  }
-},
-{strict:false}
-);
-
 const incidentRawSchema = new mongoose.Schema({
-  title: {
+  from: {
     type: String,
-    require: [true, 'Incident must have title'],
   },
-  search_keyword:{
+  search_keyword: {
     type: String,
-    require: [true, 'Incident must have search_keyword'],
+  },
+  id:{
+    type: String,
+    unique: true
+  },
+  date:{
+    type: String,
   },
   body: {
-    type: BodyAccidentSchema,
-    require: [true, 'Incident must have body'],
-  },
-  packaging_timestamp:{
     type: String,
-    require: [true, 'Incident must have packaging_timestamp'],
-  }
+  },
+  link: {
+    type: String,
+  },
+  type: {
+    type: String,
+  },
+  create_at: {
+    type: Date,
+  },
 },
 {strict:false}
 );

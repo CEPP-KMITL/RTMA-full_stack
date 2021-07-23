@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express';
+import { date, number } from 'joi';
 import { IncidentRaw } from '../models/incidentRawModel';
 
 function ObjectLength(object: Array<object>) {
@@ -12,73 +13,84 @@ function ObjectLength(object: Array<object>) {
 }
 
 export const createIncident: RequestHandler = async (req, res, next) => {
-  if (req.body.title == undefined){
-    res.status(400).json({
-      message: 'Fail to create title'
-    });
-  }
-  else if (req.body.body == undefined){
-    res.status(400).json({
-      message: 'Fail to create body'
-    });
-  }
-  else if (req.body.packaging_timestamp == undefined){
-    res.status(400).json({
-      message: 'Fail to create packaging_timestamp'
-    });
-  }
-  else if (req.body.search_keyword == undefined){
-    res.status(400).json({
-      message: 'Fail to create search_keyword'
-    });
-  }
-  else{
+  var from
+  var search_keyword
+  var id
+  var date
+  var body
+  var link
+  var type 
+  var create_at = new Date()
+  if(req.body.from != undefined){
+    from = req.body.from
+    search_keyword = req.body.search_keyword
+    id = req.body.body.id
+    date = req.body.body.date+req.body.body.time
+    body = req.body.body.tweet
+    link = req.body.body.link
+    create_at = new Date()
     if(req.body.search_keyword.includes('ชน')){
-      try {
-        const newIncident = await IncidentRaw.create({...req.body,type:"รถชน",check:false});
-        res.status(201).json({
-          message: 'Create incident successfully.',
-          createdIncident: newIncident,
-        });
-      } catch (e) {
-        res.status(400).json({
-          message: 'Fail to create incident' + ' : ' + e,
-        });
-      }
+      type = "รถชน"
     }
     else if(req.body.search_keyword.includes('ไหม้')){
-      try {
-        const newIncident = await IncidentRaw.create({...req.body,type:"ไฟไหม้",check:false});
-        res.status(201).json({
-          message: 'Create incident successfully.',
-          createdIncident: newIncident,
-        });
-      } catch (e) {
-        res.status(400).json({
-          message: 'Fail to create incident' + ' : ' + e,
-        });
-      }
+      type = "ไฟไหม้"
     }
     else{
-      try {
-        const newIncident = await IncidentRaw.create({...req.body,type:"อุบัติเหตุอื่นๆ",check:false});
-        res.status(201).json({
-          message: 'Create incident successfully.',
-          createdIncident: newIncident,
-        });
-      } catch (e) {
-        res.status(400).json({
-          message: 'Fail to create incident' + ' : ' + e,
-        });
-      }
+      type = "อุบัติเหตุอื่นๆ"
     }
-    
+  }
+  else{
+    from = "ไทยรัฐ"
+    search_keyword = req.body.metaScrape.description
+    id = req.body.metaScrape.title
+    date = req.body.deepScrape.date
+    body = req.body.deepScrape.body
+    link = req.body.metaScrape.url
+    create_at = new Date()
+    if(req.body.deepScrape.body.includes('ชน')){
+      type = "รถชน"
+    }
+    else if(req.body.deepScrape.body.includes('ไหม้')){
+      type = "ไฟไหม้"
+    }
+    else{
+      type = "อุบัติเหตุอื่นๆ"
+    }
+  }
+  try {
+    const newIncident = await IncidentRaw.create({
+      from,
+      search_keyword,
+      id,
+      date,
+      body,
+      link,
+      type,
+      check:false,
+      create_at,
+    });
+    res.status(201).json({
+      message: 'Create incident successfully.',
+      createdIncident: newIncident,
+    });
+  } catch (e) {
+    res.status(400).json({
+      message: 'Fail to create incident' + ' : ' + e,
+    });
   }
 };
 
 export const getAllIncidents: RequestHandler = async (req, res, next) => {
   try {
-    const allIncidents = await IncidentRaw.find();
+    const allIncidents = await IncidentRaw.find({check:false})
+    const incidentIdList = allIncidents.map((e : any)=>e._id)
+    console.log(incidentIdList)
+    await Promise.all(incidentIdList.map((element : any )=> 
+      IncidentRaw.findByIdAndUpdate(
+        String(element),
+        {check:true}
+      )
+    ))
     res.status(201).json({
       message: 'Get all current incidents successfully.',
       results: ObjectLength(allIncidents),
@@ -106,37 +118,20 @@ export const getIncident: RequestHandler = async (req, res, next) => {
 };
 
 export const updateIncident: RequestHandler = async (req, res, next) => {
-  if (req.body.title == undefined){
-    res.status(400).json({
-      message: 'Fail to create incident'
+  try {
+    const targetIncident = await IncidentRaw.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    res.status(201).json({
+      message: 'Update the incident successfully.',
+      updateTarget: targetIncident,
     });
-  }
-  else if (req.body.body == undefined){
+  } catch (e) {
     res.status(400).json({
-      message: 'Fail to create incident'
+      message: 'Fail to update the incident' + ' : ' + e,
     });
-  }
-  else if (req.body.packaging_timestamp == undefined){
-    res.status(400).json({
-      message: 'Fail to create incident'
-    });
-  }
-  else{
-    try {
-      const targetIncident = await IncidentRaw.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-      );
-      res.status(201).json({
-        message: 'Update the incident successfully.',
-        updateTarget: targetIncident,
-      });
-    } catch (e) {
-      res.status(400).json({
-        message: 'Fail to update the incident' + ' : ' + e,
-      });
-    }
   }
 };
 
