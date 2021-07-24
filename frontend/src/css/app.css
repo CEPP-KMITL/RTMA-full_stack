@@ -84,6 +84,18 @@
     opacity : 100%;
     /* background-color: #f2b963; */
 }
+.pac-icon{
+    display:none;
+}
+.pac-item{
+    opacity : 0.7;
+}
+.pac-item:hover{
+    cursor: pointer;
+}
+#scatter.selected{
+    display:none;
+}
 @keyframes fadeIn {
   from {
     opacity: 0;

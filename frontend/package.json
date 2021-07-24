@@ -11,8 +11,12 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
+    "@deck.gl/core": "8.0.0",
+    "@deck.gl/google-maps": "8.0.0",
+    "@deck.gl/layers": "8.0.0",
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
+    "deck.gl": "^8.4.20",
     "load-google-maps-api": "^2.0.2",
     "quasar": "^2.0.0"
   },

@@ -2,7 +2,7 @@
   <div
     style="
       position: relative;
-      z-index: 1;
+      z-index: 3;
       text-align: left;
       width: 200px;
       margin-left: 5vw;
@@ -149,11 +149,10 @@ import dropDownBtn from "./dropDownBtn.vue";
 import hamburgerBtn from "./hamburgerBtn.vue";
 import searchbar from "./searchBar.vue"
 export default {
-  name: "component2",
   components: {
     dBtn: dropDownBtn,
     hBtn: hamburgerBtn,
-    searchBar: searchbar
+    searchBar: searchbar,
   },
   data() {
     return {
@@ -163,15 +162,14 @@ export default {
   },
   methods: {
     convertSelect() {
-      console.log("isSelected toggle");
+    //   console.log("isSelected toggle");
       return (this.isSelected = !this.isSelected);
     },
     setLayerDefault() {
-      console.log("setlayerdefault");
+    //   console.log("setlayerdefault");
       return (this.layerSelected = false);
     },
     convertLayer() {
-      console.log("layer toggle");
       return (this.layerSelected = !this.layerSelected);
     },
   },

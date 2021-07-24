@@ -1,31 +1,18 @@
 <template>
   <router-view>
-    <div
-      ref="mapDiv"
-      style="
-        height: 100%;
-        position: absolute;
-        top: 0;
-        bottom: -200px;
-        left: 0;
-        right: 0;
-        z-index: 0;
-      "
-    />
-    <div>
+    <div><gMap></gMap></div>
+    <!-- <div>
       <myMenu></myMenu>
-    </div>
+    </div> -->
   </router-view>
 </template>
 <script>
-import { defineComponent, computed, ref, onMounted } from 'vue';
-import { useGeolocation } from './useGeolocation.js';
-import { Loader } from '@googlemaps/js-api-loader';
+import { defineComponent} from 'vue';
 import mainMenu from './components/mainMenu.vue';
 import dropDownBtn from './components/dropDownBtn.vue';
 import productName from './components/productName.vue';
+import googleMap from './components/googleMap.vue'
 
-const GOOGLE_MAPS_API_KEY = 'AIzaSyD5OVCmPbVf6YZv6XRpN3NEfI1PzzOwBcU';
 
 export default defineComponent({
   name: 'App',
@@ -33,37 +20,10 @@ export default defineComponent({
     myMenu: mainMenu,
     dBtn: dropDownBtn,
     pName: productName,
+    gMap: googleMap,
   },
-  setup() {
-    const { coords } = useGeolocation();
-    const currPos = computed(() => ({
-      lat: coords.value.latitude,
-      lng: coords.value.longitude,
-    }));
+  methods:{
+  }
 
-    const loader = new Loader({ apiKey: GOOGLE_MAPS_API_KEY,libraries: ["places"] });
-    const mapDiv = ref(null);
-    onMounted(async () => {
-      await loader.load();
-      new google.maps.Map(mapDiv.value, {
-        center: { lat: 13, lng: 100 },
-        zoom: 7,
-        streetViewControl: false,
-        mapTypeControl: false,
-        zoomControl: false,
-      });
-      new google.maps.places.Autocomplete(
-          document.getElementById("searchInput")
-      )
-    //   var input = document.getElementById('searchInput');
-    //   myMap.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-    });
-
-    // var autocomplete = new google
-    return { currPos, mapDiv };
-  },
-  data() {
-    return {};
-  },
 });
 </script>
