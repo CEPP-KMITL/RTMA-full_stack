@@ -12,16 +12,43 @@ function ObjectLength(object: Array<object>) {
 }
 
 export const createIncident: RequestHandler = async (req, res, next) => {
-  try {
-    const newIncident = await Incident.create(req.body);
-    res.status(201).json({
-      message: 'Create incident successfully.',
-      createdIncident: newIncident,
-    });
-  } catch (e) {
+  if (req.body.title == undefined){
     res.status(400).json({
-      message: 'Fail to create incident' + ' : ' + e,
+      message: 'Fail to create incident'
     });
+  }
+  else if (req.body.information == undefined){
+    res.status(400).json({
+      message: 'Fail to create incident'
+    });
+  }
+  else if (req.body.type == undefined){
+    res.status(400).json({
+      message: 'Fail to create incident'
+    });
+  }
+  else if (req.body.source == undefined){
+    res.status(400).json({
+      message: 'Fail to create incident'
+    });
+  }
+  else if (req.body.location == undefined){
+    res.status(400).json({
+      message: 'Fail to create incident'
+    });
+  }
+  else{
+    try {
+      const newIncident = await Incident.create(req.body);
+      res.status(201).json({
+        message: 'Create incident successfully.',
+        createdIncident: newIncident,
+      });
+    } catch (e) {
+      res.status(400).json({
+        message: 'Fail to create incident' + ' : ' + e,
+      });
+    }
   }
 };
 
@@ -55,20 +82,47 @@ export const getIncident: RequestHandler = async (req, res, next) => {
 };
 
 export const updateIncident: RequestHandler = async (req, res, next) => {
-  try {
-    const targetIncident = await Incident.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true },
-    );
-    res.status(201).json({
-      message: 'Update the incident successfully.',
-      updateTarget: targetIncident,
-    });
-  } catch (e) {
+  if (req.body.title == undefined){
     res.status(400).json({
-      message: 'Fail to update the incident' + ' : ' + e,
+      message: 'Fail to create incident'
     });
+  }
+  else if (req.body.information == undefined){
+    res.status(400).json({
+      message: 'Fail to create incident'
+    });
+  }
+  else if (req.body.type == undefined){
+    res.status(400).json({
+      message: 'Fail to create incident'
+    });
+  }
+  else if (req.body.source == undefined){
+    res.status(400).json({
+      message: 'Fail to create incident'
+    });
+  }
+  else if (req.body.location == undefined){
+    res.status(400).json({
+      message: 'Fail to create incident'
+    });
+  }
+  else{
+    try {
+      const targetIncident = await Incident.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true, runValidators: true }
+      );
+      res.status(201).json({
+        message: 'Update the incident successfully.',
+        updateTarget: targetIncident,
+      });
+    } catch (e) {
+      res.status(400).json({
+        message: 'Fail to update the incident' + ' : ' + e,
+      });
+    }
   }
 };
 

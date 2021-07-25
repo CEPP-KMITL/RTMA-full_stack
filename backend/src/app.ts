@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { json } from 'body-parser';
 import { CONFIG } from './config/config';
 import incidentRoutes from './routes/incidentsRoute';
+import incidentRawRoutes from './routes/incidentsRawRoute';
 import userRoutes from './routes/userRoute';
 
 const redis = require('redis');
@@ -64,6 +65,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   });
 });
 app.use('/api/v1/incidents', incidentRoutes);
+app.use('/api/v1/incidentsRaw', incidentRawRoutes);
 app.use('/api/v1/auth', userRoutes);
 app.listen(PORT, () => console.log("It's alive on http://localhost:" + PORT));
 connectWithRetry();

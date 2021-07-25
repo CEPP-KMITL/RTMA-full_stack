@@ -1,5 +1,5 @@
 from TwintClass import TwintSearch
-API_ENDPOINT = "http://pastebin.com/api/api_post.php"
+API_ENDPOINT = "http://localhost:8000/api/v1/incidentsRaw/postIncident"
 username_target = ["GMMTV","js100radio"]
 search_string = []
 
