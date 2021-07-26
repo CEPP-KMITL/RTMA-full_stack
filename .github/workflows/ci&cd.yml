@@ -187,6 +187,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
+          file: ./docker-compose.yml
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rtma_fullstack:latest
