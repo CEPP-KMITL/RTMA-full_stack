@@ -34,11 +34,11 @@ services:
     image: redis
     container_name: redis
 
-  quasar:
-    build: .
-    ports:
-      - '8080:8080'
-    container_name: quasar
+  # quasar:
+  #   build: .
+  #   ports:
+  #     - '8080:8080'
+  #   container_name: quasar
 
   filter:
     build: .

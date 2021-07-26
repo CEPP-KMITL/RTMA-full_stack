@@ -5,6 +5,7 @@ services:
       - '80:80'
   node-app:
     build:
+      dockerfile: Dockerfile
       context: ./backend
       args:
         NODE_ENV: production
@@ -18,3 +19,11 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+  filter:
+    build:
+      dockerfile: Dockerfile
+      context: ./filter
+  twint:
+    build:
+      dockerfile: Dockerfile
+      context: ./twint
