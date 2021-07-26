@@ -145,6 +145,7 @@ jobs:
 
   build_backend-app:
     runs-on: ubuntu-latest
+    needs: npm_test_node-app
     env:
       working-directory: ./backend
     steps:
