@@ -12,43 +12,16 @@ function ObjectLength(object: Array<object>) {
 }
 
 export const createIncident: RequestHandler = async (req, res, next) => {
-  if (req.body.title == undefined){
-    res.status(400).json({
-      message: 'Fail to create incident'
+  try {
+    const newIncident = await Incident.create(req.body);
+    res.status(201).json({
+      message: 'Create incident successfully.',
+      createdIncident: newIncident,
     });
-  }
-  else if (req.body.information == undefined){
+  } catch (e) {
     res.status(400).json({
-      message: 'Fail to create incident'
+      message: 'Fail to create incident' + ' : ' + e,
     });
-  }
-  else if (req.body.type == undefined){
-    res.status(400).json({
-      message: 'Fail to create incident'
-    });
-  }
-  else if (req.body.source == undefined){
-    res.status(400).json({
-      message: 'Fail to create incident'
-    });
-  }
-  else if (req.body.location == undefined){
-    res.status(400).json({
-      message: 'Fail to create incident'
-    });
-  }
-  else{
-    try {
-      const newIncident = await Incident.create(req.body);
-      res.status(201).json({
-        message: 'Create incident successfully.',
-        createdIncident: newIncident,
-      });
-    } catch (e) {
-      res.status(400).json({
-        message: 'Fail to create incident' + ' : ' + e,
-      });
-    }
   }
 };
 
