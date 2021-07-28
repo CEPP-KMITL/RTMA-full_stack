@@ -1,4 +1,4 @@
-import pandas as pd             #?-----
+# import pandas as pd             #?-----
 from datetime import date
 from datetime import datetime
 import json                     #?-----
@@ -19,12 +19,12 @@ newData = []
 targetJson = {}
 
 # * --------------- open file ---------------------
-df = pd.read_csv(r"C:\Users\ADMIN\Desktop\RTMA\\testData.csv", encoding="cp874")
-print(df)
+# df = pd.read_csv(r"C:\Users\ADMIN\Desktop\RTMA\\testData.csv", encoding="cp874")
+# print(df)
 
 # with open('news.json', encoding='utf-8') as f:
 #     data = json.loads(f.read())
-  
+
 
 #! ต่างจากไทยรัฐเพราะไม่ระบุวันในข่าวระบุแต่เวลา
 def getDateTime(sentence,dotIndex):
@@ -34,16 +34,27 @@ def getDateTime(sentence,dotIndex):
     day = today.strftime("%d")
     month = today.strftime("%m")
     year = today.strftime("%Y")
-    timeStr = day+"/"+month+"/"+year+" "+hour+":"+minute
-    time = datetime.strptime(timeStr,"%d/%m/%Y %H:%M")
-    return time
+
+    try:
+        timeStr = year+"-"+month+"-"+day+" "+hour+":"+minute+":00"
+        # timeStr = day+"/"+month+"/"+year+" "+hour+":"+minute
+        print("time->" ,timeStr)
+        # print("->",timeStr)
+        LocalTime = datetime.strptime(timeStr,"%Y-%m-%d %H:%M:%S")
+        EpochSecond = mktime(LocalTime.timetuple())
+        utcTime = datetime.utcfromtimestamp(EpochSecond).isoformat()
+
+        return utcTime
+    except:
+        return "not found"
+
 
 def findTimeInText(text):
     time ="ไม่ระบุ"
     sentences = text.split(" ")
     for sentence in sentences:
-        dotCheck = sentence.find(timeformat[0]) 
-        colonCheck = sentence.find(timeformat[1]) 
+        dotCheck = sentence.find(timeformat[0])
+        colonCheck = sentence.find(timeformat[1])
         sizeOfSentence = len(sentence)
         if time =="ไม่ระบุ" and dotCheck!= -1 and dotCheck+1<sizeOfSentence and sentence[dotCheck+1] in number and sentence[dotCheck-1] in number:
             time = getDateTime(sentence,dotCheck)
@@ -76,19 +87,19 @@ def checkPlaceStopKeyword(sentence):
 #! ใช้ไม่ได้เวลาที่มาจาก ["date"] ไม่ใช่เวลาเกิดเหตุแต่เป็นเวลาลงข่าว
 def getDateTimeThairuth(sentences):
     sentence = sentences.split(" ")
-    
-    colonCheck = sentence[3].find(":") 
+
+    colonCheck = sentence[3].find(":")
     hour = sentence[3][colonCheck-2:colonCheck]
     minute = sentence[3][colonCheck+1:colonCheck+3]
-    
+
     day = sentence[0]
     month = str(allMonth.index(sentence[1])+1)
     year = str(int(sentence[2])-543)
-   
+
     timeStr = day+"/"+month+"/"+year+" "+hour+":"+minute
     time = datetime.strptime(timeStr,"%d/%m/%Y %H:%M")
     return time
-    
+
 def getDateAndTimeThairuth(text):
 
     #! ใช้วันเวลาอันแรกที่มีในข่าว
@@ -99,20 +110,32 @@ def getDateAndTimeThairuth(text):
 
     for index in range (len(sentences)):
         if sentences[index].find("เมื่อเวลา")!= -1 and minute =="00" and hour=="00":
-            dotCheck = sentences[index+1].find(".") 
+            dotCheck = sentences[index+1].find(".")
             hour = sentences[index+1][dotCheck-2:dotCheck]
             minute = sentences[index+1][dotCheck+1:dotCheck+3]
-        
+
         if sentences[index].find("วันที่")!= -1 and year=="1000":
             day = sentences[index+1]
-            month = str(allMonth.index(sentences[index+2][:5])+1)
+            month = allMonth.index(sentences[index+2][:5])+1
+            if month<10:
+                month = "0"+str(month)
+            else:
+                month = str(month)
             today = date.today()
             year = today.strftime("%Y")
-         
-    timeStr = day+"/"+month+"/"+year+" "+hour+":"+minute
-    # print("->",timeStr)
-    time = datetime.strptime(timeStr,"%d/%m/%Y %H:%M")
-    return time
+
+    try:
+        timeStr = year+"-"+month+"-"+day+" "+hour+":"+minute+":00"
+        # timeStr = day+"/"+month+"/"+year+" "+hour+":"+minute
+        print("time->" ,timeStr)
+        # print("->",timeStr)
+        LocalTime = datetime.strptime(timeStr,"%Y-%m-%d %H:%M:%S")
+        EpochSecond = mktime(LocalTime.timetuple())
+        utcTime = datetime.utcfromtimestamp(EpochSecond).isoformat()
+
+        return utcTime
+    except:
+        return "not found"
 
 def getplace(text):
     place="ไม่ระบุ"
@@ -126,28 +149,30 @@ def getplace(text):
             # print("start")
             placeIsStart = True
             place=""
-            
+
         elif placeIsStart and checkPlaceStopKeyword(sentence):
             # print("stop")
             placeIsStart = False
             placeIsEnd = True
-        
+
         if placeIsStart:
             # print("continue")
             place+=sentence
         # if place!="ไม่ระบุ":
-            
-    # print("---> สถานที่เกิดเหตุคือ",place)
 
+    print("---> สถานที่เกิดเหตุคือ",place)
+
+    countRequestFail = 0
     status = "REQUEST_DENIED"
-    while status == "REQUEST_DENIED":
+    while status == "REQUEST_DENIED" and countRequestFail <3:
         url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + urllib.parse.quote(place) +'&key=AIzaSyDVCjXv1DAZgVwRCTkq3kNsrP-xhU4LVKs'
         response = requests.get(url)
         resp_json_payload = response.json()
         status = resp_json_payload['status']
         # print(resp_json_payload)
         # resp_json_payload['results'][0]['formatted_address']
-   
+        countRequestFail+=1
+
     try:
         return [resp_json_payload['results'][0]['geometry']['location'],place,resp_json_payload['results'][0]]
     except:
@@ -158,77 +183,106 @@ def rad(x):
 
 def getDistance(p1, p2) :
     R = 6378137
-    dLat = rad(p2['lat'] - p1['lat'])
-    dLong = rad(p2['lng'] - p1['lng'])
-    a = math.sin(dLat / 2) * math.sin(dLat / 2) + math.cos(rad(p1['lat'])) * math.cos(rad(p2['lat'])) * math.sin(dLong / 2) * math.sin(dLong / 2);
+    dLat = rad(p2['Latitude'] - p1['Latitude'])
+    dLong = rad(p2['Longitude'] - p1['Longitude'])
+    a = math.sin(dLat / 2) * math.sin(dLat / 2) + math.cos(rad(p1['Latitude'])) * math.cos(rad(p2['Latitude'])) * math.sin(dLong / 2) * math.sin(dLong / 2);
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
     d = R * c
-    return d 
+    return d
 
-def isDuplicate(location,time):
-    for i in allPlace:
-        # print("DEBUG!!:",getDistance(location,i))
-        if getDistance(location,i)<200:
-            for t in i['time']:
-                timeDelta = t-time
-                totalSeconds = timeDelta.total_seconds()
-                if totalSeconds < 3600:
-                    return "same"
-            return allPlace.index(i)
-    return "different"
-    
+# def isDuplicate(location,time):
+#     for i in allPlace:
+#         # print("DEBUG!!:",getDistance(location,i))
+#         if getDistance(location,i)<100:
+#             for t in i['time']:
+#                 timeDelta = t-time
+#                 totalSeconds = timeDelta.total_seconds()
+#                 if totalSeconds < 3600:
+#                     return "same"
+#             return allPlace.index(i)
+#     return "different"
+
+def getData():
+    url = 'http://localhost:8000/api/v1/incidentsRaw/getAllIncidents'
+    response = requests.get(url)
+    resp_json_payload = response.json()
+    print(resp_json_payload)
+
+def postTargetobj(myobj):
+    url = 'https://www.w3schools.com/python/demopage.php'
+
+    x = requests.post(url, data = myobj)
+
+    print(x.text)
+
+getData()
+
 #? ---------------------- twitter loop ----------------------------
 
-for i, row in df.iterrows():
-    print(">>",i,row['text'])
-    print("---------------------------")
-    
-    time = findTimeInText(row['text'])
-    location,nonformatAddress,targetJson = getplace(row['text'])
+# for i, row in df.iterrows():
+#     print(">>",i,row['text'])
+#     print("---------------------------")
 
-    print("\n---> เวลาเกิดเหตุคือ",time)
-    print("---> สถานที่เกิดเหตุคือ",nonformatAddress)
-    print("===========================\n\n")
-   
+#     time = findTimeInText(row['text'])
+#     location,nonformatAddress,targetJson = getplace(row['text'])
+
+#     print("\n---> เวลาเกิดเหตุคือ",time)
+#     print("---> สถานที่เกิดเหตุคือ",nonformatAddress)
+#     print("===========================\n\n")
+
 #? ---------------------- thairath loop ----------------------------
 
 # for i in data['data']:
-    
-#     # # print(i["date"])
-#     #! print(getDateTimeThairuth(i["date"]))
-    
-#     location,nonformatAddress,targetJson = getplace(i["body"])
 
-    if location != "notFound":
-        # time = getDateAndTimeThairuth(i["body"])
-        isDup = isDuplicate(location, time)
-    
-        if isDup == "different":
-            obj = copy.copy(location)
-            obj['time'] = [time]
-            # print("->",targetJson)
-            obj['formatter_address'] = targetJson['formatted_address']
-            allPlace.append(obj)
-            newData.append(targetJson)
-        elif isDup != "same":
-            allPlace[isDup]['time'].append(time)
-            newData.append(targetJson)
+    # print(i)
+
+    # location,nonformatAddress,targetJson = getplace(i["body"])
+    # time = getDateAndTimeThairuth(i["body"])
+
+    # if location != "notFound" and time != "notFound":
+    #     # isDup = isDuplicate(location, time)
 
 
-        print(location,nonformatAddress)
-        print(time)
-        print(isDup)
+    #     # if isDup == "different":
+    #     obj = {}
+    #     # obj['type'] =
+    #     obj['formatted_address'] = targetJson['formatted_address']
+    #     # obj['content'] = i
+    #     # obj['link'] =
+    #     obj['date'] = time
+    #     # obj['image'] =
+    #     # obj['from'] =
+    #     obj['Latitude'] = copy.copy(location['lat'])
+    #     obj['Longitude'] = copy.copy(location['lng'])
+    #     # print("->",targetJson)
 
-        
-        print(allPlace[-1])
-        # print(allPlace)
-        print("\n\n")
-    
-    else:
-        print(targetJson)
+    #     allPlace.append(obj)
+    #     newData.append(targetJson)
+    #     # elif isDup != "same":
+    #     #     allPlace[isDup]['time'].append(time)
+    #     #     newData.append(targetJson)
+
+
+    #     print(location,nonformatAddress)
+    #     print(time)
+    #     # print(isDup)
+
+
+    #     print(allPlace[-1])
+    #     # print(allPlace)
+    #     print("\n\n")
+
+
+    # else:
+    #     print(targetJson)
+    #     print("\n\n")
 
 
 # f.close()
+
+
+
+
 
 
 
@@ -247,21 +301,21 @@ for i, row in df.iterrows():
 # print(resp_json_payload)
 
 # {'results': [{'address_components': [{'long_name': 'Thanon King Kaeo', 'short_name': 'Thanon King Kaeo', 'types': ['route']},
-#                                      {'long_name': 'Thailand', 'short_name': 'TH', 'types': ['country', 'political']}], 
-#  *             'formatted_address': 'Thanon King Kaeo, Thailand', 
-#               'geometry': {'bounds': {'northeast': {'lat': 13.7256722, 'lng': 100.7436084}, 'southwest': {'lat': 13.6341051, 'lng': 100.7083777}}, 
-#  *                          'location': {'lat': 13.6792373, 'lng': 100.7237136}, 
-#                            'location_type': 'GEOMETRIC_CENTER', 
-#                            'viewport': {'northeast': {'lat': 13.7256722, 'lng': 100.7436084}, 
+#                                      {'long_name': 'Thailand', 'short_name': 'TH', 'types': ['country', 'political']}],
+#  *             'formatted_address': 'Thanon King Kaeo, Thailand',
+#               'geometry': {'bounds': {'northeast': {'lat': 13.7256722, 'lng': 100.7436084}, 'southwest': {'lat': 13.6341051, 'lng': 100.7083777}},
+#  *                          'location': {'lat': 13.6792373, 'lng': 100.7237136},
+#                            'location_type': 'GEOMETRIC_CENTER',
+#                            'viewport': {'northeast': {'lat': 13.7256722, 'lng': 100.7436084},
 #                                         'southwest': {'lat': 13.6341051, 'lng': 100.7083777}}},
 #              'place_id': 'ChIJQUrlxvVdHTERXbf8jMehXUc', 'types': ['route']
 #              }
-#              ], 
+#              ],
 # ! 'status': 'OK'}
 
 # {'results': [{'address_components': [{'long_name': 'ทางหลวงพิเศษห
 # มายเลข 7', 'short_name': 'ทางหลวงพิเศษหมายเลข 7', 'types': ['rout
 # e']}, {'long_name': 'Thailand', 'short_name': 'TH', 'types': ['country', 'political']}], 'formatted_address': 'ทางหลวงพิเศษหมายเลข
-#  7 Thailand', 'geometry': {'bounds': {'northeast': {'lat': 13.7536743, 'lng': 101.1390878}, 'southwest': {'lat': 12.6850689, 'lng': 100.6196553}}, 'location': {'lat': 13.3374549, 'lng': 101.0232797}, 'location_type': 'GEOMETRIC_CENTER', 'viewport': {'northeast': {'lat': 13.7484856, 'lng': 101.4343104}, 'southwest': {'lat': 
+#  7 Thailand', 'geometry': {'bounds': {'northeast': {'lat': 13.7536743, 'lng': 101.1390878}, 'southwest': {'lat': 12.6850689, 'lng': 100.6196553}}, 'location': {'lat': 13.3374549, 'lng': 101.0232797}, 'location_type': 'GEOMETRIC_CENTER', 'viewport': {'northeast': {'lat': 13.7484856, 'lng': 101.4343104}, 'southwest': {'lat':
 # 12.9264242, 'lng': 100.612249}}}, 'partial_match': True, 'place_id': 'ChIJvU0S_8dhHTERZOd6c0sZIs4', 'types': ['route']}], 'status': 'OK'}
 # บนถนนมอเตอร์เวย์กม.ที่47+600ขาเข้าชลบุรีหมู่5ต.รทุกถังบรรจุปูนผง
