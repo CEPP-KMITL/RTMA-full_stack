@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.deleteIncident = exports.updateIncident = exports.getIncident = exports.getAllIncidents = exports.createIncident = void 0;
-var incidentModel_1 = require("../models/incidentModel");
+var incidentRawModel_1 = require("../models/incidentRawModel");
 function ObjectLength(object) {
     var length = 0;
     for (var key in object) {
@@ -48,82 +48,108 @@ function ObjectLength(object) {
     return length;
 }
 var createIncident = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var newIncident, e_1;
+    var from, search_keyword, id, date, body, link, type, create_at, newIncident, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                if (!(req.body.title == undefined)) return [3 /*break*/, 1];
-                res.status(400).json({
-                    message: 'Fail to create incident'
-                });
-                return [3 /*break*/, 8];
+                create_at = new Date();
+                if (req.body.from != undefined) {
+                    from = req.body.from;
+                    search_keyword = req.body.search_keyword;
+                    id = req.body.body.id;
+                    date = req.body.body.date + req.body.body.time;
+                    body = req.body.body.tweet;
+                    link = req.body.body.link;
+                    create_at = new Date();
+                    if (req.body.search_keyword.includes('ชน')) {
+                        type = 'รถชน';
+                    }
+                    else if (req.body.search_keyword.includes('ไหม้')) {
+                        type = 'ไฟไหม้';
+                    }
+                    else {
+                        type = 'อุบัติเหตุอื่นๆ';
+                    }
+                }
+                else {
+                    from = 'ไทยรัฐ';
+                    search_keyword = req.body.metaScrape.description;
+                    id = req.body.metaScrape.title;
+                    date = req.body.deepScrape.date;
+                    body = req.body.deepScrape.body;
+                    link = req.body.metaScrape.url;
+                    create_at = new Date();
+                    if (req.body.deepScrape.body.includes('ชน')) {
+                        type = 'รถชน';
+                    }
+                    else if (req.body.deepScrape.body.includes('ไหม้')) {
+                        type = 'ไฟไหม้';
+                    }
+                    else {
+                        type = 'อุบัติเหตุอื่นๆ';
+                    }
+                }
+                _a.label = 1;
             case 1:
-                if (!(req.body.information == undefined)) return [3 /*break*/, 2];
-                res.status(400).json({
-                    message: 'Fail to create incident'
-                });
-                return [3 /*break*/, 8];
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, incidentRawModel_1.IncidentRaw.create({
+                        from: from,
+                        search_keyword: search_keyword,
+                        id: id,
+                        date: date,
+                        body: body,
+                        link: link,
+                        type: type,
+                        check: false,
+                        create_at: create_at
+                    })];
             case 2:
-                if (!(req.body.type == undefined)) return [3 /*break*/, 3];
-                res.status(400).json({
-                    message: 'Fail to create incident'
-                });
-                return [3 /*break*/, 8];
-            case 3:
-                if (!(req.body.source == undefined)) return [3 /*break*/, 4];
-                res.status(400).json({
-                    message: 'Fail to create incident'
-                });
-                return [3 /*break*/, 8];
-            case 4:
-                if (!(req.body.location == undefined)) return [3 /*break*/, 5];
-                res.status(400).json({
-                    message: 'Fail to create incident'
-                });
-                return [3 /*break*/, 8];
-            case 5:
-                _a.trys.push([5, 7, , 8]);
-                return [4 /*yield*/, incidentModel_1.Incident.create(req.body)];
-            case 6:
                 newIncident = _a.sent();
                 res.status(201).json({
                     message: 'Create incident successfully.',
                     createdIncident: newIncident
                 });
-                return [3 /*break*/, 8];
-            case 7:
+                return [3 /*break*/, 4];
+            case 3:
                 e_1 = _a.sent();
                 res.status(400).json({
                     message: 'Fail to create incident' + ' : ' + e_1
                 });
-                return [3 /*break*/, 8];
-            case 8: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
 exports.createIncident = createIncident;
 var getAllIncidents = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var allIncidents, e_2;
+    var allIncidents, incidentIdList, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, incidentModel_1.Incident.find()];
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, incidentRawModel_1.IncidentRaw.find({ check: false })];
             case 1:
                 allIncidents = _a.sent();
+                incidentIdList = allIncidents.map(function (e) { return e._id; });
+                console.log(incidentIdList);
+                return [4 /*yield*/, Promise.all(incidentIdList.map(function (element) {
+                        return incidentRawModel_1.IncidentRaw.findByIdAndUpdate(String(element), { check: true });
+                    }))];
+            case 2:
+                _a.sent();
                 res.status(201).json({
                     message: 'Get all current incidents successfully.',
                     results: ObjectLength(allIncidents),
                     getIncidents: allIncidents
                 });
-                return [3 /*break*/, 3];
-            case 2:
+                return [3 /*break*/, 4];
+            case 3:
                 e_2 = _a.sent();
                 res.status(400).json({
                     message: 'Fail to get all current incidents ' + ' : ' + e_2
                 });
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
@@ -134,7 +160,7 @@ var getIncident = function (req, res, next) { return __awaiter(void 0, void 0, v
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, incidentModel_1.Incident.findById(req.params.id)];
+                return [4 /*yield*/, incidentRawModel_1.IncidentRaw.findById(req.params.id)];
             case 1:
                 targetIncident = _a.sent();
                 res.status(201).json({
@@ -158,52 +184,22 @@ var updateIncident = function (req, res, next) { return __awaiter(void 0, void 0
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                if (!(req.body.title == undefined)) return [3 /*break*/, 1];
-                res.status(400).json({
-                    message: 'Fail to create incident'
-                });
-                return [3 /*break*/, 8];
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, incidentRawModel_1.IncidentRaw.findByIdAndUpdate(req.params.id, req.body, { "new": true, runValidators: true })];
             case 1:
-                if (!(req.body.information == undefined)) return [3 /*break*/, 2];
-                res.status(400).json({
-                    message: 'Fail to create incident'
-                });
-                return [3 /*break*/, 8];
-            case 2:
-                if (!(req.body.type == undefined)) return [3 /*break*/, 3];
-                res.status(400).json({
-                    message: 'Fail to create incident'
-                });
-                return [3 /*break*/, 8];
-            case 3:
-                if (!(req.body.source == undefined)) return [3 /*break*/, 4];
-                res.status(400).json({
-                    message: 'Fail to create incident'
-                });
-                return [3 /*break*/, 8];
-            case 4:
-                if (!(req.body.location == undefined)) return [3 /*break*/, 5];
-                res.status(400).json({
-                    message: 'Fail to create incident'
-                });
-                return [3 /*break*/, 8];
-            case 5:
-                _a.trys.push([5, 7, , 8]);
-                return [4 /*yield*/, incidentModel_1.Incident.findByIdAndUpdate(req.params.id, req.body, { "new": true, runValidators: true })];
-            case 6:
                 targetIncident = _a.sent();
                 res.status(201).json({
                     message: 'Update the incident successfully.',
                     updateTarget: targetIncident
                 });
-                return [3 /*break*/, 8];
-            case 7:
+                return [3 /*break*/, 3];
+            case 2:
                 e_4 = _a.sent();
                 res.status(400).json({
                     message: 'Fail to update the incident' + ' : ' + e_4
                 });
-                return [3 /*break*/, 8];
-            case 8: return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
@@ -214,7 +210,7 @@ var deleteIncident = function (req, res, next) { return __awaiter(void 0, void 0
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, incidentModel_1.Incident.findByIdAndDelete(req.params.id)];
+                return [4 /*yield*/, incidentRawModel_1.IncidentRaw.findByIdAndDelete(req.params.id)];
             case 1:
                 targetIncident = _a.sent();
                 res.status(201).json({

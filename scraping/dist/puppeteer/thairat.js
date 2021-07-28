@@ -58,7 +58,6 @@ function extractLink(rawHTML) {
         }
     }
     newList.splice(0, 1);
-    console.log(newList);
     return newList;
 }
 var AdblockerPlugin = require('puppeteer-extra-plugin-adblocker');

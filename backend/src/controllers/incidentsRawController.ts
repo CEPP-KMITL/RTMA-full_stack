@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express';
-import { date, number } from 'joi';
 import { IncidentRaw } from '../models/incidentRawModel';
 
 function ObjectLength(object: Array<object>) {
@@ -13,48 +12,43 @@ function ObjectLength(object: Array<object>) {
 }
 
 export const createIncident: RequestHandler = async (req, res, next) => {
-  var from
-  var search_keyword
-  var id
-  var date
-  var body
-  var link
-  var type 
-  var create_at = new Date()
-  if(req.body.from != undefined){
-    from = req.body.from
-    search_keyword = req.body.search_keyword
-    id = req.body.body.id
-    date = req.body.body.date+req.body.body.time
-    body = req.body.body.tweet
-    link = req.body.body.link
-    create_at = new Date()
-    if(req.body.search_keyword.includes('ชน')){
-      type = "รถชน"
+  var from;
+  var search_keyword;
+  var id;
+  var date;
+  var body;
+  var link;
+  var type;
+  var create_at = new Date();
+  if (req.body.from != undefined) {
+    from = req.body.from;
+    search_keyword = req.body.search_keyword;
+    id = req.body.body.id;
+    date = req.body.body.date + req.body.body.time;
+    body = req.body.body.tweet;
+    link = req.body.body.link;
+    create_at = new Date();
+    if (req.body.search_keyword.includes('ชน')) {
+      type = 'รถชน';
+    } else if (req.body.search_keyword.includes('ไหม้')) {
+      type = 'ไฟไหม้';
+    } else {
+      type = 'อุบัติเหตุอื่นๆ';
     }
-    else if(req.body.search_keyword.includes('ไหม้')){
-      type = "ไฟไหม้"
-    }
-    else{
-      type = "อุบัติเหตุอื่นๆ"
-    }
-  }
-  else{
-    from = "ไทยรัฐ"
-    search_keyword = req.body.metaScrape.description
-    id = req.body.metaScrape.title
-    date = req.body.deepScrape.date
-    body = req.body.deepScrape.body
-    link = req.body.metaScrape.url
-    create_at = new Date()
-    if(req.body.deepScrape.body.includes('ชน')){
-      type = "รถชน"
-    }
-    else if(req.body.deepScrape.body.includes('ไหม้')){
-      type = "ไฟไหม้"
-    }
-    else{
-      type = "อุบัติเหตุอื่นๆ"
+  } else {
+    from = 'ไทยรัฐ';
+    search_keyword = req.body.metaScrape.description;
+    id = req.body.metaScrape.title;
+    date = req.body.deepScrape.date;
+    body = req.body.deepScrape.body;
+    link = req.body.metaScrape.url;
+    create_at = new Date();
+    if (req.body.deepScrape.body.includes('ชน')) {
+      type = 'รถชน';
+    } else if (req.body.deepScrape.body.includes('ไหม้')) {
+      type = 'ไฟไหม้';
+    } else {
+      type = 'อุบัติเหตุอื่นๆ';
     }
   }
   try {
@@ -66,7 +60,7 @@ export const createIncident: RequestHandler = async (req, res, next) => {
       body,
       link,
       type,
-      check:false,
+      check: false,
       create_at,
     });
     res.status(201).json({
@@ -82,15 +76,14 @@ export const createIncident: RequestHandler = async (req, res, next) => {
 
 export const getAllIncidents: RequestHandler = async (req, res, next) => {
   try {
-    const allIncidents = await IncidentRaw.find({check:false})
-    const incidentIdList = allIncidents.map((e : any)=>e._id)
-    console.log(incidentIdList)
-    await Promise.all(incidentIdList.map((element : any )=> 
-      IncidentRaw.findByIdAndUpdate(
-        String(element),
-        {check:true}
-      )
-    ))
+    const allIncidents = await IncidentRaw.find({ check: false });
+    const incidentIdList = allIncidents.map((e: any) => e._id);
+    console.log(incidentIdList);
+    await Promise.all(
+      incidentIdList.map((element: any) =>
+        IncidentRaw.findByIdAndUpdate(String(element), { check: true }),
+      ),
+    );
     res.status(201).json({
       message: 'Get all current incidents successfully.',
       results: ObjectLength(allIncidents),
@@ -122,7 +115,7 @@ export const updateIncident: RequestHandler = async (req, res, next) => {
     const targetIncident = await IncidentRaw.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
     res.status(201).json({
       message: 'Update the incident successfully.',

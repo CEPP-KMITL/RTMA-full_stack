@@ -1,0 +1,12 @@
+"use strict";
+exports.__esModule = true;
+var express_1 = require("express");
+var incidentsRawController_1 = require("../controllers/incidentsRawController");
+var authProtect = require('../middleware/authMiddleware');
+var router = express_1.Router();
+router.route('/patchIncident/:id').patch(authProtect, incidentsRawController_1.updateIncident);
+router.route('/deleteIncident/:id')["delete"](authProtect, incidentsRawController_1.deleteIncident);
+router.route('/postIncident').post(authProtect, incidentsRawController_1.createIncident);
+router.get('/getAllIncidents', incidentsRawController_1.getAllIncidents);
+router.get('/getIncident/:id', incidentsRawController_1.getIncident);
+exports["default"] = router;

@@ -8,6 +8,7 @@ var mongoose_1 = __importDefault(require("mongoose"));
 var body_parser_1 = require("body-parser");
 var config_1 = require("./config/config");
 var incidentsRoute_1 = __importDefault(require("./routes/incidentsRoute"));
+var incidentsRawRoute_1 = __importDefault(require("./routes/incidentsRawRoute"));
 var userRoute_1 = __importDefault(require("./routes/userRoute"));
 var redis = require('redis');
 var session = require('express-session');
@@ -63,6 +64,7 @@ app.use(function (err, req, res, next) {
     });
 });
 app.use('/api/v1/incidents', incidentsRoute_1["default"]);
+app.use('/api/v1/incidentsRaw', incidentsRawRoute_1["default"]);
 app.use('/api/v1/auth', userRoute_1["default"]);
 app.listen(PORT, function () { return console.log("It's alive on http://localhost:" + PORT); });
 connectWithRetry();
