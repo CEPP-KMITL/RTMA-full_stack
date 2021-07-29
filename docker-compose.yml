@@ -44,12 +44,16 @@ services:
     ports:
       - '5000:5000'
     container_name: filter
+    depends_on:
+      - node-app
 
   twint:
     build: .
     ports:
       - '6000:6000'
     container_name: twint
+    depends_on:
+      - node-app
 
 volumes:
   mongo-db:

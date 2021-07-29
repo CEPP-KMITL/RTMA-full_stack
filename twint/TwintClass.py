@@ -47,14 +47,14 @@ class TwintSearch:
                   twint_priority: int, since_time: str):
         round_identifier = round_identifier + 1
         new_since_time = self.format_twint_time_now(self)
-        # print("Next Search Will Be Conduct From : " + new_since_time)
-        # sched_object.enter(self.__delay, twint_priority, self.run_twint,
-        #                    (sched_object, round_identifier, username_target,
-        #                     search_string, twint_priority, new_since_time,))
-        # print("Twint Schedule Number : " + str(round_identifier) + " - " + "Search Since : " + str(
-        #     since_time) + " - " + "Search For : " + str(search_string) + " - " + "From : " + str(
-        #     username_target) + " - " + "With Priority : " + str(
-        #     twint_priority))
+        print("Next Search Will Be Conduct From : " + new_since_time)
+        sched_object.enter(self.__delay, twint_priority, self.run_twint,
+                           (sched_object, round_identifier, username_target,
+                            search_string, twint_priority, new_since_time,))
+        print("Twint Schedule Number : " + str(round_identifier) + " - " + "Search Since : " + str(
+            since_time) + " - " + "Search For : " + str(search_string) + " - " + "From : " + str(
+            username_target) + " - " + "With Priority : " + str(
+            twint_priority))
         self.search_twint(username_target, search_string, str(
             username_target) + ".json", since_time)
         self.process_file(str(username_target), str(search_string))
@@ -79,16 +79,16 @@ class TwintSearch:
         full_file_name = target_file_name + ".json"
         process_file_name = target_file_name + "_processing.json"
         if not path.exists(process_file_name):
-            # print(
-            #     "Cannot Detect Processing File, Trying To Looking For Raw File : " + process_file_name)
+            print(
+                "Cannot Detect Processing File, Trying To Looking For Raw File : " + process_file_name)
             if path.exists(full_file_name):
-                # print("Detect Raw File : " + full_file_name)
+                print("Detect Raw File : " + full_file_name)
                 os.rename(full_file_name, process_file_name)
-                # print("Change File Name To Processing : " + process_file_name)
-            # else:
-                # print("Cannot Detect Raw File, Skip Processing : " + full_file_name)
+                print("Change File Name To Processing : " + process_file_name)
+            else:
+                print("Cannot Detect Raw File, Skip Processing : " + full_file_name)
         if path.exists(process_file_name):
-            # print("Detect Processing File, Start Processing : " + process_file_name)
+            print("Detect Processing File, Start Processing : " + process_file_name)
             extract_data = []
             with open(process_file_name, encoding="utf8") as process_file:
                 for line in process_file:
@@ -109,15 +109,15 @@ class TwintSearch:
                 dict_pack = username | search_keyword | body | packaging_timestamp
                 package_json = json.dumps(
                     dict_pack, ensure_ascii=False).encode('utf8')
-                # print("Package JSON = " + package_json.decode('utf8'))
+                print("Package JSON = " + package_json.decode('utf8'))
                 self.post_api(self.API_ENDPOINT, package_json)
             os.remove(process_file_name)
-            # print("Processing File Complete, Delete Processing File : " +
-                #   process_file_name)
+            print("Processing File Complete, Delete Processing File : " +
+                  process_file_name)
 
     def post_api(self, API_ENDPOINT: str, post_data):
         r = requests.post(url=API_ENDPOINT, data=post_data)
-        # print(r.text)
+        print(r.text)
 
     @staticmethod
     def split(word):
