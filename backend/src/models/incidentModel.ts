@@ -10,8 +10,23 @@ const incidentSchema = new mongoose.Schema({
   content: {
     type: String,
   },
-  create_at: {
-    type: Date,
+  link: {
+    type: String,
+  },
+  date: {
+    type: String,
+  },
+  image: {
+    type: String,
+  },
+  from: {
+    type: String,
+  },
+  latitude: {
+    type: Number,
+  },
+  longitude: {
+    type: Number,
   },
 });
 
