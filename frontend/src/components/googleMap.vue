@@ -81,11 +81,11 @@
           <span class="material-icons" style="margin-left: 60px">
             chevron_right
           </span>
-          <span style="margin-top: 8px; margin-left: 12px; margin-bottom: 7px"
+          <span style="margin-top: 8px; margin-left: 12px; margin-bottom: 7px" 
             ><button
               class="layerButton"
               :class="{ selected: layerSelected }"
-              @click="convertLayer()"
+              @click="convertLayer(),toggleScatter()"
             >
               <span
                 class="material-icons"
@@ -95,7 +95,7 @@
                   margin-right: 8px;
                   color: #222831;
                 "
-                @click="toggleScatter"
+                
               >
                 fmd_good
               </span>
@@ -105,7 +105,7 @@
             ><button
               class="layerButton"
               :class="{ selected: layerSelected }"
-              @click="convertLayer()"
+              @click="convertLayer(),toggleHeat()"
             >
               <span
                 class="material-icons"
@@ -192,6 +192,22 @@ export default defineComponent({
       isSelected: false,
       layerSelected: false,
       searched_location: '',
+      coords: useGeolocation(),
+      currPos: computed(() => ({
+        lat: coords.value.latitude,
+        lng: coords.value.longitude,
+      })),
+      sourceData: './gundata.json',
+      myMap : null,
+      loader: new Loader({
+        apiKey: GOOGLE_MAPS_API_KEY,
+        libraries: ['places'],
+        // myMap: null,
+        // overlay: null,
+        // scatterplot: null,
+      }),
+      scatterStatus: false,
+      heatStatus: false,
     };
   },
   methods: {
@@ -206,39 +222,58 @@ export default defineComponent({
     convertLayer() {
       return (this.layerSelected = !this.layerSelected);
     },
-  },
-  setup() {
-    const { coords } = useGeolocation();
-    const currPos = computed(() => ({
-      lat: coords.value.latitude,
-      lng: coords.value.longitude,
-    }));
-
-    const sourceData = './gundata.json';
-    const state = reactive({
-        scatterVisible: true
-    });
-    const toggleScatter = () => {
-        state.scatterVisible = !state.scatterVisible;
-    }
-
-    const loader = new Loader({
-      apiKey: GOOGLE_MAPS_API_KEY,
-      libraries: ['places'],
-    });
-    var myMap = null;
-    onMounted(async () => {
-      await loader.load();
-      myMap = new google.maps.Map(document.getElementById('myMap'), {
+    toggleScatter() {
+        this.scatterStatus = !this.scatterStatus;
+        // console.warn(this.scatterStatus);
+        this.initMap();
+    },
+    toggleHeat() {
+        this.heatStatus = !this.heatStatus;
+        // console.warn(this.scatterStatus);
+        this.initMap();
+    },
+    renderLayer(){
+        const scatterplot = () =>
+        new ScatterplotLayer({
+          id: 'scatter',
+          data: this.sourceData,
+          opacity: 0.8,
+          filled: true,
+          radiusMinPixels: 2,
+          radiusMaxPixels: 5,
+          getPosition: (d) => [d.longitude, d.latitude],
+          getFillColor: (d) =>
+            d.n_killed > 0 ? [200, 0, 40, 150] : [255, 140, 0, 100],
+          visible: this.scatterStatus,
+        });
+        
+      const heatmap = () =>
+        new HeatmapLayer({
+          id: 'heat',
+          data: this.sourceData,
+          getPosition: (d) => [d.longitude, d.latitude],
+          getWeight: (d) => d.n_killed + d.n_injured * 0.5,
+          radiusPixel: 60,
+          visible: this.heatStatus,
+        });
+      const overlay = new GoogleMapsOverlay({
+        layers: [heatmap(), scatterplot()],
+      });
+      overlay.setMap(this.myMap);
+      overlay.setProps();
+      console.warn('Hi from renderLayer() and scatterStatus is ' + this.scatterStatus);
+    },
+    async initMap() {
+      await this.loader.load();
+      this.myMap = new google.maps.Map(document.getElementById('myMap'), {
         center: { lat: 42.9855, lng: -85.6656 } /*bkk latlng = 13,100*/,
-        zoom: 9,
+        zoom: 7,
         streetViewControl: true,
         mapTypeControl: false,
         zoomControl: false,
         minZoom: 4,
         maxZoom: 15,
       });
-
       new google.maps.places.Autocomplete(
         document.getElementById('searchInput'),
         {
@@ -247,48 +282,25 @@ export default defineComponent({
           ),
         },
       );
-      const scatterplot = () =>
-        new ScatterplotLayer({
-          // new ScatterplotLayer({
-          id: 'scatter',
-          data: sourceData,
-          opacity: 0.8,
-          filled: true,
-          radiusMinPixels: 2,
-          radiusMaxPixels: 5,
-          getPosition: (d) => [d.longitude, d.latitude],
-          getFillColor: (d) =>
-            d.n_killed > 0 ? [200, 0, 40, 150] : [255, 140, 0, 100],
-        });
-
-      const heatmap = () =>
-        new HeatmapLayer({
-          id: 'heat',
-          data: sourceData,
-          getPosition: (d) => [d.longitude, d.latitude],
-          getWeight: (d) => d.n_killed + d.n_injured * 0.5,
-          radiusPixel: 60,
-        });
-
-      const hexagon = () =>
-        new HexagonLayer({
-          id: 'hex',
-          data: sourceData,
-          getPosition: (d) => [d.longitude, d.latitude],
-          getElevation: (d) => d.n_killed * 2 + d.n_injured,
-          elevationScale: 100,
-        });
-          const overlay = new GoogleMapsOverlay({
-        layers: [
-          scatterplot(),
-          heatmap(),
-          // hexagon(),
-        ],
-      });
-      overlay.setMap(myMap);
-    //   overlay.setProps({layer:[scatterplot(),heatmap()]});
-    });
-    return { currPos, myMap, state, toggleScatter};
+      this.renderLayer();
+    },
+  },
+  mounted() {
+    this.initMap();
   },
 });
 </script>
+
+const scatterplot = () => new ScatterplotLayer({ // new ScatterplotLayer({ id:
+'scatter', data: sourceData, opacity: 0.8, filled: true, radiusMinPixels: 2,
+radiusMaxPixels: 5, getPosition: (d) => [d.longitude, d.latitude], getFillColor:
+(d) => d.n_killed > 0 ? [200, 0, 40, 150] : [255, 140, 0, 100], }); // const
+heatmap = () => // new HeatmapLayer({ // id: 'heat', // data: sourceData, //
+getPosition: (d) => [d.longitude, d.latitude], // getWeight: (d) => d.n_killed +
+d.n_injured * 0.5, // radiusPixel: 60, // }); // const hexagon = () => // new
+HexagonLayer({ // id: 'hex', // data: sourceData, // getPosition: (d) =>
+[d.longitude, d.latitude], // getElevation: (d) => d.n_killed * 2 + d.n_injured,
+// elevationScale: 100, // }); // const overlay = new GoogleMapsOverlay({ //
+layers: [ // scatterplot(), // heatmap(), // // hexagon(), // ], // }); //
+overlay.setMap(myMap); // //
+overlay.setProps({layer:[scatterplot(),heatmap()]});

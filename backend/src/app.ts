@@ -67,5 +67,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 app.use('/api/v1/incidents', incidentRoutes);
 app.use('/api/v1/incidentsRaw', incidentRawRoutes);
 app.use('/api/v1/auth', userRoutes);
-app.listen(PORT, () => console.log("It's alive on http://localhost:" + PORT));
+app.listen(PORT, () =>
+  console.log(
+    "It's alive on http://localhost:" + PORT + ' (Internal Docker Network)',
+  ),
+);
 connectWithRetry();
