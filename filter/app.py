@@ -231,7 +231,7 @@ def postTargetobj(myobj):
     print(x.text)
 
 
-time.sleep(10)
+# time.sleep(10)
 getData()
 
 # ? ---------------------- twitter loop ----------------------------
