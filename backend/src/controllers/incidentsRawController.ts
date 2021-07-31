@@ -21,13 +21,13 @@ export const createIncident: RequestHandler = async (req, res, next) => {
   var link
   var type 
   var create_at = new Date()
-  if(req.body.from != undefined){
+  if(req.body.from == 'TWITTER'){
     from = req.body.from
     search_keyword = req.body.search_keyword
-    id = req.body.body.id
-    date = req.body.body.date+req.body.body.time
-    body = req.body.body.tweet
-    link = req.body.body.link
+    id = req.body.body.info.id
+    date = req.body.body.info.date+req.body.body.info.time
+    body = req.body.body.info.tweet
+    link = req.body.body.info.link
     create_at = new Date()
     if(req.body.search_keyword.includes('ชน')){
       type = "รถชน"
@@ -39,18 +39,18 @@ export const createIncident: RequestHandler = async (req, res, next) => {
       type = "อุบัติเหตุอื่นๆ"
     }
   }
-  else{
-    from = "ไทยรัฐ"
-    search_keyword = req.body.metaScrape.description
-    id = req.body.metaScrape.title
-    date = req.body.deepScrape.date
-    body = req.body.deepScrape.body
-    link = req.body.metaScrape.url
+  else if (req.body.from == 'THAIRAT'){
+    from = req.body.from
+    search_keyword = req.body.search_keyword
+    id = req.body.body.metaScrape.title
+    date = req.body.body.deepScrape.date
+    body = req.body.body.deepScrape.body
+    link = req.body.body.metaScrape.url
     create_at = new Date()
-    if(req.body.deepScrape.body.includes('ชน')){
+    if(req.body.search_keyword.includes('ชน')){
       type = "รถชน"
     }
-    else if(req.body.deepScrape.body.includes('ไหม้')){
+    else if(req.body.search_keyword.includes('ไหม้')){
       type = "ไฟไหม้"
     }
     else{
