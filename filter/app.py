@@ -217,7 +217,7 @@ def getDistance(p1, p2):
 
 
 def getData():
-    url = 'http://localhost:8000/api/v1/incidents/getAllIncidents'
+    url = 'http://node-app:3000/api/v1/incidents/getAllIncidents'
     response = requests.get(url)
     resp_json_payload = response.json()
     print(resp_json_payload)
@@ -231,7 +231,8 @@ def postTargetobj(myobj):
     print(x.text)
 
 
-# time.sleep(10)
+print("Fix Here")
+time.sleep(10)
 getData()
 
 # ? ---------------------- twitter loop ----------------------------
