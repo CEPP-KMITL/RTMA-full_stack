@@ -18,16 +18,6 @@ allMonth = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.",
 placeStartKeyword = ["ถนน", "ช่วง", "บริเวณ", "ขาเข้า",
                      "ขาออก", "ฝั่ง", "แถว", "จ.", "จังหวัด", "ภายใน"]
 placeStopKeyword = ["รถ", "#", "จึง", "ทะเบียน"]
-allPlace = []
-newData = []
-targetJson = {}
-
-# * --------------- open file ---------------------
-# df = pd.read_csv(r"C:\Users\ADMIN\Desktop\RTMA\\testData.csv", encoding="cp874")
-# print(df)
-
-# with open('news.json', encoding='utf-8') as f:
-#     data = json.loads(f.read())
 
 
 # *---------- ใช้ 3 funtion นี้ในการหาเวลาของ Twitter -------------
@@ -233,117 +223,81 @@ def getplace(text):
         return ["notFound","notFound","notFound"]
 
 # *--------------------------------------------------------------------------
-# def rad(x):
-#     return x * math.pi / 180
 
 
-# def getDistance(p1, p2):
-#     R = 6378137
-#     dLat = rad(p2['Latitude'] - p1['Latitude'])
-#     dLong = rad(p2['Longitude'] - p1['Longitude'])
-#     a = math.sin(dLat / 2) * math.sin(dLat / 2) + math.cos(rad(p1['Latitude'])) * math.cos(
-#         rad(p2['Latitude'])) * math.sin(dLong / 2) * math.sin(dLong / 2)
-#     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-#     d = R * c
-#     return d
-
-# def isDuplicate(location,time):
-#     for i in allPlace:
-#         # print("DEBUG!!:",getDistance(location,i))
-#         if getDistance(location,i)<100:
-#             for t in i['time']:
-#                 timeDelta = t-time
-#                 totalSeconds = timeDelta.total_seconds()
-#                 if totalSeconds < 3600:
-#                     return "same"
-#             return allPlace.index(i)
-#     return "different"
 
 # *-------------------- GET / POST Data ----------------------------
 
 def getData():
+
     url = 'http://node-app:3000/api/v1/incidents/getAllIncidents'
     response = requests.get(url)
     resp_json_payload = response.json()
-    if resp_json_payload['message'] == "Get all current incidents successfully." and resp_json_payload['results'] > 0:
-        print(resp_json_payload)
+    print(resp_json_payload)
+    if resp_json_payload['message'] == "Get all current incidents successfully.":
         return resp_json_payload
+    return {'message': 'Error', 'results': 0, 'getIncidents': []}
 
 
 def postTargetobj(myobj):
-    url = 'https://www.w3schools.com/python/demopage.php'
+    # # ? -------------------  signup and login  -----------------------------
+    # user = {
+    #             "username" : "myusername",
+    #             "password" : "mypassword"
+    #         }
 
-    x = requests.post(url, data=myobj)
+    # signupRes = requests.post('http://node-app:3000/api/v1/auth/signup',data = user)
+    # signupPayload =signupRes.json()
+    # print(signupPayload)
 
-    print(x.text)
+    # if signupPayload['message'] == "Create user successfully.":
+    #     loginRes = requests.post('http://node-app:3000/api/v1/auth/login',data = user)
+    #     loginPayload = loginRes.json()
+    #     print(loginPayload)
 
-
-time.sleep(10)
-data = getData()
-print("Fix Here")
-
-for incident in data['getIncidents']:
-    if  incident['from'] == "TWITTER":
-        time = findTimeInText(incident['body'],incidents['date'])
-        location,nonformatAddress,targetJson = getplace(incident['body'])
-    elif incident['from'] == "ไทยรัฐ":
-
-# ? ---------------------- twitter loop ----------------------------
-
-# for i, row in df.iterrows():
-#     print(">>",i,row['text'])
-#     print("---------------------------")
-
-#     time = findTimeInText(row['text'],"2021-07-0618:00:00")
-#     formatted_address,location,province = getplace(row['text'])
-
-#     print("\n---> เวลาเกิดเหตุคือ",time)
-#     print("---> สถานที่เกิดเหตุคือ",formatted_address)
-#     print("---> province",province)
-
-#     print("===========================\n\n")
-
-# ? ---------------------- thairath loop ----------------------------
-
-# for i in data['data']:
-
-#     # print(i)
-
-#     formatted_address,location,province = getplace(i["body"])
-#     time = getDateAndTimeThairuth(i["body"],"3 ก.ค. 2564 05:01 น.")
-
-#     if location != "notFound" and time != "notFound":
-
-#         obj = {}
-#         # obj['type'] =
-#         obj['formatted_address'] = formatted_address
-#         # obj['content'] = i
-#         # obj['link'] =
-#         obj['date'] = time
-#         # obj['image'] =
-#         # obj['from'] =
-#         obj['Latitude'] = copy.copy(location['lat'])
-#         obj['Longitude'] = copy.copy(location['lng'])
-#         obj['province'] = province
-
-#         allPlace.append(obj)
-
-#         # print(location,formatted_address)
-#         # print(time)
+    #     if loginPayload['message'] == "Login successfully.":
+    # * -------------------- post new data ----------------------
+    url = 'http://node-app:3000/api/v1/incidentsRaw/postIncident'
+    response = requests.post(url, data=myobj)
+    resp_json_payload = response.json()
+    print(resp_json_payload)
 
 
 
-#         print(allPlace[-1])
-#         # print(allPlace)
-#         print("\n\n")
+while(True):
+    data = getData()
+    print(data)
+    if data['results'] > 0:
+        for incident in data['getIncidents']:
+            if  incident['from'] == "TWITTER":
+                time = findTimeInText(incident['body'],incidents['date'])
+                formatted_address,location,province = getplace(incident['body'])
+            elif incident['from'] == "ไทยรัฐ":
+                time = getDateAndTimeThairuth(incident["body"],incident['date'])
+                formatted_address,location,province = getplace(incident["body"])
 
 
-#     else:
-#         print("\n\n")
+            if location != "notFound" and time != "notFound":
 
+                obj = {}
+                obj['type'] = incident['type']
+                obj['formatted_address'] = formatted_address
+                obj['content'] = incident['body']
+                obj['link'] = incident['link']
+                obj['date'] = time
+                obj['from'] = incident['from']
+                obj['Latitude'] = copy.copy(location['lat'])
+                obj['Longitude'] = copy.copy(location['lng'])
+                obj['province'] = province
 
+                print(obj)
+                print("\n\n")
 
-# f.close()
+                postTargetobj(obj)
+
+            else:
+                print("\n\n")
+
 
 
 # ? ---------------------- note ----------------------------
