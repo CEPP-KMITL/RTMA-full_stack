@@ -155,7 +155,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14.17.3'
-          cache: 'npm'
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
@@ -179,7 +178,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14.17.3'
-          cache: 'npm'
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
