@@ -3,7 +3,7 @@ import time
 from time import mktime
 from datetime import date
 from datetime import datetime
-import json  # ?-----
+import json                        #?-----
 import requests
 import urllib.parse
 import math
@@ -30,7 +30,7 @@ targetJson = {}
 #     data = json.loads(f.read())
 
 
-#! ต่างจากไทยรัฐเพราะไม่ระบุวันในข่าวระบุแต่เวลา
+# *---------- ใช้ 3 funtion นี้ในการหาเวลาของทวิต -------------
 def getDateTime(sentence, dotIndex):
     hour = sentence[dotIndex-2:dotIndex]
     minute = sentence[dotIndex+1:dotIndex+3]
@@ -52,26 +52,33 @@ def getDateTime(sentence, dotIndex):
     except:
         return "not found"
 
+def getDateTimeTwitter(date):
+    timeStr = data[0:10]+" "+date[10:]
+    EpochSecond = mktime(LocalTime.timetuple())
+    utcTime = datetime.utcfromtimestamp(EpochSecond).isoformat()
 
-def findTimeInText(text):
-    time = "ไม่ระบุ"
+    return utcTime
+
+def findTimeInText(text,date):
+    time = "not found"
     sentences = text.split(" ")
     for sentence in sentences:
         dotCheck = sentence.find(timeformat[0])
         colonCheck = sentence.find(timeformat[1])
         sizeOfSentence = len(sentence)
-        if time == "ไม่ระบุ" and dotCheck != -1 and dotCheck+1 < sizeOfSentence and sentence[dotCheck+1] in number and sentence[dotCheck-1] in number:
+        if time == "not found" and dotCheck != -1 and dotCheck+1 < sizeOfSentence and sentence[dotCheck+1] in number and sentence[dotCheck-1] in number:
             time = getDateTime(sentence, dotCheck)
+            return time
 
-        elif time == "ไม่ระบุ" and colonCheck != -1 and colonCheck+1 < sizeOfSentence and sentence[colonCheck+1] in number:
+        elif time == "not found" and colonCheck != -1 and colonCheck+1 < sizeOfSentence and sentence[colonCheck+1] in number:
             time = getDateTime(sentence, colonCheck)
+            return time
 
-    if time == "ไม่ระบุ":
-        day, month, year, hour, minute = "01", "01", "1000", "00", "00"
-        timeStr = day+"/"+month+"/"+year+" "+hour+":"+minute
-        time = datetime.strptime(timeStr, "%d/%m/%Y %H:%M")
+    if time == "not found":
+        time = getDateTimeTwitter(date)
     return time
 
+# *------------------------------------------------
 
 def checkPlaceStartKeyword(sentence):
     for keyword in placeStartKeyword:
@@ -220,7 +227,9 @@ def getData():
     url = 'http://localhost:8000/api/v1/incidents/getAllIncidents'
     response = requests.get(url)
     resp_json_payload = response.json()
-    print(resp_json_payload)
+    if resp_json_payload['message'] == "Get all current incidents successfully." and resp_json_payload['results'] > 0:
+        print(resp_json_payload)
+        return resp_json_payload
 
 
 def postTargetobj(myobj):
@@ -232,7 +241,13 @@ def postTargetobj(myobj):
 
 
 # time.sleep(10)
-getData()
+data = getData()
+for incident in data['getIncidents']:
+    if  incident['from'] == "TWITTER":
+        time = findTimeInText(incident['body'],incidents['date'])
+        location,nonformatAddress,targetJson = getplace(incident['body'])
+    elif incident['from'] == "ไทยรัฐ":
+
 
 # ? ---------------------- twitter loop ----------------------------
 
@@ -256,11 +271,11 @@ getData()
 # location,nonformatAddress,targetJson = getplace(i["body"])
 # time = getDateAndTimeThairuth(i["body"])
 
-# if location != "notFound" and time != "notFound":
+if location != "notFound" and time != "notFound":
 #     # isDup = isDuplicate(location, time)
 
 #     # if isDup == "different":
-#     obj = {}
+    # obj = {}
 #     # obj['type'] =
 #     obj['formatted_address'] = targetJson['formatted_address']
 #     # obj['content'] = i
@@ -325,3 +340,133 @@ getData()
 #  7 Thailand', 'geometry': {'bounds': {'northeast': {'lat': 13.7536743, 'lng': 101.1390878}, 'southwest': {'lat': 12.6850689, 'lng': 100.6196553}}, 'location': {'lat': 13.3374549, 'lng': 101.0232797}, 'location_type': 'GEOMETRIC_CENTER', 'viewport': {'northeast': {'lat': 13.7484856, 'lng': 101.4343104}, 'southwest': {'lat':
 # 12.9264242, 'lng': 100.612249}}}, 'partial_match': True, 'place_id': 'ChIJvU0S_8dhHTERZOd6c0sZIs4', 'types': ['route']}], 'status': 'OK'}
 # บนถนนมอเตอร์เวย์กม.ที่47+600ขาเข้าชลบุรีหมู่5ต.รทุกถังบรรจุปูนผง
+
+
+# ?--------------------------------------------------------------------------------------------------
+# *path to get province data['results'][0]['address_components'][0]['short_name']
+# {
+#     "plus_code": {
+#         "compound_code": "82PF+X8 Nong Ri, Chon Buri District, Chon Buri, Thailand",
+#         "global_code": "7P5382PF+X8"
+#     },
+#     "results": [
+#         {
+#             "address_components": [
+#                 {
+#                     "long_name": "Chon Buri",
+#                     "short_name": "จ.ชลบุรี",
+#                     "types": [
+#                         "administrative_area_level_1",
+#                         "political"
+#                     ]
+#                 },
+#                 {
+#                     "long_name": "Thailand",
+#                     "short_name": "TH",
+#                     "types": [
+#                         "country",
+#                         "political"
+#                     ]
+#                 }
+#             ],
+#             "formatted_address": "Chon Buri, Thailand",
+#             "geometry": {
+#                 "bounds": {
+#                     "northeast": {
+#                         "lat": 13.5893563,
+#                         "lng": 101.7168862
+#                     },
+#                     "southwest": {
+#                         "lat": 12.5086232,
+#                         "lng": 100.6470747
+#                     }
+#                 },
+#                 "location": {
+#                     "lat": 13.3611431,
+#                     "lng": 100.9846717
+#                 },
+#                 "location_type": "APPROXIMATE",
+#                 "viewport": {
+#                     "northeast": {
+#                         "lat": 13.5893563,
+#                         "lng": 101.7168862
+#                     },
+#                     "southwest": {
+#                         "lat": 12.5086232,
+#                         "lng": 100.6470747
+#                     }
+#                 }
+#             },
+#             "place_id": "ChIJPxDrgxewAjERH_3dUV-RDik",
+#             "types": [
+#                 "administrative_area_level_1",
+#                 "political"
+#             ]
+#         }
+#     ],
+#     "status": "OK"
+# }
+
+
+# {
+#     "plus_code": {
+#         "compound_code": "MPHF+MF Racha Thewa, Bang Phli District, Samut Prakan, Thailand",
+#         "global_code": "7P52MPHF+MF"
+#     },
+#     "results": [
+#         {
+#             "address_components": [
+#                 {
+#                     "long_name": "Samut Prakan",
+#                     "short_name": "จ.สมุทรปราการ",
+#                     "types": [
+#                         "administrative_area_level_1",
+#                         "political"
+#                     ]
+#                 },
+#                 {
+#                     "long_name": "Thailand",
+#                     "short_name": "TH",
+#                     "types": [
+#                         "country",
+#                         "political"
+#                     ]
+#                 }
+#             ],
+#             "formatted_address": "Samut Prakan, Thailand",
+#             "geometry": {
+#                 "bounds": {
+#                     "northeast": {
+#                         "lat": 13.7169169,
+#                         "lng": 100.9639206
+#                     },
+#                     "southwest": {
+#                         "lat": 13.4785244,
+#                         "lng": 100.4444578
+#                     }
+#                 },
+#                 "location": {
+#                     "lat": 13.5990961,
+#                     "lng": 100.5998319
+#                 },
+#                 "location_type": "APPROXIMATE",
+#                 "viewport": {
+#                     "northeast": {
+#                         "lat": 13.7169169,
+#                         "lng": 100.9639206
+#                     },
+#                     "southwest": {
+#                         "lat": 13.4785244,
+#                         "lng": 100.4444578
+#                     }
+#                 }
+#             },
+#             "place_id": "ChIJWV8GL4-h4jARCvzY7dWvlUE",
+#             "types": [
+#                 "administrative_area_level_1",
+#                 "political"
+#             ]
+#         }
+#     ],
+#     "status": "OK"
+# }
