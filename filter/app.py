@@ -224,7 +224,7 @@ def getDistance(p1, p2):
 
 
 def getData():
-    url = 'http://localhost:8000/api/v1/incidents/getAllIncidents'
+    url = 'http://node-app:3000/api/v1/incidents/getAllIncidents'
     response = requests.get(url)
     resp_json_payload = response.json()
     if resp_json_payload['message'] == "Get all current incidents successfully." and resp_json_payload['results'] > 0:
@@ -240,14 +240,15 @@ def postTargetobj(myobj):
     print(x.text)
 
 
-# time.sleep(10)
+time.sleep(10)
 data = getData()
+print("Fix Here")
+
 for incident in data['getIncidents']:
     if  incident['from'] == "TWITTER":
         time = findTimeInText(incident['body'],incidents['date'])
         location,nonformatAddress,targetJson = getplace(incident['body'])
-    elif incident['from'] == "ไทยรัฐ":
-
+    # elif incident['from'] == "ไทยรัฐ":
 
 # ? ---------------------- twitter loop ----------------------------
 
@@ -271,7 +272,7 @@ for incident in data['getIncidents']:
 # location,nonformatAddress,targetJson = getplace(i["body"])
 # time = getDateAndTimeThairuth(i["body"])
 
-if location != "notFound" and time != "notFound":
+# if location != "notFound" and time != "notFound":
 #     # isDup = isDuplicate(location, time)
 
 #     # if isDup == "different":
