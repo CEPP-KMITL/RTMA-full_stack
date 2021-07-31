@@ -7,6 +7,11 @@ SCRAPING := scraping-app
 FILTER := filter
 TWINT := twint
 
+update-images:
+	docker pull ghcr.io/me-dev-house/rtma-twint:latest
+	docker pull ghcr.io/me-dev-house/rtma-node:latest
+	docker pull ghcr.io/me-dev-house/rtma-filter:latest
+
 up-backend:
 	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -V $(REVERSE_PROXY) $(BACKEND) $(DATABASE) $(REDIS)
 
