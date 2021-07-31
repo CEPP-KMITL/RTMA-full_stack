@@ -84,13 +84,30 @@ export const getAllIncidents: RequestHandler = async (req, res, next) => {
   try {
     const allIncidents = await IncidentRaw.find({check:false})
     const incidentIdList = allIncidents.map((e : any)=>e._id)
-    console.log(incidentIdList)
     await Promise.all(incidentIdList.map((element : any )=> 
       IncidentRaw.findByIdAndUpdate(
         String(element),
         {check:true}
       )
     ))
+    res.status(201).json({
+      message: 'Get all current incidents successfully.',
+      results: ObjectLength(allIncidents),
+      getIncidents: allIncidents,
+    });
+  } catch (e) {
+    res.status(400).json({
+      message: 'Fail to get all current incidents ' + ' : ' + e,
+    });
+  }
+};
+
+export const getonedayincident: RequestHandler = async (req, res, next) => {
+  var temp = new Date() 
+  temp.setDate(temp.getDate()-1)
+
+  try {
+    const allIncidents = await IncidentRaw.find().where('create_at').gt(temp.toISOString());
     res.status(201).json({
       message: 'Get all current incidents successfully.',
       results: ObjectLength(allIncidents),
