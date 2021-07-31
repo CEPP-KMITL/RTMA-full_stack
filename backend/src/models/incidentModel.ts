@@ -16,9 +16,6 @@ const incidentSchema = new mongoose.Schema({
   date: {
     type: String,
   },
-  image: {
-    type: String,
-  },
   from: {
     type: String,
   },
