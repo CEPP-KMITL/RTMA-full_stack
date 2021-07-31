@@ -231,8 +231,7 @@ def postTargetobj(myobj):
     print(x.text)
 
 
-print("Fix Here")
-time.sleep(10)
+time.sleep(10)  # Essential to prevent early api call
 getData()
 
 # ? ---------------------- twitter loop ----------------------------

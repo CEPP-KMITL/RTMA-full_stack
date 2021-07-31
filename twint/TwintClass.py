@@ -15,6 +15,7 @@ class TwintSearch:
         self.__delay: int = delay
         self.__number_of_search_string: int = len(search_string)
         self.last_since: str = self.format_twint_time_now(self)
+        print("Current Time When This Class Is Instantiated : " + self.last_since)
         self.sched_number: int = 0
         self.username_target = username_target
         if len(search_string) == 0:
@@ -68,10 +69,10 @@ class TwintSearch:
         search_engine.Output = output_target
         search_engine.Store_json = True
         search_engine.Links = "include"
-        #search_engine.Since = since_time
+        # search_engine.Since = since_time
         search_engine.Custom["tweet"] = ["id", "created_at", "username", "date", "time",
                                          "timezone", "name", "place", "tweet", "urls", "photos", "hashtags", "link", "geo"]
-        search_engine.Since = "2021-7-9 20:30:15"
+        search_engine.Since = "2021-7-31 18:30:15"
         # Run
         twint.run.Search(search_engine)
 
@@ -103,10 +104,9 @@ class TwintSearch:
                         "search_keyword": None
                     }
                 username = {"from": target_file_name}
-                body = {"body": single_data}
-                packaging_timestamp = {
-                    "packaging_timestamp": self.format_twint_time_now(self)}
-                dict_pack = username | search_keyword | body | packaging_timestamp
+                body = {"body": {"info": single_data,
+                                 "packaging_timestamp": self.format_twint_time_now(self)}}
+                dict_pack = username | search_keyword | body
                 package_json = json.dumps(
                     dict_pack, ensure_ascii=False).encode('utf8')
                 print("Package JSON = " + package_json.decode('utf8'))
@@ -117,6 +117,7 @@ class TwintSearch:
 
     def post_api(self, API_ENDPOINT: str, post_data):
         r = requests.post(url=API_ENDPOINT, data=post_data)
+        print("Sent POST API")
         print(r.text)
 
     @staticmethod
@@ -134,7 +135,7 @@ class TwintSearch:
         day_now = self.split(python_time_now.strftime("%d"))
         if day_now[0] == "0":
             day_now.pop(0)
-        day_now = ' '.join([str(elem) for elem in day_now])
+        day_now = ''.join([str(elem) for elem in day_now])
         time_now = python_time_now.strftime("%X")
         twint_date_since = year_now + "-" + month_now + "-" + day_now + " " + time_now
         return twint_date_since
