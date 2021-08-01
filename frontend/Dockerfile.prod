@@ -2,14 +2,14 @@
 FROM node:13.14-alpine as builder
 WORKDIR /frontend-app
 COPY package*.json .
-RUN npm install -g @quasar/cli
 ARG NODE_ENV
 RUN if [ "$NODE_ENV" = "development" ]; \
   then npm install; \
   else npm install --only=production; \
   fi
+RUN npm install -g @quasar/cli
 COPY . /frontend-app
-RUN quasar build
+RUN npm run build
 
 #Stage 2
 FROM node:13.14-alpine
