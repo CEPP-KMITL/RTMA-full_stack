@@ -120,24 +120,6 @@ export const getonedayincident: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const get8hoursincident: RequestHandler = async (req, res, next) => {
-  var temp = new Date() 
-  temp.setHours(temp.getHours()-8)
-
-  try {
-    const allIncidents = await IncidentRaw.find().where('create_at').gt(temp.toISOString());
-    res.status(201).json({
-      message: 'Get all current incidents successfully.',
-      results: ObjectLength(allIncidents),
-      getIncidents: allIncidents,
-    });
-  } catch (e) {
-    res.status(400).json({
-      message: 'Fail to get all current incidents ' + ' : ' + e,
-    });
-  }
-};
-
 export const getIncident: RequestHandler = async (req, res, next) => {
   try {
     const targetIncident = await IncidentRaw.findById(req.params.id);
