@@ -36,11 +36,9 @@ services:
 
   quasar:
     build: .
-    image: ghcr.io/me-dev-house/rtma-node:latest
+    image: ghcr.io/me-dev-house/rtma-quasar:latest
     ports:
       - '8080:8080'
-    depends_on:
-      - node-app
 
   filter:
     build: .
