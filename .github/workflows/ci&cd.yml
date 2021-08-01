@@ -93,7 +93,7 @@ jobs:
       working-directory: ${{env.working-directory}}
       run: npm test --if-present
 
-  npm_test_vue-ui:
+  npm_test_quasar:
     runs-on: ubuntu-latest
     env:
       working-directory: ./frontend
@@ -142,6 +142,29 @@ jobs:
     - name: NPM TEST (If Present)
       working-directory: ${{env.working-directory}}
       run: npm test --if-present
+
+  build_frontend-app:
+    runs-on: ubuntu-latest
+    needs: npm_test_quasar
+    env:
+      working-directory: ./frontend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Node.js 14.17.3
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.17.3'
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
+      - run: npm install
+        working-directory: ${{env.working-directory}}
+      - run: npm run build
+        working-directory: ${{env.working-directory}}
 
   build_backend-app:
     runs-on: ubuntu-latest
@@ -217,6 +240,37 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/me-dev-house/rtma-node:latest
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
+
+  quasar_build_push_image:
+    runs-on: ubuntu-latest
+    needs: build_frontend-app
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Check Out Repo 
+        uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1       
+      - name: Log in to GitHub Docker Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.T_GITHUB_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile.prod
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ghcr.io/me-dev-house/rtma-frontend:latest
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
 
