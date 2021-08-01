@@ -19,6 +19,9 @@ const incidentSchema = new mongoose.Schema({
   from: {
     type: String,
   },
+  province: {
+    type: String,
+  },
   latitude: {
     type: Number,
   },

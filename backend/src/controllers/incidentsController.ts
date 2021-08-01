@@ -73,47 +73,20 @@ export const getIncident: RequestHandler = async (req, res, next) => {
 };
 
 export const updateIncident: RequestHandler = async (req, res, next) => {
-  if (req.body.title == undefined){
-    res.status(400).json({
-      message: 'Fail to create incident'
+  try {
+    const targetIncident = await Incident.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    res.status(201).json({
+      message: 'Update the incident successfully.',
+      updateTarget: targetIncident,
     });
-  }
-  else if (req.body.information == undefined){
+  } catch (e) {
     res.status(400).json({
-      message: 'Fail to create incident'
+      message: 'Fail to update the incident' + ' : ' + e,
     });
-  }
-  else if (req.body.type == undefined){
-    res.status(400).json({
-      message: 'Fail to create incident'
-    });
-  }
-  else if (req.body.source == undefined){
-    res.status(400).json({
-      message: 'Fail to create incident'
-    });
-  }
-  else if (req.body.location == undefined){
-    res.status(400).json({
-      message: 'Fail to create incident'
-    });
-  }
-  else{
-    try {
-      const targetIncident = await Incident.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-      );
-      res.status(201).json({
-        message: 'Update the incident successfully.',
-        updateTarget: targetIncident,
-      });
-    } catch (e) {
-      res.status(400).json({
-        message: 'Fail to update the incident' + ' : ' + e,
-      });
-    }
   }
 };
 
