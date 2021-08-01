@@ -9,7 +9,7 @@ RUN if [ "$NODE_ENV" = "development" ]; \
   else npm install --only=production; \
   fi
 COPY . /frontend-app
-RUN npm run build
+RUN quasar build
 
 #Stage 2
 FROM node:13.14-alpine
