@@ -11,6 +11,7 @@ update-images:
 	docker pull ghcr.io/me-dev-house/rtma-twint:latest
 	docker pull ghcr.io/me-dev-house/rtma-node:latest
 	docker pull ghcr.io/me-dev-house/rtma-filter:latest
+	docker pull ghcr.io/me-dev-house/rtma-frontend:latest
 
 up-backend:
 	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -V $(REVERSE_PROXY) $(BACKEND) $(DATABASE) $(REDIS)
