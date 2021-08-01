@@ -39,7 +39,6 @@ services:
     image: ghcr.io/me-dev-house/rtma-node:latest
     ports:
       - '8080:8080'
-    container_name: quasar
     depends_on:
       - node-app
 

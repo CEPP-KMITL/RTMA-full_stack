@@ -31,6 +31,7 @@ services:
     volumes:
       - ./frontend/:/frontend-app #Read Only Bind Mount Volume
       - /frontend-app/node_modules #Anonymous Volume
+    command: npm run serve
 
   filter:
     build:
