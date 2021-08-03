@@ -15,7 +15,89 @@ timeformat = [".", ":"]
 number = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 allMonth = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.",
             "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."]
+provinceInTH = {
+    'Kamphaeng Phet' : 	'จ.กำแพงเพชร ',
+    'Chiang Rai' : 	'จ.เชียงราย ',
+    'Chiang Mai' : 	'จ.เชียงใหม่ ',
+    'Tak' : 	'จ.ตาก ',
+    'Nakhon Sawan' : 	'จ.นครสวรรค์ ',
+    'Nan' : 	'จ.น่าน ',
+    'Phichit' : 	'จ.พิจิตร ',
+    'Phitsanulok' : 	'จ.พิษณุโลก ',
+    'Phetchabun' : 	'จ.เพชรบูรณ์ ',
+    'Phrae' : 	'จ.แพร่ ',
+    'Mae Hong Son' : 	'จ.แม่ฮ่องสอน ',
+    'Lampang' : 	'จ.ลำปาง ',
+    'Lamphun' : 	'จ.ลำพูน ',
+    'Sukhothai' : 	'จ.สุโขทัย ',
+    'Uttaradit' : 	'จ.อุตรดิตถ์ ',
+    'Uthai Thani' : 	'จ.อุทัยธานี ',
+    'Phayao' : 	'จ.พะเยา ',
 
+    'Krung Thep Maha Nakhon' : 	'จ.กรุงเทพมหานครฯ ',
+    'Kanchanaburi' : 	'จ.กาญจนบุรี ',
+    'Chanthaburi' : 	'จ.จันทบุรี ',
+    'Chachoengsao' : 	'จ.ฉะเชิงเทรา ',
+    'Chon Buri' : 	'จ.ชลบุรี ',
+    'Chai Nat' : 	'จ.ชัยนาท ',
+    'Trat' : 	'จ.ตราด ',
+    'Nakhon Nayok' : 	'จ.นครนายก ',
+    'Nakhon Pathom' : 	'จ.นครปฐม ',
+    'Nonthaburi' : 	'จ.นนทบุรี ',
+    'Pathum Thani' : 	'จ.ปทุมธานี ',
+    'Prachuap Khiri Khan' : 	'จ.ประจวบคีรีขันธ์ ',
+    'Prachin Buri' : 	'จ.ปราจีนบุรี ',
+    'Phra Nakhon Si Ayutthaya' : 	'จ.พระนครศรีอยุธยา ',
+    'Phetchaburi' : 	'จ.เพชรบุรี ',
+    'Rayong' : 	'จ.ระยอง ',
+    'Ratchaburi' : 	'จ.ราชบุรี ',
+    'Lop Buri' : 	'จ.ลพบุรี ',
+    'Samut Prakan' : 	'จ.สมุทรปราการ ',
+    'Samut Songkhram' : 	'จ.สมุทรสงคราม ',
+    'Samut Sakhon' : 	'จ.สมุทรสาคร ',
+    'Saraburi' : 	'จ.สระบุรี ',
+    'Sing Buri' : 	'จ.สิงห์บุรี ',
+    'Suphan Buri' : 	'จ.สุพรรณบุรี ',
+    'Ang Thong' : 	'จ.อ่างทอง ',
+    'Sa Kaeo' : 	'จ.สระแก้ว ',
+
+    'Kalasin' : 	'จ.กาฬสินธุ์ ',
+    'Khon Kaen' : 	'จ.ขอนแก่น ',
+    'Chaiyaphum' : 	'จ.ชัยภูมิ ',
+    'Yasothon' : 	'จ.ยโสธร ',
+    'Nakhon Phanom' : 	'จ.นครพนม ',
+    'Nakhon Ratchasima' : 	'จ.นครราชสีมา ',
+    'Buri Ram' : 	'จ.บุรีรัมย์ ',
+    'Maha Sarakham' : 	'จ.มหาสารคาม ',
+    'Roi Et' : 	'จ.ร้อยเอ็ด ',
+    'Loei' : 	'จ.เลย ',
+    'Si Sa Ket' : 	'จ.ศรีสะเกษ ',
+    'Sakon Nakhon' : 	'จ.สกลนคร ',
+    'Surin' : 	'จ.สุรินทร์ ',
+    'Nong Khai' : 	'จ.หนองคาย ',
+    'Udon Thani' : 	'จ.อุดรธานี ',
+    'Ubon Ratchathani' : 	'จ.อุบลราชธานี ',
+    'Mukdahan' : 	'จ.มุกดาหาร ',
+    'Amnat Charoen' : 	'จ.อำนาจเจริญ ',
+    'Nong Bua Lam Phu' : 	'จ.หนองบัวลำภู ',
+    'Bueng Kan' : 'จ.บึงกาฬ',
+
+    'Krabi' : 	'จ.กระบี่ ',
+    'Chumphon' : 	'จ.ชุมพร ',
+    'Trang' : 	'จ.ตรัง ',
+    'Nakhon Si Thammarat' : 	'จ.นครศรีธรรมราช ',
+    'Narathiwat' : 	'จ.นราธิวาส ',
+    'Pattani' : 	'จ.ปัตตานี ',
+    'Phangnga' : 	'จ.พังงา ',
+    'Phatthalung' : 	'จ.พัทลุง ',
+    'Phuket' : 	'จ.ภูเก็ต ',
+    'Yala' : 	'จ.ยะลา ',
+    'Ranong' : 	'จ.ระนอง ',
+    'Songkhla' : 	'จ.สงขลา ',
+    'Satun' : 	'จ.สตูล ',
+    'Surat Thani' : 	'จ.สุราษฎร์ธานี '
+
+    }
 placeStartKeyword = ["ถนน", "ช่วง", "บริเวณ", "ขาเข้า",
                      "ขาออก", "ฝั่ง", "แถว", "จ.", "จังหวัด", "ภายใน"]
 placeStopKeyword = ["รถ", "#", "จึง", "ทะเบียน"]
@@ -108,8 +190,9 @@ def getDateAndTimeThairuth(text,dateSentence):
             minute = sentences[index+1][dotCheck+1:dotCheck+3]
 
         if sentences[index].find("วันที่")!= -1 and year=="1000":
+            # print(sentences)
             day = sentences[index+1]
-            month = allMonth.index(sentences[index+2][:5])+1
+            month = allMonth.index(sentences[index+2][:4])+1
             if month<10:
                 month = "0"+str(month)
             else:
@@ -149,54 +232,35 @@ def checkPlaceStopKeyword(sentence):
             return True
     return False
 
-def getplace(text):
-    place="not found"
-    placeIsStart = False
-    placeIsEnd = False
-
-    sentences = text.split(" ")
-    # print(sentences)
-    for sentence in sentences:
-        if (not placeIsStart) and (not placeIsEnd) and checkPlaceStartKeyword(sentence):
-            # print("start")
-            placeIsStart = True
-            place=""
-
-        elif placeIsStart and checkPlaceStopKeyword(sentence):
-            # print("stop")
-            placeIsStart = False
-            placeIsEnd = True
-
-        if placeIsStart:
-            # print("continue")
-            place+=sentence
-        # if place!="ไม่ระบุ":
-
-    print("---> สถานที่เกิดเหตุคือ",place)
-
+def getDataFormGoogleAPI(place):
     countRequestFail = 0
     status = "REQUEST_DENIED"
-    while (status == "REQUEST_DENIED" or status == "ZERO_RESULTS") and countRequestFail <3:
-        # ! get lat lng from google api
-        url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + urllib.parse.quote(place) +'&key=AIzaSyDVCjXv1DAZgVwRCTkq3kNsrP-xhU4LVKs'
-        response = requests.get(url)
-        resp_json_payload = response.json()
-        status = resp_json_payload['status']
-        # print(url)
+    try:
+        while status == "REQUEST_DENIED" and countRequestFail <3:
+            # ! get lat lng from google api
+            url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + urllib.parse.quote(place) +'&key=AIzaSyDVCjXv1DAZgVwRCTkq3kNsrP-xhU4LVKs'
+            response = requests.get(url)
+            resp_json_payload = response.json()
+            status = resp_json_payload['status']
+            # print(url)
+            # print(resp_json_payload)
+            countRequestFail+=1
 
-        # print(resp_json_payload)
-        countRequestFail+=1
+        if resp_json_payload['status'] == "OK":
+            location = resp_json_payload['results'][0]['geometry']['location']
+            formatted_address = resp_json_payload['results'][0]['formatted_address']
 
-    if resp_json_payload['status'] == "OK":
-        location = resp_json_payload['results'][0]['geometry']['location']
-        formatted_address = resp_json_payload['results'][0]['formatted_address']
-
-        for component in  resp_json_payload['results'][0]['address_components']:
-            if component['types'] == [ "administrative_area_level_1", "political" ]:
-                province = component['short_name']
-                return [formatted_address,location,province]
-    else:
-        return ["notFound","notFound","notFound"]
+            for component in  resp_json_payload['results'][0]['address_components']:
+                if component['types'] == [ "administrative_area_level_1", "political" ]:
+                    province = component['short_name']
+                    if province in provinceInTH.keys():
+                        province = provinceInTH[province]
+                    return [formatted_address,location,province]
+        else:
+            return "This is not place"
+    except:
+        print("can't get from google API")
+        return "This is not place"
 
     try:
         countRequestFail2 = 0
@@ -216,12 +280,51 @@ def getplace(text):
             # resp_json_payload['results'][0]['formatted_address']
             countRequestFail2+=1
             # print(new_resp_json_payload)
-
-        province = new_resp_json_payload['results'][0]['address_components'][0]['short_name']
-        return [formatted_address,location,province]
+        if resp_json_payload['status'] == "OK":
+            province = new_resp_json_payload['results'][0]['address_components'][0]['short_name']
+            if province in provinceInTH.keys():
+                province = provinceInTH[province]
+            return [formatted_address,location,province]
+        else:
+            return "This is not place"
 
     except:
-        return ["notFound","notFound","notFound"]
+        print("can't get from google API")
+        return "This is not place"
+
+def getplace(text):
+    place="not found"
+    placeIsStart = False
+    placeIsEnd = False
+
+    sentences = text.split(" ")
+    # print(sentences)
+    for sentence in sentences:
+        if (not placeIsStart) and (not placeIsEnd) and checkPlaceStartKeyword(sentence):
+            # print("start")
+            placeIsStart = True
+            place=""
+
+        elif placeIsStart and checkPlaceStopKeyword(sentence):
+            # print("stop")
+            placeIsStart = False
+            placeIsEnd = True
+
+            print("---> สถานที่เกิดเหตุคือ",place)
+            response = getDataFormGoogleAPI(place)
+            print("---> response",response)
+            if response == "This is not place" :
+                place="not found"
+                placeIsStart = False
+                placeIsEnd = False
+            else:
+                return response
+
+        if placeIsStart:
+            # print("continue")
+            place+=sentence
+        # if place!="ไม่ระบุ":
+
 
 # *--------------------------------------------------------------------------
 
@@ -231,14 +334,16 @@ def getplace(text):
 
 def getData():
 
-    url = 'http://node-app:3000/api/v1/incidents/getAllIncidents'
-    response = requests.get(url)
-    resp_json_payload = response.json()
-    print(resp_json_payload)
-    if resp_json_payload['message'] == "Get all current incidents successfully.":
-        return resp_json_payload
-    return {'message': 'Error', 'results': 0, 'getIncidents': []}
-
+    url = 'http://node-app:3000/api/v1/incidentsRaw/getAllIncidents'
+    try:
+        response = requests.get(url)
+        resp_json_payload = response.json()
+        # print(resp_json_payload)
+        if resp_json_payload['message'] == "Get all current incidents successfully.":
+            return resp_json_payload
+        return {'message': 'Error', 'results': 0, 'getIncidents': []}
+    except:
+        return {'message': "Error can't get data", 'results': 0, 'getIncidents': []}
 
 def postTargetobj(myobj):
     # # ? -------------------  signup and login  -----------------------------
@@ -258,23 +363,25 @@ def postTargetobj(myobj):
 
     #     if loginPayload['message'] == "Login successfully.":
     # * -------------------- post new data ----------------------
-    # ! อย่าลืมเพิ่มกรณีที่ยิงไม่ได้
+    # ! อย่าลืมเพิ่มกรณีที่ยิงไม่ได้->ควรยิงใหม่ไหม
     url = 'http://node-app:3000/api/v1/incidentsRaw/postIncident'
-    response = requests.post(url, data=myobj)
-    resp_json_payload = response.json()
-    print(resp_json_payload)
+    try:
+        response = requests.post(url, data=myobj)
+        resp_json_payload = response.json()
+        print(resp_json_payload)
+    except:
+        print("Post obj fail")
 
 
-def mainLoop(round=0):
-    if round == 3:
-        print("can't do it. I will try agin in 5 minutes")
-        return
+def mainLoop():
 
+    print("mainLoop")
     data = getData()
-    print(data)
+    print(data['message'])
     try:
         if data['results'] > 0:
             for incident in data['getIncidents']:
+                location,time = "notFound","notFound"
                 if  incident['from'] == "TWITTER":
                     time = findTimeInText(incident['body'],incidents['date'])
                     formatted_address,location,province = getplace(incident['body'])
@@ -300,18 +407,22 @@ def mainLoop(round=0):
 
                     postTargetobj(obj)
     except:
-        print("can't get data round "+round+1+". I will try again....")
-        mainLoop(round+1)
+        print("getplace or postTargetobj Error")
+
     finally:
         print("\n\n")
 
 def testFun():
     print("It work")
 
-schedule.every(5).seconds.do(testFun)
+print("start")
+# schedule.every(1).minutes.do(mainLoop)
+schedule.every(10).seconds.do(mainLoop)
 while True:
+    print("inloop")
     schedule.run_pending()
     time.sleep(1)
+
 
 # ? ---------------------- note ----------------------------
 
