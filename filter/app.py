@@ -8,6 +8,7 @@ import requests
 import urllib.parse
 import math
 import copy
+import schedule
 
 
 timeformat = [".", ":"]
@@ -257,48 +258,60 @@ def postTargetobj(myobj):
 
     #     if loginPayload['message'] == "Login successfully.":
     # * -------------------- post new data ----------------------
+    # ! อย่าลืมเพิ่มกรณีที่ยิงไม่ได้
     url = 'http://node-app:3000/api/v1/incidentsRaw/postIncident'
     response = requests.post(url, data=myobj)
     resp_json_payload = response.json()
     print(resp_json_payload)
 
 
+def mainLoop(round=0):
+    if round == 3:
+        print("can't do it. I will try agin in 5 minutes")
+        return
 
-while(True):
     data = getData()
     print(data)
-    if data['results'] > 0:
-        for incident in data['getIncidents']:
-            if  incident['from'] == "TWITTER":
-                time = findTimeInText(incident['body'],incidents['date'])
-                formatted_address,location,province = getplace(incident['body'])
-            elif incident['from'] == "ไทยรัฐ":
-                time = getDateAndTimeThairuth(incident["body"],incident['date'])
-                formatted_address,location,province = getplace(incident["body"])
+    try:
+        if data['results'] > 0:
+            for incident in data['getIncidents']:
+                if  incident['from'] == "TWITTER":
+                    time = findTimeInText(incident['body'],incidents['date'])
+                    formatted_address,location,province = getplace(incident['body'])
+                elif incident['from'] == "ไทยรัฐ":
+                    time = getDateAndTimeThairuth(incident["body"],incident['date'])
+                    formatted_address,location,province = getplace(incident["body"])
 
 
-            if location != "notFound" and time != "notFound":
+                if location != "notFound" and time != "notFound":
 
-                obj = {}
-                obj['type'] = incident['type']
-                obj['formatted_address'] = formatted_address
-                obj['content'] = incident['body']
-                obj['link'] = incident['link']
-                obj['date'] = time
-                obj['from'] = incident['from']
-                obj['Latitude'] = copy.copy(location['lat'])
-                obj['Longitude'] = copy.copy(location['lng'])
-                obj['province'] = province
+                    obj = {}
+                    obj['type'] = incident['type']
+                    obj['formatted_address'] = formatted_address
+                    obj['content'] = incident['body']
+                    obj['link'] = incident['link']
+                    obj['date'] = time
+                    obj['from'] = incident['from']
+                    obj['Latitude'] = copy.copy(location['lat'])
+                    obj['Longitude'] = copy.copy(location['lng'])
+                    obj['province'] = province
 
-                print(obj)
-                print("\n\n")
+                    print(obj)
 
-                postTargetobj(obj)
+                    postTargetobj(obj)
+    except:
+        print("can't get data round "+round+1+". I will try again....")
+        mainLoop(round+1)
+    finally:
+        print("\n\n")
 
-            else:
-                print("\n\n")
+def testFun():
+    print("It work")
 
-
+schedule.every(5).seconds.do(testFun)
+while True:
+    schedule.run_pending()
+    time.sleep(1)
 
 # ? ---------------------- note ----------------------------
 
