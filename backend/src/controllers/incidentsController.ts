@@ -15,7 +15,7 @@ export const createIncident: RequestHandler = async (req, res, next) => {
   var date = new Date()
   var temp = new Date() 
   var check = true
-  temp.setDate(temp.getDate()-1)
+  temp.setHours(temp.getHours()-1)
   const allIncidents = await Incident.find().where('date').gt(temp.toISOString());
   for (var i in allIncidents) {
     var R = 6371; // Radius of the earth in km
@@ -28,7 +28,7 @@ export const createIncident: RequestHandler = async (req, res, next) => {
     ; 
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
     var d = R * c; // Distance in km
-    if (d<1){
+    if (d<0.4){
       check = false
     }
   }
@@ -45,11 +45,31 @@ export const createIncident: RequestHandler = async (req, res, next) => {
       });
     }
   }
+  else{
+    res.status(400).json({
+      message: 'Fail to create incident' + ' :  location duplicate information' 
+    });
+  }
 };
 
 export const getAllIncidents: RequestHandler = async (req, res, next) => {
   try {
     const allIncidents = await Incident.find();
+    res.status(201).json({
+      message: 'Get all current incidents successfully.',
+      results: ObjectLength(allIncidents),
+      getIncidents: allIncidents,
+    });
+  } catch (e) {
+    res.status(400).json({
+      message: 'Fail to get all current incidents ' + ' : ' + e,
+    });
+  }
+};
+
+export const getfiveprovince: RequestHandler = async (req, res, next) => {
+  try {
+    const allIncidents = await Incident.find().select('province');
     res.status(201).json({
       message: 'Get all current incidents successfully.',
       results: ObjectLength(allIncidents),
