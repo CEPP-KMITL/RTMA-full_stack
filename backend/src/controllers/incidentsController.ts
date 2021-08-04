@@ -11,7 +11,23 @@ function ObjectLength(object: Array<object>) {
   return length;
 }
 
+export const createIncidentold: RequestHandler = async (req, res, next) => {
+  try {
+    const newIncident = await Incident.create(req.body);
+    res.status(201).json({
+      message: 'Create incident successfully.',
+      createdIncident: newIncident,
+    });
+  } catch (e) {
+    res.status(400).json({
+      message: 'Fail to create incident' + ' : ' + e,
+    });
+  }
+};
+
 export const createIncident: RequestHandler = async (req, res, next) => {
+  var temp = new Date() 
+  temp.setDate(temp.getDate()-1)
   try {
     const newIncident = await Incident.create(req.body);
     res.status(201).json({
