@@ -11,33 +11,39 @@ function ObjectLength(object: Array<object>) {
   return length;
 }
 
-export const createIncidentold: RequestHandler = async (req, res, next) => {
-  try {
-    const newIncident = await Incident.create(req.body);
-    res.status(201).json({
-      message: 'Create incident successfully.',
-      createdIncident: newIncident,
-    });
-  } catch (e) {
-    res.status(400).json({
-      message: 'Fail to create incident' + ' : ' + e,
-    });
-  }
-};
-
 export const createIncident: RequestHandler = async (req, res, next) => {
+  var date = new Date()
   var temp = new Date() 
+  var check = true
   temp.setDate(temp.getDate()-1)
-  try {
-    const newIncident = await Incident.create(req.body);
-    res.status(201).json({
-      message: 'Create incident successfully.',
-      createdIncident: newIncident,
-    });
-  } catch (e) {
-    res.status(400).json({
-      message: 'Fail to create incident' + ' : ' + e,
-    });
+  const allIncidents = await Incident.find().where('date').gt(temp.toISOString());
+  for (var i in allIncidents) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = (allIncidents[i].latitude-req.body.latitude)* (Math.PI/180);  // deg2rad below
+    var dLon = (allIncidents[i].longitude-req.body.longitude)* (Math.PI/180); 
+    var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(req.body.latitude* (Math.PI/180)) * Math.cos(allIncidents[i].latitude* (Math.PI/180)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = R * c; // Distance in km
+    if (d<1){
+      check = false
+    }
+  }
+  if (check == true){
+    try {
+      const newIncident = await Incident.create({...req.body,date});
+      res.status(201).json({
+        message: 'Create incident successfully.',
+        createdIncident: newIncident,
+      });
+    } catch (e) {
+      res.status(400).json({
+        message: 'Fail to create incident' + ' : ' + e,
+      });
+    }
   }
 };
 
