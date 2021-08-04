@@ -52,6 +52,21 @@ export const createIncident: RequestHandler = async (req, res, next) => {
   }
 };
 
+export const getmook: RequestHandler = async (req, res, next) => {
+  try {
+    const allIncidents = await Incident.find();
+    res.status(201).json({
+      message: 'Get all current incidents successfully.',
+      results: ObjectLength(allIncidents),
+      getIncidents: allIncidents,
+    });
+  } catch (e) {
+    res.status(400).json({
+      message: 'Fail to get all current incidents ' + ' : ' + e,
+    });
+  }
+};
+
 export const getAllIncidents: RequestHandler = async (req, res, next) => {
   try {
     const allIncidents = await Incident.find();
