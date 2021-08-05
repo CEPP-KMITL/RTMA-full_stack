@@ -23,59 +23,95 @@ export const createIncident: RequestHandler = async (req, res, next) => {
   var create_at = new Date()
   if(req.body.from == 'TWITTER'){
     from = req.body.from
-    search_keyword = req.body.search_keyword
-    id = req.body.body.info.id
-    date = req.body.body.info.date+req.body.body.info.time
-    body = req.body.body.info.tweet
-    link = req.body.body.info.link
+    req.body.search_keyword  == undefined ? search_keyword = 'ไม่มีข้อมูล' : search_keyword = req.body.search_keyword 
+    req.body.body.info.link == undefined ? link = 'ไม่มีข้อมูล' : link = req.body.body.info.link
+    req.body.body.info.id == undefined ? id = 'ไม่มีข้อมูล' : id = req.body.body.info.id
+    req.body.body.info.date && req.body.body.info.time == undefined ? date = 'ไม่มีข้อมูล' : date = req.body.body.info.date+' '+req.body.body.info.time
+    req.body.body.info.tweet == undefined ? body = 'ไม่มีข้อมูล' : body = req.body.body.info.tweet
     create_at = new Date()
-    if(req.body.search_keyword.includes('ชน')){
+    if(search_keyword.includes('ชน')){
       type = "รถชน"
     }
-    else if(req.body.search_keyword.includes('ไหม้')){
+    else if(search_keyword.includes('ไหม้')){
       type = "ไฟไหม้"
     }
     else{
       type = "อุบัติเหตุอื่นๆ"
+    }
+    try {
+      const newIncident = await IncidentRaw.create({
+        from,
+        search_keyword,
+        id,
+        date,
+        body,
+        link,
+        type,
+        check:false,
+        create_at,
+      });
+      res.status(201).json({
+        message: 'Create incident successfully.',
+        createdIncident: newIncident,
+      });
+    } catch (e) {
+      res.status(400).json({
+        message: 'Fail to create incident' + ' : ' + e,
+      });
     }
   }
   else if (req.body.from == 'THAIRAT'){
     from = req.body.from
-    search_keyword = req.body.search_keyword
-    id = req.body.body.metaScrape.title
-    date = req.body.body.deepScrape.date
-    body = req.body.body.deepScrape.body
-    link = req.body.body.metaScrape.url
+    req.body.search_keyword  == undefined ? search_keyword = 'ไม่มีข้อมูล' : search_keyword = req.body.search_keyword 
+    req.body.body.metaScrape.url == undefined ? link = 'ไม่มีข้อมูล' : link = req.body.body.metaScrape.url
+    req.body.body.metaScrape.title == undefined ? id = 'ไม่มีข้อมูล' : id = req.body.body.metaScrape.title
+    req.body.body.deepScrape.date == undefined ? date = 'ไม่มีข้อมูล' : date = req.body.body.deepScrape.date
+    req.body.body.deepScrape.body == undefined ? body = 'ไม่มีข้อมูล' : body = req.body.body.deepScrape.body
     create_at = new Date()
-    if(req.body.search_keyword.includes('ชน')){
+    if(search_keyword.includes('ชน')){
       type = "รถชน"
     }
-    else if(req.body.search_keyword.includes('ไหม้')){
+    else if(search_keyword.includes('ไหม้')){
       type = "ไฟไหม้"
     }
     else{
       type = "อุบัติเหตุอื่นๆ"
     }
+    try {
+      const newIncident = await IncidentRaw.create({
+        from,
+        search_keyword,
+        id,
+        date,
+        body,
+        link,
+        type,
+        check:false,
+        create_at,
+      });
+      res.status(201).json({
+        message: 'Create incident successfully.',
+        createdIncident: newIncident,
+      });
+    } catch (e) {
+      res.status(400).json({
+        message: 'Fail to create incident' + ' : ' + e,
+      });
+    }
   }
-  try {
-    const newIncident = await IncidentRaw.create({
-      from,
-      search_keyword,
-      id,
-      date,
-      body,
-      link,
-      type,
-      check:false,
-      create_at,
-    });
-    res.status(201).json({
-      message: 'Create incident successfully.',
-      createdIncident: newIncident,
-    });
-  } catch (e) {
+  else if (req.body.from == ""){
     res.status(400).json({
-      message: 'Fail to create incident' + ' : ' + e,
+      message: 'Fail to create incident' + ' : ไม่พบแหล่งที่มาของข่าว'
+    });
+  }
+  else if (req.body.from == undefined){
+    res.status(400).json({
+      message: 'Fail to create incident' + ' : ไม่พบแหล่งที่มาของข่าว'
+    });
+  }
+  else{
+    res.status(400).json({
+      message: 'Fail to create incident' + ' : ไม่ใช่ข่าวจากไทยรัฐและทวิต'
     });
   }
 };
