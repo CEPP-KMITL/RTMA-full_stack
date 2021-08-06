@@ -138,6 +138,21 @@ export const getAllIncidents: RequestHandler = async (req, res, next) => {
   }
 };
 
+export const getAll: RequestHandler = async (req, res, next) => {
+  try {
+    const allIncidents = await IncidentRaw.find();
+    res.status(201).json({
+      message: 'Get all current incidents successfully.',
+      results: ObjectLength(allIncidents),
+      getIncidents: allIncidents,
+    });
+  } catch (e) {
+    res.status(400).json({
+      message: 'Fail to get all current incidents ' + ' : ' + e,
+    });
+  }
+};
+
 export const getonedayincident: RequestHandler = async (req, res, next) => {
   var temp = new Date() 
   temp.setDate(temp.getDate()-1)
