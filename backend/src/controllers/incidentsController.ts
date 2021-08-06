@@ -67,6 +67,7 @@ export const getAllIncidents: RequestHandler = async (req, res, next) => {
   }
 };
 
+
 export const getfiveprovince: RequestHandler = async (req, res, next) => {
   try {
     const allIncidents = await Incident.find().select('province');
