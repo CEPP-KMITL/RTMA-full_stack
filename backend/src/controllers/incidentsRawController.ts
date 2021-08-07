@@ -21,6 +21,7 @@ export const createIncident: RequestHandler = async (req, res, next) => {
   var link
   var type 
   var create_at = new Date()
+  console.log(req.body)
   if(req.body.from == 'TWITTER'){
     from = req.body.from
     req.body.search_keyword  == undefined ? search_keyword = 'ไม่มีข้อมูล' : search_keyword = req.body.search_keyword 
