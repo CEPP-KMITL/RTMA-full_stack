@@ -88,7 +88,7 @@ export const getonedayincident: RequestHandler = async (req, res, next) => {
   temp.setDate(temp.getDate()-1)
 
   try {
-    const allIncidents = await Incident.find().where('create_at').gt(temp.toISOString());
+    const allIncidents = await Incident.find().where('date').gt(temp.toISOString());
     res.status(201).json({
       message: 'Get all current incidents successfully.',
       results: ObjectLength(allIncidents),
@@ -106,7 +106,7 @@ export const get8hoursincident: RequestHandler = async (req, res, next) => {
   temp.setHours(temp.getHours()-8)
 
   try {
-    const allIncidents = await Incident.find().where('create_at').gt(temp.toISOString());
+    const allIncidents = await Incident.find().where('date').gt(temp.toISOString());
     res.status(201).json({
       message: 'Get all current incidents successfully.',
       results: ObjectLength(allIncidents),
