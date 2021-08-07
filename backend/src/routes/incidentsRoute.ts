@@ -17,7 +17,7 @@ router.route('/postIncident').post(createIncident);
 router.get('/getAllIncidents', getAllIncidents);
 router.get('/getOneDay', getonedayincident);
 router.get('/getFive', getfiveprovince);
-router.get('/getEighthours', get8hoursincident);
+router.get('/get8hours', get8hoursincident);
 router.get('/getIncident/:id', getIncident);
 
 export default router;
