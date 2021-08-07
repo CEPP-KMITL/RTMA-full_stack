@@ -93,7 +93,6 @@ export const getAllIncidents: RequestHandler = async (req, res, next) => {
     
 export const getfiveprovince: RequestHandler = async (req, res, next) => {
   try {
-
     var  province_counter = [{"province":"จ.กรุงเทพมหานคร"}, {"province":"จ.กระบี่"}, {"province":"จ.กาญจนบุรี"}, {"province":"จ.กาฬสินธุ์"}, {"province":"จ.กำแพงเพชร"},
     {"province":"จ.ขอนแก่น"}, {"province":"จ.จันทบุรี"}, {"province":"จ.ฉะเชิงเทรา"}, {"province":"จ.ชลบุรี"}, {"province":"จ.ชัยนาท"},
     {"province":"จ.ชัยภูมิ"}, {"province":"จ.ชุมพร"}, {"province":"จ.เชียงราย"}, {"province":"จ.เชียงใหม่"}, {"province":"จ.ตรัง"},
