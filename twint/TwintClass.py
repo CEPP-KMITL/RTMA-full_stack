@@ -69,10 +69,10 @@ class TwintSearch:
         search_engine.Output = output_target
         search_engine.Store_json = True
         search_engine.Links = "include"
-        # search_engine.Since = since_time
+        #search_engine.Since = since_time
         search_engine.Custom["tweet"] = ["id", "created_at", "username", "date", "time",
                                          "timezone", "name", "place", "tweet", "urls", "photos", "hashtags", "link", "geo"]
-        search_engine.Since = "2021-7-31 18:30:15"
+        search_engine.Since = "2021-8-7"
         # Run
         twint.run.Search(search_engine)
 
@@ -103,20 +103,20 @@ class TwintSearch:
                     search_keyword = {
                         "search_keyword": None
                     }
-                username = {"from": target_file_name}
+                username = {"from": "TWITTER"}
                 body = {"body": {"info": single_data,
                                  "packaging_timestamp": self.format_twint_time_now(self)}}
                 dict_pack = username | search_keyword | body
                 package_json = json.dumps(
-                    dict_pack, ensure_ascii=False).encode('utf8')
+                    dict_pack, ensure_ascii=False).encode('UTF-8')
                 print("Package JSON = " + package_json.decode('utf8'))
-                self.post_api(self.API_ENDPOINT, package_json)
+                self.post_api(self.API_ENDPOINT, dict_pack)
             os.remove(process_file_name)
             print("Processing File Complete, Delete Processing File : " +
                   process_file_name)
 
     def post_api(self, API_ENDPOINT: str, post_data):
-        r = requests.post(url=API_ENDPOINT, data=post_data)
+        r = requests.post(url=API_ENDPOINT, json=post_data)
         print("Sent POST API")
         print(r.text)
 
