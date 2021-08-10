@@ -21,7 +21,7 @@ up-backend-fb:
 
 up-frontend:
 	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -V $(FRONTEND)
-	
+
 up-frontend-fb:
 	powershell docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --force-recreate -V $(FRONTEND)
 

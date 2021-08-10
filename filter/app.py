@@ -16,86 +16,88 @@ number = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 allMonth = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.",
             "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."]
 provinceInTH = {
-    'Kamphaeng Phet' : 	'จ.กำแพงเพชร ',
-    'Chiang Rai' : 	'จ.เชียงราย ',
-    'Chiang Mai' : 	'จ.เชียงใหม่ ',
-    'Tak' : 	'จ.ตาก ',
-    'Nakhon Sawan' : 	'จ.นครสวรรค์ ',
-    'Nan' : 	'จ.น่าน ',
-    'Phichit' : 	'จ.พิจิตร ',
-    'Phitsanulok' : 	'จ.พิษณุโลก ',
-    'Phetchabun' : 	'จ.เพชรบูรณ์ ',
-    'Phrae' : 	'จ.แพร่ ',
-    'Mae Hong Son' : 	'จ.แม่ฮ่องสอน ',
-    'Lampang' : 	'จ.ลำปาง ',
-    'Lamphun' : 	'จ.ลำพูน ',
-    'Sukhothai' : 	'จ.สุโขทัย ',
-    'Uttaradit' : 	'จ.อุตรดิตถ์ ',
-    'Uthai Thani' : 	'จ.อุทัยธานี ',
-    'Phayao' : 	'จ.พะเยา ',
+    'Kamphaeng Phet' : 	'จ.กำแพงเพชร',
+    'Chiang Rai' : 	'จ.เชียงราย',
+    'Chiang Mai' : 	'จ.เชียงใหม่',
+    'Tak' : 	'จ.ตาก',
+    'Nakhon Sawan' : 	'จ.นครสวรรค์',
+    'Nan' : 	'จ.น่าน',
+    'Phichit' : 	'จ.พิจิตร',
+    'Phitsanulok' : 	'จ.พิษณุโลก',
+    'Phetchabun' : 	'จ.เพชรบูรณ์',
+    'Phrae' : 	'จ.แพร่',
+    'Mae Hong Son' : 	'จ.แม่ฮ่องสอน',
+    'Lampang' : 	'จ.ลำปาง',
+    'Lamphun' : 	'จ.ลำพูน',
+    'Sukhothai' : 	'จ.สุโขทัย',
+    'Uttaradit' : 	'จ.อุตรดิตถ์',
+    'Uthai Thani' : 	'จ.อุทัยธานี',
+    'Phayao' : 	'จ.พะเยา',
 
-    'Krung Thep Maha Nakhon' : 	'จ.กรุงเทพมหานครฯ ',
-    'Kanchanaburi' : 	'จ.กาญจนบุรี ',
-    'Chanthaburi' : 	'จ.จันทบุรี ',
-    'Chachoengsao' : 	'จ.ฉะเชิงเทรา ',
-    'Chon Buri' : 	'จ.ชลบุรี ',
-    'Chai Nat' : 	'จ.ชัยนาท ',
-    'Trat' : 	'จ.ตราด ',
-    'Nakhon Nayok' : 	'จ.นครนายก ',
-    'Nakhon Pathom' : 	'จ.นครปฐม ',
-    'Nonthaburi' : 	'จ.นนทบุรี ',
-    'Pathum Thani' : 	'จ.ปทุมธานี ',
-    'Prachuap Khiri Khan' : 	'จ.ประจวบคีรีขันธ์ ',
-    'Prachin Buri' : 	'จ.ปราจีนบุรี ',
-    'Phra Nakhon Si Ayutthaya' : 	'จ.พระนครศรีอยุธยา ',
-    'Phetchaburi' : 	'จ.เพชรบุรี ',
-    'Rayong' : 	'จ.ระยอง ',
-    'Ratchaburi' : 	'จ.ราชบุรี ',
-    'Lop Buri' : 	'จ.ลพบุรี ',
-    'Samut Prakan' : 	'จ.สมุทรปราการ ',
-    'Samut Songkhram' : 	'จ.สมุทรสงคราม ',
-    'Samut Sakhon' : 	'จ.สมุทรสาคร ',
-    'Saraburi' : 	'จ.สระบุรี ',
-    'Sing Buri' : 	'จ.สิงห์บุรี ',
-    'Suphan Buri' : 	'จ.สุพรรณบุรี ',
-    'Ang Thong' : 	'จ.อ่างทอง ',
-    'Sa Kaeo' : 	'จ.สระแก้ว ',
+    'Krung Thep Maha Nakhon' : 	'จ.กรุงเทพมหานคร',
+    'Bangkok' : 'จ.กรุงเทพมหานคร',
+    'Kanchanaburi' : 	'จ.กาญจนบุรี',
+    'Chanthaburi' : 	'จ.จันทบุรี',
+    'Chachoengsao' : 	'จ.ฉะเชิงเทรา',
+    'Chon Buri' : 	'จ.ชลบุรี',
+    'Chai Nat' : 	'จ.ชัยนาท',
+    'Trat' : 	'จ.ตราด',
+    'Nakhon Nayok' : 	'จ.นครนายก',
+    'Nakhon Pathom' : 	'จ.นครปฐม',
+    'จ.นคาปฐม' : 'จ.นครปฐม',
+    'Nonthaburi' : 	'จ.นนทบุรี',
+    'Pathum Thani' : 	'จ.ปทุมธานี',
+    'Prachuap Khiri Khan' : 	'จ.ประจวบคีรีขันธ์',
+    'Prachin Buri' : 	'จ.ปราจีนบุรี',
+    'Phra Nakhon Si Ayutthaya' : 	'จ.พระนครศรีอยุธยา',
+    'Phetchaburi' : 	'จ.เพชรบุรี',
+    'Rayong' : 	'จ.ระยอง',
+    'Ratchaburi' : 	'จ.ราชบุรี',
+    'Lop Buri' : 	'จ.ลพบุรี',
+    'Samut Prakan' : 	'จ.สมุทรปราการ',
+    'Samut Songkhram' : 	'จ.สมุทรสงคราม',
+    'Samut Sakhon' : 	'จ.สมุทรสาคร',
+    'Saraburi' : 	'จ.สระบุรี',
+    'Sing Buri' : 	'จ.สิงห์บุรี',
+    'Suphan Buri' : 	'จ.สุพรรณบุรี',
+    'Ang Thong' : 	'จ.อ่างทอง',
+    'Sa Kaeo' : 	'จ.สระแก้ว',
 
-    'Kalasin' : 	'จ.กาฬสินธุ์ ',
-    'Khon Kaen' : 	'จ.ขอนแก่น ',
-    'Chaiyaphum' : 	'จ.ชัยภูมิ ',
-    'Yasothon' : 	'จ.ยโสธร ',
-    'Nakhon Phanom' : 	'จ.นครพนม ',
-    'Nakhon Ratchasima' : 	'จ.นครราชสีมา ',
-    'Buri Ram' : 	'จ.บุรีรัมย์ ',
-    'Maha Sarakham' : 	'จ.มหาสารคาม ',
-    'Roi Et' : 	'จ.ร้อยเอ็ด ',
-    'Loei' : 	'จ.เลย ',
-    'Si Sa Ket' : 	'จ.ศรีสะเกษ ',
-    'Sakon Nakhon' : 	'จ.สกลนคร ',
-    'Surin' : 	'จ.สุรินทร์ ',
-    'Nong Khai' : 	'จ.หนองคาย ',
-    'Udon Thani' : 	'จ.อุดรธานี ',
-    'Ubon Ratchathani' : 	'จ.อุบลราชธานี ',
-    'Mukdahan' : 	'จ.มุกดาหาร ',
-    'Amnat Charoen' : 	'จ.อำนาจเจริญ ',
-    'Nong Bua Lam Phu' : 	'จ.หนองบัวลำภู ',
+    'Kalasin' : 	'จ.กาฬสินธุ์',
+    'Khon Kaen' : 	'จ.ขอนแก่น',
+    'Chaiyaphum' : 	'จ.ชัยภูมิ',
+    'Yasothon' : 	'จ.ยโสธร',
+    'Nakhon Phanom' : 	'จ.นครพนม',
+    'Nakhon Ratchasima' : 	'จ.นครราชสีมา',
+    'Buri Ram' : 	'จ.บุรีรัมย์',
+    'Maha Sarakham' : 	'จ.มหาสารคาม',
+    'Roi Et' : 	'จ.ร้อยเอ็ด',
+    'Loei' : 	'จ.เลย',
+    'Si Sa Ket' : 	'จ.ศรีสะเกษ',
+    'Sakon Nakhon' : 	'จ.สกลนคร',
+    'Surin' : 	'จ.สุรินทร์',
+    'Nong Khai' : 	'จ.หนองคาย',
+    'Udon Thani' : 	'จ.อุดรธานี',
+    'Ubon Ratchathani' : 	'จ.อุบลราชธานี',
+    'Mukdahan' : 	'จ.มุกดาหาร',
+    'Amnat Charoen' : 	'จ.อำนาจเจริญ',
+    'Nong Bua Lam Phu' : 	'จ.หนองบัวลำภู',
     'Bueng Kan' : 'จ.บึงกาฬ',
 
-    'Krabi' : 	'จ.กระบี่ ',
-    'Chumphon' : 	'จ.ชุมพร ',
-    'Trang' : 	'จ.ตรัง ',
-    'Nakhon Si Thammarat' : 	'จ.นครศรีธรรมราช ',
-    'Narathiwat' : 	'จ.นราธิวาส ',
-    'Pattani' : 	'จ.ปัตตานี ',
-    'Phangnga' : 	'จ.พังงา ',
-    'Phatthalung' : 	'จ.พัทลุง ',
-    'Phuket' : 	'จ.ภูเก็ต ',
-    'Yala' : 	'จ.ยะลา ',
-    'Ranong' : 	'จ.ระนอง ',
-    'Songkhla' : 	'จ.สงขลา ',
-    'Satun' : 	'จ.สตูล ',
-    'Surat Thani' : 	'จ.สุราษฎร์ธานี '
+    'Krabi' : 	'จ.กระบี่',
+    'Chumphon' : 	'จ.ชุมพร',
+    'Trang' : 	'จ.ตรัง',
+    'Nakhon Si Thammarat' : 	'จ.นครศรีธรรมราช',
+    'Narathiwat' : 	'จ.นราธิวาส',
+    'Pattani' : 	'จ.ปัตตานี',
+    'Phangnga' : 	'จ.พังงา',
+    'Phatthalung' : 	'จ.พัทลุง',
+    'Phuket' : 	'จ.ภูเก็ต',
+    'Yala' : 	'จ.ยะลา',
+    'Ranong' : 	'จ.ระนอง',
+    'Songkhla' : 	'จ.สงขลา',
+    'Satun' : 	'จ.สตูล',
+    'Surat Thani' : 	'จ.สุราษฎร์ธานี'
 
     }
 placeStartKeyword = ["ถนน", "ช่วง", "บริเวณ", "ขาเข้า",
@@ -237,7 +239,7 @@ def getDataFormGoogleAPI(place):
     status = "REQUEST_DENIED"
     try:
         while status == "REQUEST_DENIED" and countRequestFail <3:
-            # ! get lat lng from google api
+            # ! get lat lon from google api
             url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + urllib.parse.quote(place) +'&key=AIzaSyDVCjXv1DAZgVwRCTkq3kNsrP-xhU4LVKs'
             response = requests.get(url)
             resp_json_payload = response.json()
@@ -346,24 +348,9 @@ def getData():
         return {'message': "Error can't get data", 'results': 0, 'getIncidents': []}
 
 def postTargetobj(myobj):
-    # # ? -------------------  signup and login  -----------------------------
-    # user = {
-    #             "username" : "myusername",
-    #             "password" : "mypassword"
-    #         }
 
-    # signupRes = requests.post('http://node-app:3000/api/v1/auth/signup',data = user)
-    # signupPayload =signupRes.json()
-    # print(signupPayload)
-
-    # if signupPayload['message'] == "Create user successfully.":
-    #     loginRes = requests.post('http://node-app:3000/api/v1/auth/login',data = user)
-    #     loginPayload = loginRes.json()
-    #     print(loginPayload)
-
-    #     if loginPayload['message'] == "Login successfully.":
     # * -------------------- post new data ----------------------
-    # ! อย่าลืมเพิ่มกรณีที่ยิงไม่ได้->ควรยิงใหม่ไหม
+    # ! อย่าลืมเพิ่มกรณีที่ยิงไม่ได้->ควรยิงใหม่ ->หาข้อความ "ตอบกลับ" ตอนยิงก่อน
     url = 'http://node-app:3000/api/v1/incidentsRaw/postIncident'
     try:
         response = requests.post(url, data=myobj)
@@ -378,45 +365,43 @@ def mainLoop():
     print("mainLoop")
     data = getData()
     print(data['message'])
-    try:
-        if data['results'] > 0:
-            for incident in data['getIncidents']:
-                location,time = "notFound","notFound"
-                if  incident['from'] == "TWITTER":
-                    time = findTimeInText(incident['body'],incidents['date'])
-                    formatted_address,location,province = getplace(incident['body'])
-                elif incident['from'] == "ไทยรัฐ":
-                    time = getDateAndTimeThairuth(incident["body"],incident['date'])
-                    formatted_address,location,province = getplace(incident["body"])
+    # try:
+    if data['results'] > 0:
+        for incident in data['getIncidents']:
+            location,time = "notFound","notFound"
+            if  incident['from'] == "TWITTER":
+                time = findTimeInText(incident['body'],incidents['date'])
+                formatted_address,location,province = getplace(incident['body'])
+            elif incident['from'] == "ไทยรัฐ":
+                time = getDateAndTimeThairuth(incident["body"],incident['date'])
+                formatted_address,location,province = getplace(incident["body"])
 
 
-                if location != "notFound" and time != "notFound":
+            if location != "notFound" and time != "notFound":
 
-                    obj = {}
-                    obj['type'] = incident['type']
-                    obj['formatted_address'] = formatted_address
-                    obj['content'] = incident['body']
-                    obj['link'] = incident['link']
-                    obj['date'] = time
-                    obj['from'] = incident['from']
-                    obj['Latitude'] = copy.copy(location['lat'])
-                    obj['Longitude'] = copy.copy(location['lng'])
-                    obj['province'] = province
+                obj = {}
+                obj['type'] = incident['type']
+                obj['formatted_address'] = formatted_address
+                obj['content'] = incident['body']
+                obj['link'] = incident['link']
+                obj['date'] = time
+                obj['from'] = incident['from']
+                obj['Latitude'] = copy.copy(location['lat'])
+                obj['Longitude'] = copy.copy(location['lng'])
+                obj['province'] = province
 
-                    print(obj)
+                print(obj)
 
-                    postTargetobj(obj)
-    except:
-        print("getplace or postTargetobj Error")
+                postTargetobj(obj)
+    # except:
+    #     print("getplace or postTargetobj Error")
 
-    finally:
-        print("\n\n")
+    # finally:
+    print("\n\n")
 
-def testFun():
-    print("It work")
 
 print("start")
-# schedule.every(1).minutes.do(mainLoop)
+mainLoop()
 schedule.every(10).seconds.do(mainLoop)
 while True:
     print("inloop")
