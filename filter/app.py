@@ -106,32 +106,30 @@ placeStopKeyword = ["รถ", "#", "จึง", "ทะเบียน"]
 
 
 # *---------- ใช้ 3 funtion นี้ในการหาเวลาของ Twitter -------------
-def getDateTime(sentence, dotIndex):
+def getDateTime(sentence, dotIndex,date):
     hour = sentence[dotIndex-2:dotIndex]
     minute = sentence[dotIndex+1:dotIndex+3]
-    today = date.today()
-    day = today.strftime("%d")
-    month = today.strftime("%m")
-    year = today.strftime("%Y")
+
+    YMD = date.split(" ")[0]
 
     try:
-        timeStr = year+"-"+month+"-"+day+" "+hour+":"+minute+":00"
+        timeStr = YMD+" "+hour+":"+minute+":00"
         # timeStr = day+"/"+month+"/"+year+" "+hour+":"+minute
         print("time->", timeStr)
         # print("->",timeStr)
         LocalTime = datetime.strptime(timeStr, "%Y-%m-%d %H:%M:%S")
         EpochSecond = mktime(LocalTime.timetuple())
         utcTime = datetime.utcfromtimestamp(EpochSecond).isoformat()
-
+        print("utcTime getDateTime -->",utcTime)
         return utcTime
     except:
         return "not found"
 
 def getDateTimeTwitter(date):
-    timeStr = data[0:10]+" "+date[10:]
+    LocalTime = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
     EpochSecond = mktime(LocalTime.timetuple())
     utcTime = datetime.utcfromtimestamp(EpochSecond).isoformat()
-
+    print("utcTime getDateTimeTwitter -->",utcTime)
     return utcTime
 
 def findTimeInText(text,date):
@@ -142,11 +140,11 @@ def findTimeInText(text,date):
         colonCheck = sentence.find(timeformat[1])
         sizeOfSentence = len(sentence)
         if time == "not found" and dotCheck != -1 and dotCheck+1 < sizeOfSentence and sentence[dotCheck+1] in number and sentence[dotCheck-1] in number:
-            time = getDateTime(sentence, dotCheck)
+            time = getDateTime(sentence, dotCheck,date)
             return time
 
         elif time == "not found" and colonCheck != -1 and colonCheck+1 < sizeOfSentence and sentence[colonCheck+1] in number:
-            time = getDateTime(sentence, colonCheck)
+            time = getDateTime(sentence, colonCheck,date)
             return time
 
     if time == "not found":
@@ -175,6 +173,7 @@ def getDateTimeThairuth(sentences):
     LocalTime = datetime.strptime(timeStr,"%Y-%m-%d %H:%M:%S")
     EpochSecond = mktime(LocalTime.timetuple())
     utcTime = datetime.utcfromtimestamp(EpochSecond).isoformat()
+    print("time->",utcTime)
     return utcTime
 
 def getDateAndTimeThairuth(text,dateSentence):
@@ -203,15 +202,18 @@ def getDateAndTimeThairuth(text,dateSentence):
             year = today.strftime("%Y")
 
     try:
-        timeStr = year+"-"+month+"-"+day+" "+hour+":"+minute+":00"
-        # timeStr = day+"/"+month+"/"+year+" "+hour+":"+minute
-        print("time->" ,timeStr)
-        # print("->",timeStr)
-        LocalTime = datetime.strptime(timeStr,"%Y-%m-%d %H:%M:%S")
-        EpochSecond = mktime(LocalTime.timetuple())
-        utcTime = datetime.utcfromtimestamp(EpochSecond).isoformat()
+        if day=="01" and month=="01" and year=="1000" and hour =="00" and minute =="00":
+            return getDateTimeThairuth(dateSentence)
+        else:
+            timeStr = year+"-"+month+"-"+day+" "+hour+":"+minute+":00"
+            # timeStr = day+"/"+month+"/"+year+" "+hour+":"+minute
+            print("time->" ,timeStr)
+            # print("->",timeStr)
+            LocalTime = datetime.strptime(timeStr,"%Y-%m-%d %H:%M:%S")
+            EpochSecond = mktime(LocalTime.timetuple())
+            utcTime = datetime.utcfromtimestamp(EpochSecond).isoformat()
 
-        return utcTime
+            return utcTime
     except:
         return getDateTimeThairuth(dateSentence)
 
@@ -294,7 +296,7 @@ def getDataFormGoogleAPI(place):
         print("can't get from google API")
         return "This is not place"
 
-def getplace(text):
+def getplace(text,tag=""):
     place="not found"
     placeIsStart = False
     placeIsEnd = False
@@ -327,6 +329,11 @@ def getplace(text):
             place+=sentence
         # if place!="ไม่ระบุ":
 
+    response = getDataFormGoogleAPI(tag)
+    if response == "This is not place" :
+        return ["not found","not found","not found"]
+    else:
+        return response
 
 # *--------------------------------------------------------------------------
 
@@ -335,8 +342,9 @@ def getplace(text):
 # *-------------------- GET / POST Data ----------------------------
 
 def getData():
-
     url = 'http://node-app:3000/api/v1/incidentsRaw/getAllIncidents'
+    #! local url
+    # url ='http://localhost:8000/api/v1/incidentsRaw/getAllIncidents'
     try:
         response = requests.get(url)
         resp_json_payload = response.json()
@@ -350,12 +358,22 @@ def getData():
 def postTargetobj(myobj):
 
     # * -------------------- post new data ----------------------
-    # ! อย่าลืมเพิ่มกรณีที่ยิงไม่ได้->ควรยิงใหม่ ->หาข้อความ "ตอบกลับ" ตอนยิงก่อน
     url = 'http://node-app:3000/api/v1/incidentsRaw/postIncident'
+    # ! local url
+    # url = 'http://localhost:8000/api/v1/incidents/postIncident'
     try:
-        response = requests.post(url, data=myobj)
-        resp_json_payload = response.json()
-        print(resp_json_payload)
+        fail = 0
+        while fail < 3:
+            response = requests.post(url,myobj)
+            resp_json_payload = response.json()
+            if resp_json_payload['message'] == "Create incident successfully.":
+                print(resp_json_payload['message'])
+                break
+            else:
+                print(resp_json_payload['message'])
+                fail+=1
+
+
     except:
         print("Post obj fail")
 
@@ -368,16 +386,16 @@ def mainLoop():
     # try:
     if data['results'] > 0:
         for incident in data['getIncidents']:
-            location,time = "notFound","notFound"
+            location,time = "not found","not found"
             if  incident['from'] == "TWITTER":
-                time = findTimeInText(incident['body'],incidents['date'])
+                time = findTimeInText(incident['body'],incident['date'])
                 formatted_address,location,province = getplace(incident['body'])
-            elif incident['from'] == "ไทยรัฐ":
+            elif incident['from'] == "THAIRAT":
                 time = getDateAndTimeThairuth(incident["body"],incident['date'])
-                formatted_address,location,province = getplace(incident["body"])
+                formatted_address,location,province = getplace(incident["body"],incident['tag'])
+            print("location->", formatted_address,location,province)
 
-
-            if location != "notFound" and time != "notFound":
+            if location != "not found" and time != "not found":
 
                 obj = {}
                 obj['type'] = incident['type']
@@ -402,7 +420,7 @@ def mainLoop():
 
 print("start")
 mainLoop()
-schedule.every(10).seconds.do(mainLoop)
+schedule.every(5).seconds.do(mainLoop)
 while True:
     print("inloop")
     schedule.run_pending()
