@@ -92,6 +92,9 @@ export const getAllIncidents: RequestHandler = async (req, res, next) => {
 
     
 export const getfiveprovince: RequestHandler = async (req, res, next) => {
+  var tempt = new Date() 
+  tempt.setHours(tempt.getHours()-1)
+  const allIncidents = await Incident.find().where('date').gt(tempt.toISOString());
   try {
     var  province_counter = [{"province":"จ.กรุงเทพมหานคร"}, {"province":"จ.กระบี่"}, {"province":"จ.กาญจนบุรี"}, {"province":"จ.กาฬสินธุ์"}, {"province":"จ.กำแพงเพชร"},
     {"province":"จ.ขอนแก่น"}, {"province":"จ.จันทบุรี"}, {"province":"จ.ฉะเชิงเทรา"}, {"province":"จ.ชลบุรี"}, {"province":"จ.ชัยนาท"},
@@ -136,7 +139,7 @@ export const getfiveprovince: RequestHandler = async (req, res, next) => {
     let top5 = [];
     var n =  province_counter.length;
     for(var i = 0; i < n; i++){
-      const addcount = await Incident.where( province_counter[i] ).count();
+      const addcount = await Incident.find().where('date').gt(tempt.toISOString()).where( province_counter[i] ).count();
       count_province[i] += addcount;
     }
     
