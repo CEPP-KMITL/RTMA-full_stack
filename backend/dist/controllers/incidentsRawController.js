@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.deleteIncident = exports.updateIncident = exports.getIncident = exports.getAllIncidents = exports.createIncident = void 0;
+exports.deleteIncident = exports.updateIncident = exports.getIncident = exports.getonedayincident = exports.getAll = exports.getAllIncidents = exports.createIncident = void 0;
 var incidentRawModel_1 = require("../models/incidentRawModel");
 function ObjectLength(object) {
     var length = 0;
@@ -48,46 +48,28 @@ function ObjectLength(object) {
     return length;
 }
 var createIncident = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var from, search_keyword, id, date, body, link, type, create_at, newIncident, e_1;
+    var from, search_keyword, id, date, body, link, type, create_at, newIncident, e_1, newIncident, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 create_at = new Date();
-                if (req.body.from != undefined) {
-                    from = req.body.from;
-                    search_keyword = req.body.search_keyword;
-                    id = req.body.body.id;
-                    date = req.body.body.date + req.body.body.time;
-                    body = req.body.body.tweet;
-                    link = req.body.body.link;
-                    create_at = new Date();
-                    if (req.body.search_keyword.includes('ชน')) {
-                        type = 'รถชน';
-                    }
-                    else if (req.body.search_keyword.includes('ไหม้')) {
-                        type = 'ไฟไหม้';
-                    }
-                    else {
-                        type = 'อุบัติเหตุอื่นๆ';
-                    }
+                console.log(req.body);
+                if (!(req.body.from == 'TWITTER')) return [3 /*break*/, 5];
+                from = req.body.from;
+                req.body.search_keyword == undefined ? search_keyword = 'ไม่มีข้อมูล' : search_keyword = req.body.search_keyword;
+                req.body.body.info.link == undefined ? link = 'ไม่มีข้อมูล' : link = req.body.body.info.link;
+                req.body.body.info.id == undefined ? id = 'ไม่มีข้อมูล' : id = req.body.body.info.id;
+                req.body.body.info.date && req.body.body.info.time == undefined ? date = 'ไม่มีข้อมูล' : date = req.body.body.info.date + ' ' + req.body.body.info.time;
+                req.body.body.info.tweet == undefined ? body = 'ไม่มีข้อมูล' : body = req.body.body.info.tweet;
+                create_at = new Date();
+                if (search_keyword.includes('ชน')) {
+                    type = "รถชน";
+                }
+                else if (search_keyword.includes('ไหม้')) {
+                    type = "ไฟไหม้";
                 }
                 else {
-                    from = 'ไทยรัฐ';
-                    search_keyword = req.body.metaScrape.description;
-                    id = req.body.metaScrape.title;
-                    date = req.body.deepScrape.date;
-                    body = req.body.deepScrape.body;
-                    link = req.body.metaScrape.url;
-                    create_at = new Date();
-                    if (req.body.deepScrape.body.includes('ชน')) {
-                        type = 'รถชน';
-                    }
-                    else if (req.body.deepScrape.body.includes('ไหม้')) {
-                        type = 'ไฟไหม้';
-                    }
-                    else {
-                        type = 'อุบัติเหตุอื่นๆ';
-                    }
+                    type = "อุบัติเหตุอื่นๆ";
                 }
                 _a.label = 1;
             case 1:
@@ -116,13 +98,77 @@ var createIncident = function (req, res, next) { return __awaiter(void 0, void 0
                     message: 'Fail to create incident' + ' : ' + e_1
                 });
                 return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+            case 4: return [3 /*break*/, 11];
+            case 5:
+                if (!(req.body.from == 'THAIRAT')) return [3 /*break*/, 10];
+                from = req.body.from;
+                req.body.search_keyword == undefined ? search_keyword = 'ไม่มีข้อมูล' : search_keyword = req.body.search_keyword;
+                req.body.body.metaScrape.url == undefined ? link = 'ไม่มีข้อมูล' : link = req.body.body.metaScrape.url;
+                req.body.body.metaScrape.title == undefined ? id = 'ไม่มีข้อมูล' : id = req.body.body.metaScrape.title;
+                req.body.body.deepScrape.date == undefined ? date = 'ไม่มีข้อมูล' : date = req.body.body.deepScrape.date;
+                req.body.body.deepScrape.body == undefined ? body = 'ไม่มีข้อมูล' : body = req.body.body.deepScrape.body;
+                create_at = new Date();
+                if (search_keyword.includes('ชน')) {
+                    type = "รถชน";
+                }
+                else if (search_keyword.includes('ไหม้')) {
+                    type = "ไฟไหม้";
+                }
+                else {
+                    type = "อุบัติเหตุอื่นๆ";
+                }
+                _a.label = 6;
+            case 6:
+                _a.trys.push([6, 8, , 9]);
+                return [4 /*yield*/, incidentRawModel_1.IncidentRaw.create({
+                        from: from,
+                        search_keyword: search_keyword,
+                        id: id,
+                        date: date,
+                        body: body,
+                        link: link,
+                        type: type,
+                        check: false,
+                        create_at: create_at
+                    })];
+            case 7:
+                newIncident = _a.sent();
+                res.status(201).json({
+                    message: 'Create incident successfully.',
+                    createdIncident: newIncident
+                });
+                return [3 /*break*/, 9];
+            case 8:
+                e_2 = _a.sent();
+                res.status(400).json({
+                    message: 'Fail to create incident' + ' : ' + e_2
+                });
+                return [3 /*break*/, 9];
+            case 9: return [3 /*break*/, 11];
+            case 10:
+                if (req.body.from == "") {
+                    res.status(400).json({
+                        message: 'Fail to create incident' + ' : ไม่พบแหล่งที่มาของข่าว'
+                    });
+                }
+                else if (req.body.from == undefined) {
+                    res.status(400).json({
+                        message: 'Fail to create incident' + ' : ไม่พบแหล่งที่มาของข่าว'
+                    });
+                }
+                else {
+                    res.status(400).json({
+                        message: 'Fail to create incident' + ' : ไม่ใช่ข่าวจากไทยรัฐและทวิต'
+                    });
+                }
+                _a.label = 11;
+            case 11: return [2 /*return*/];
         }
     });
 }); };
 exports.createIncident = createIncident;
 var getAllIncidents = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var allIncidents, incidentIdList, e_2;
+    var allIncidents, incidentIdList, e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -131,7 +177,6 @@ var getAllIncidents = function (req, res, next) { return __awaiter(void 0, void 
             case 1:
                 allIncidents = _a.sent();
                 incidentIdList = allIncidents.map(function (e) { return e._id; });
-                console.log(incidentIdList);
                 return [4 /*yield*/, Promise.all(incidentIdList.map(function (element) {
                         return incidentRawModel_1.IncidentRaw.findByIdAndUpdate(String(element), { check: true });
                     }))];
@@ -144,9 +189,9 @@ var getAllIncidents = function (req, res, next) { return __awaiter(void 0, void 
                 });
                 return [3 /*break*/, 4];
             case 3:
-                e_2 = _a.sent();
+                e_3 = _a.sent();
                 res.status(400).json({
-                    message: 'Fail to get all current incidents ' + ' : ' + e_2
+                    message: 'Fail to get all current incidents ' + ' : ' + e_3
                 });
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
@@ -154,8 +199,64 @@ var getAllIncidents = function (req, res, next) { return __awaiter(void 0, void 
     });
 }); };
 exports.getAllIncidents = getAllIncidents;
+var getAll = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var allIncidents, e_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, incidentRawModel_1.IncidentRaw.find()];
+            case 1:
+                allIncidents = _a.sent();
+                res.status(201).json({
+                    message: 'Get all current incidents successfully.',
+                    results: ObjectLength(allIncidents),
+                    getIncidents: allIncidents
+                });
+                return [3 /*break*/, 3];
+            case 2:
+                e_4 = _a.sent();
+                res.status(400).json({
+                    message: 'Fail to get all current incidents ' + ' : ' + e_4
+                });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getAll = getAll;
+var getonedayincident = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var temp, allIncidents, e_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                temp = new Date();
+                temp.setDate(temp.getDate() - 1);
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, incidentRawModel_1.IncidentRaw.find().where('create_at').gt(temp.toISOString())];
+            case 2:
+                allIncidents = _a.sent();
+                res.status(201).json({
+                    message: 'Get all current incidents successfully.',
+                    results: ObjectLength(allIncidents),
+                    getIncidents: allIncidents
+                });
+                return [3 /*break*/, 4];
+            case 3:
+                e_5 = _a.sent();
+                res.status(400).json({
+                    message: 'Fail to get all current incidents ' + ' : ' + e_5
+                });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getonedayincident = getonedayincident;
 var getIncident = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var targetIncident, e_3;
+    var targetIncident, e_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -169,9 +270,9 @@ var getIncident = function (req, res, next) { return __awaiter(void 0, void 0, v
                 });
                 return [3 /*break*/, 3];
             case 2:
-                e_3 = _a.sent();
+                e_6 = _a.sent();
                 res.status(400).json({
-                    message: 'Fail to get the incidents' + ' : ' + e_3
+                    message: 'Fail to get the incidents' + ' : ' + e_6
                 });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
@@ -180,7 +281,7 @@ var getIncident = function (req, res, next) { return __awaiter(void 0, void 0, v
 }); };
 exports.getIncident = getIncident;
 var updateIncident = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var targetIncident, e_4;
+    var targetIncident, e_7;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -194,9 +295,9 @@ var updateIncident = function (req, res, next) { return __awaiter(void 0, void 0
                 });
                 return [3 /*break*/, 3];
             case 2:
-                e_4 = _a.sent();
+                e_7 = _a.sent();
                 res.status(400).json({
-                    message: 'Fail to update the incident' + ' : ' + e_4
+                    message: 'Fail to update the incident' + ' : ' + e_7
                 });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
@@ -205,7 +306,7 @@ var updateIncident = function (req, res, next) { return __awaiter(void 0, void 0
 }); };
 exports.updateIncident = updateIncident;
 var deleteIncident = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var targetIncident, e_5;
+    var targetIncident, e_8;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -219,9 +320,9 @@ var deleteIncident = function (req, res, next) { return __awaiter(void 0, void 0
                 });
                 return [3 /*break*/, 3];
             case 2:
-                e_5 = _a.sent();
+                e_8 = _a.sent();
                 res.status(400).json({
-                    message: 'Fail to delete the incident' + ' : ' + e_5
+                    message: 'Fail to delete the incident' + ' : ' + e_8
                 });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
