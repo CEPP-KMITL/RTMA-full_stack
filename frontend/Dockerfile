@@ -1,6 +1,6 @@
 FROM node:13.14-alpine
 WORKDIR /frontend-app
-COPY package*.json .
+COPY package*.json ./
 RUN npm install -g @quasar/cli
 
 ARG NODE_ENV
@@ -9,7 +9,7 @@ RUN if [ "$NODE_ENV" = "development" ]; \
   else npm install --only=production; \
   fi
 
-COPY . /frontend-app
+COPY . /frontend-app/
 ENV PORT 8080
 EXPOSE $PORT
 
