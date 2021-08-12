@@ -1,6 +1,6 @@
 import { scrapeThairatNews } from './puppeteer/thairat';
-
-setInterval(runScrapeThairatNews, 60000);
+console.log('START SCRAPING');
+setInterval(runScrapeThairatNews, 600000);
 
 // ! Missing API_URI
 // TODO Add URL
