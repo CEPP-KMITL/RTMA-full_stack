@@ -4,15 +4,15 @@ services:
     ports:
       - '80:80'
   node-app:
-    #deploy:
-    #replicas: 8
-    #restart_policy:
-    #condition: any
-    #delay: 5s
-    #max_attempts: 3
-    #update_config:
-    #parallelism: 2
-    #delay: 10s
+    deploy:
+      replicas: 8
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+      update_config:
+        parallelism: 2
+        delay: 10s
     build:
       dockerfile: Dockerfile.prod
       context: ./backend
@@ -25,15 +25,15 @@ services:
       - SESSION_SECRET=${SESSION_SECRET}
     command: npm run start
   quasar:
-    #deploy:
-    #replicas: 8
-    #restart_policy:
-    #condition: any
-    #delay: 5s
-    #max_attempts: 3
-    #update_config:
-    #parallelism: 2
-    #delay: 10s
+    deploy:
+      replicas: 8
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+      update_config:
+        parallelism: 2
+        delay: 10s
     build:
       dockerfile: Dockerfile.prod
       context: ./frontend
