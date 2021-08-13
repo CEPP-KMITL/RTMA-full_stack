@@ -22,7 +22,6 @@ export const createIncident: RequestHandler = async (req, res, next) => {
   var tag
   var type 
   var create_at = new Date()
-  console.log(req.body)
   if(req.body.from == 'TWITTER'){
     from = req.body.from
     req.body.search_keyword  == undefined ? search_keyword = 'ไม่มีข้อมูล' : search_keyword = req.body.search_keyword 
@@ -123,6 +122,7 @@ export const createIncident: RequestHandler = async (req, res, next) => {
 export const getAllIncidents: RequestHandler = async (req, res, next) => {
   try {
     const allIncidents = await IncidentRaw.find({check:false})
+    
     const incidentIdList = allIncidents.map((e : any)=>e._id)
     await Promise.all(incidentIdList.map((element : any )=> 
       IncidentRaw.findByIdAndUpdate(
@@ -130,7 +130,8 @@ export const getAllIncidents: RequestHandler = async (req, res, next) => {
         {check:true}
       )
     ))
-    res.status(201).json({
+    console.log(allIncidents)
+    res.status(200).json({
       message: 'Get all current incidents successfully.',
       results: ObjectLength(allIncidents),
       getIncidents: allIncidents,
