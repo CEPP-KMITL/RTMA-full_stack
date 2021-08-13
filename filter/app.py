@@ -338,6 +338,7 @@ def getplace(text,tag=""):
     if tag != "":
         response = getDataFormGoogleAPI(tag)
     else:
+        # response = getDataFormGoogleAPI("ลาดกระบัง")
         response = "This is not place"
 
     if response == "This is not place" :
@@ -369,7 +370,7 @@ def getData():
 def postTargetobj(myobj):
 
     # * -------------------- post new data ----------------------
-    url = 'http://178.128.89.207/api/v1/incidentsRaw/postIncident'
+    url = 'http://178.128.89.207/api/v1/incidents/postIncident'
     # ! local url
     # url = 'http://node-app:3000/api/v1/incidentsRaw/postIncident'
     # url = 'http://localhost:8000/api/v1/incidents/postIncident'
@@ -394,43 +395,42 @@ def mainLoop():
     print("mainLoop")
     data = getData()
     print(data['message'])
-    # try:
-    if data['results'] > 0:
-        for incident in data['getIncidents']:
-            location,time = "not found","not found"
-            if  incident['from'] == "TWITTER":
-                time = findTimeInText(incident['body'],incident['date'])
-                formatted_address,location,province = getplace(incident['body'])
-            elif incident['from'] == "THAIRAT":
-                time = getDateAndTimeThairuth(incident["body"],incident['date'])
-                if incident['tag']:
-                    formatted_address,location,province = getplace(incident["body"],incident['tag'])
-                else:
-                    formatted_address,location,province = getplace(incident["body"])
-            print("location->", formatted_address,location,province)
+    try:
+        if data['results'] > 0:
+            for incident in data['getIncidents']:
+                location,time = "not found","not found"
+                if  incident['from'] == "TWITTER":
+                    time = findTimeInText(incident['body'],incident['date'])
+                    formatted_address,location,province = getplace(incident['body'])
+                elif incident['from'] == "THAIRAT":
+                    time = getDateAndTimeThairuth(incident["body"],incident['date'])
+                    if 'tag' in incident.keys():
+                        formatted_address,location,province = getplace(incident["body"],incident['tag'])
+                    else:
+                        formatted_address,location,province = getplace(incident["body"])
+                print("location->", formatted_address,location,province)
 
-            if location != "not found" and time != "not found":
+                if location != "not found" and time != "not found":
 
-                obj = {}
-                obj['type'] = incident['type']
-                obj['formatted_address'] = formatted_address
-                obj['content'] = incident['body']
-                obj['link'] = incident['link']
-                obj['date'] = time
-                obj['from'] = incident['from']
-                obj['Latitude'] = copy.copy(location['lat'])
-                obj['Longitude'] = copy.copy(location['lng'])
-                obj['province'] = province
-                obj['create_at'] = getDateNow()
+                    obj = {}
+                    obj['type'] = incident['type']
+                    obj['formatted_address'] = formatted_address
+                    obj['content'] = incident['body']
+                    obj['link'] = incident['link']
+                    obj['date'] = time
+                    obj['from'] = incident['from']
+                    obj['Latitude'] = copy.copy(location['lat'])
+                    obj['Longitude'] = copy.copy(location['lng'])
+                    obj['province'] = province
+                    obj['create_at'] = getDateNow()
 
-                print(obj)
+                    print(obj)
 
-                postTargetobj(obj)
-    # except:
-    #     print("getplace or postTargetobj Error")
-
-    # finally:
-    print("\n\n")
+                    postTargetobj(obj)
+    except:
+        print("getplace or postTargetobj Error")
+    finally:
+        print("\n\n")
 
 
 print("start")
