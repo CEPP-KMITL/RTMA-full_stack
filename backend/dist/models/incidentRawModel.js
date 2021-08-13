@@ -25,6 +25,9 @@ var incidentRawSchema = new mongoose_1["default"].Schema({
     link: {
         type: String
     },
+    tag: {
+        type: String
+    },
     type: {
         type: String
     },
