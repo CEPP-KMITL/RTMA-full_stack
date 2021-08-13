@@ -83,18 +83,22 @@ export const scrapeThairatNews = async (targetURL: string) => {
         trimBody = '';
       }
       allScrapeNews.push({
-        metaScrape: meta[0],
-        deepScrape: {
-          targetURL: allTargetNews[i],
-          title: title,
-          body: trimBody,
-          date: date,
-          tag: tag,
-          image: meta[0].image,
+        from: 'THAIRAT',
+        search_keyword: '',
+        body: {
+          metaScrape: meta[0],
+          deepScrape: {
+            targetURL: allTargetNews[i],
+            title: title,
+            body: trimBody,
+            date: date,
+            tag: tag,
+            image: meta[0].image,
+          },
         },
       });
     }
-
+    allScrapeNews.pop(); //Delete Trash Selector
     await browser.close();
     return allScrapeNews;
   } catch (e) {

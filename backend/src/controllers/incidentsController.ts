@@ -90,13 +90,9 @@ export const getAllIncidents: RequestHandler = async (req, res, next) => {
   }
 };
 
-    
 export const getfiveprovince: RequestHandler = async (req, res, next) => {
-  var tempt = new Date() 
-  tempt.setHours(tempt.getHours()-1)
-  const allIncidents = await Incident.find().where('date').gt(tempt.toISOString());
   try {
-    var  province_counter = [{"province":"จ.กรุงเทพมหานคร"}, {"province":"จ.กระบี่"}, {"province":"จ.กาญจนบุรี"}, {"province":"จ.กาฬสินธุ์"}, {"province":"จ.กำแพงเพชร"},
+    let  province_counter = [{"province":"จ.กรุงเทพมหานคร"}, {"province":"จ.กระบี่"}, {"province":"จ.กาญจนบุรี"}, {"province":"จ.กาฬสินธุ์"}, {"province":"จ.กำแพงเพชร"},
     {"province":"จ.ขอนแก่น"}, {"province":"จ.จันทบุรี"}, {"province":"จ.ฉะเชิงเทรา"}, {"province":"จ.ชลบุรี"}, {"province":"จ.ชัยนาท"},
     {"province":"จ.ชัยภูมิ"}, {"province":"จ.ชุมพร"}, {"province":"จ.เชียงราย"}, {"province":"จ.เชียงใหม่"}, {"province":"จ.ตรัง"},
     {"province":"จ.ตราด"}, {"province":"จ.ตาก"}, {"province":"จ.นครนายก"}, {"province":"จ.นครปฐม"}, {"province":"จ.นครพนม"},
@@ -112,7 +108,7 @@ export const getfiveprovince: RequestHandler = async (req, res, next) => {
     {"province":"จ.สุโขทัย"}, {"province":"จ.สุพรรณบุรี"}, {"province":"จ.สุราษฎร์ธานี"}, {"province":"จ.สุรินทร์"}, {"province":"จ.หนองคาย"},
     {"province":"จ.หนองบัวลำภู"}, {"province":"จ.อ่างทอง"}, {"province":"จ.อุดรธานี"}, {"province":"จ.อุทัยธานี"}, {"province":"จ.อุตรดิตถ์"}, 
     {"province":"จ.อุบลราชธานี"}, {"province":"จ.อำนาจเจริญ"}];
-    var count_province = [0,0,0,0,0,0,0,0,0,0,
+    let count_province = [0,0,0,0,0,0,0,0,0,0,
                           0,0,0,0,0,0,0,0,0,0,
                           0,0,0,0,0,0,0,0,0,0,
                           0,0,0,0,0,0,0,0,0,0,
@@ -120,7 +116,8 @@ export const getfiveprovince: RequestHandler = async (req, res, next) => {
                           0,0,0,0,0,0,0,0,0,0,
                           0,0,0,0,0,0,0,0,0,0,
                           0,0,0,0,0,0,0];
-    var province_name = ["จ.กรุงเทพมหานคร", "จ.กระบี่", "จ.กาญจนบุรี", "จ.กาฬสินธุ์", "จ.กำแพงเพชร",
+  
+    let province_name = ["จ.กรุงเทพมหานคร", "จ.กระบี่", "จ.กาญจนบุรี", "จ.กาฬสินธุ์", "จ.กำแพงเพชร",
     "จ.ขอนแก่น", "จ.จันทบุรี", "จ.ฉะเชิงเทรา", "จ.ชลบุรี", "จ.ชัยนาท",
     "จ.ชัยภูมิ", "จ.ชุมพร", "จ.เชียงราย", "จ.เชียงใหม่", "จ.ตรัง",
     "จ.ตราด", "จ.ตาก", "จ.นครนายก", "จ.นครปฐม", "จ.นครพนม",
@@ -136,39 +133,39 @@ export const getfiveprovince: RequestHandler = async (req, res, next) => {
     "จ.สุโขทัย", "จ.สุพรรณบุรี", "จ.สุราษฎร์ธานี", "จ.สุรินทร์", "จ.หนองคาย",
     "จ.หนองบัวลำภู", "จ.อ่างทอง", "จ.อุดรธานี", "จ.อุทัยธานี", "จ.อุตรดิตถ์", 
     "จ.อุบลราชธานี", "จ.อำนาจเจริญ"];
-    let top5 = [];
-    var n =  province_counter.length;
-    for(var i = 0; i < n; i++){
-      const addcount = await Incident.find().where('date').gt(tempt.toISOString()).where( province_counter[i] ).count();
+    let top5 : string[][] = [[],[],[],[],[]];
+    for(var i = 0; i < province_counter.length; i++){
+      const addcount = await Incident.where( province_counter[i] ).count();
       count_province[i] += addcount;
     }
-    
-    for (var i = Math.floor(n / 2) - 1; i >= 0; i--)
-        heapify(count_province,province_name, n, i);
-
-    for (var i = n - 1; i > 0; i--) {
-        var temp = count_province[0];
-        var temp2 = province_name[0];
-        count_province[0] = count_province[i];
-        province_name[0] = province_name[i];
-        province_name[i] = temp2;
-        count_province[i] = temp;
-        heapify(count_province,province_name,i, 0);
+    const count = Array.from(new Set(count_province)).sort().reverse();
+    for (let i = 0; i < province_name.length ; i++) {
+      for(let j = 0; j < count.length; j++){
+        if(j >= 5) {break}
+        if(count_province[i] == count[j] && count_province[i] != 0){
+          top5[j].push(province_name[i]);
+          
+        }
+      }
     }
-    province_name.reverse()
-    for(var i = 0; i <5 ; i++){
-      top5[i] = province_name[i];
+    let gettop = {
+      "st1" : top5[0],
+      "nd2" : top5[1],
+      "rd3" : top5[2],
+      "th4" : top5[3],
+      "th5" : top5[4]
     }
+    console.log(count)
     res.status(201).json({
       message: 'Get all current incidents successfully.',
-      getIncidents: top5,
+      getIncidents: gettop,
     });
   } catch (e) {
     res.status(400).json({
       message: 'Fail to get all current incidents ' + ' : ' + e,
     });
   }
-
+  
 };
 
 export const getonedayincident: RequestHandler = async (req, res, next) => {

@@ -157,18 +157,11 @@ var getAllIncidents = function (req, res, next) { return __awaiter(void 0, void 
 }); };
 exports.getAllIncidents = getAllIncidents;
 var getfiveprovince = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var tempt, allIncidents, province_counter, count_province, province_name, top5, n, i, addcount, i, i, temp, temp2, i, e_3;
+    var province_counter, count_province, province_name, top5, i, addcount, count, i_1, j, gettop, e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                tempt = new Date();
-                tempt.setHours(tempt.getHours() - 1);
-                return [4 /*yield*/, incidentModel_1.Incident.find().where('date').gt(tempt.toISOString())];
-            case 1:
-                allIncidents = _a.sent();
-                _a.label = 2;
-            case 2:
-                _a.trys.push([2, 7, , 8]);
+                _a.trys.push([0, 5, , 6]);
                 province_counter = [{ "province": "จ.กรุงเทพมหานคร" }, { "province": "จ.กระบี่" }, { "province": "จ.กาญจนบุรี" }, { "province": "จ.กาฬสินธุ์" }, { "province": "จ.กำแพงเพชร" },
                     { "province": "จ.ขอนแก่น" }, { "province": "จ.จันทบุรี" }, { "province": "จ.ฉะเชิงเทรา" }, { "province": "จ.ชลบุรี" }, { "province": "จ.ชัยนาท" },
                     { "province": "จ.ชัยภูมิ" }, { "province": "จ.ชุมพร" }, { "province": "จ.เชียงราย" }, { "province": "จ.เชียงใหม่" }, { "province": "จ.ตรัง" },
@@ -209,48 +202,51 @@ var getfiveprovince = function (req, res, next) { return __awaiter(void 0, void 
                     "จ.สุโขทัย", "จ.สุพรรณบุรี", "จ.สุราษฎร์ธานี", "จ.สุรินทร์", "จ.หนองคาย",
                     "จ.หนองบัวลำภู", "จ.อ่างทอง", "จ.อุดรธานี", "จ.อุทัยธานี", "จ.อุตรดิตถ์",
                     "จ.อุบลราชธานี", "จ.อำนาจเจริญ"];
-                top5 = [];
-                n = province_counter.length;
+                top5 = [[], [], [], [], []];
                 i = 0;
-                _a.label = 3;
-            case 3:
-                if (!(i < n)) return [3 /*break*/, 6];
-                return [4 /*yield*/, incidentModel_1.Incident.find().where('date').gt(tempt.toISOString()).where(province_counter[i]).count()];
-            case 4:
+                _a.label = 1;
+            case 1:
+                if (!(i < province_counter.length)) return [3 /*break*/, 4];
+                return [4 /*yield*/, incidentModel_1.Incident.where(province_counter[i]).count()];
+            case 2:
                 addcount = _a.sent();
                 count_province[i] += addcount;
-                _a.label = 5;
-            case 5:
+                _a.label = 3;
+            case 3:
                 i++;
-                return [3 /*break*/, 3];
-            case 6:
-                for (i = Math.floor(n / 2) - 1; i >= 0; i--)
-                    heapify(count_province, province_name, n, i);
-                for (i = n - 1; i > 0; i--) {
-                    temp = count_province[0];
-                    temp2 = province_name[0];
-                    count_province[0] = count_province[i];
-                    province_name[0] = province_name[i];
-                    province_name[i] = temp2;
-                    count_province[i] = temp;
-                    heapify(count_province, province_name, i, 0);
+                return [3 /*break*/, 1];
+            case 4:
+                count = Array.from(new Set(count_province)).sort().reverse();
+                for (i_1 = 0; i_1 < province_name.length; i_1++) {
+                    for (j = 0; j < count.length; j++) {
+                        if (j >= 5) {
+                            break;
+                        }
+                        if (count_province[i_1] == count[j] && count_province[i_1] != 0) {
+                            top5[j].push(province_name[i_1]);
+                        }
+                    }
                 }
-                province_name.reverse();
-                for (i = 0; i < 5; i++) {
-                    top5[i] = province_name[i];
-                }
+                gettop = {
+                    "st1": top5[0],
+                    "nd2": top5[1],
+                    "rd3": top5[2],
+                    "th4": top5[3],
+                    "th5": top5[4]
+                };
+                console.log(count);
                 res.status(201).json({
                     message: 'Get all current incidents successfully.',
-                    getIncidents: top5
+                    getIncidents: gettop
                 });
-                return [3 /*break*/, 8];
-            case 7:
+                return [3 /*break*/, 6];
+            case 5:
                 e_3 = _a.sent();
                 res.status(400).json({
                     message: 'Fail to get all current incidents ' + ' : ' + e_3
                 });
-                return [3 /*break*/, 8];
-            case 8: return [2 /*return*/];
+                return [3 /*break*/, 6];
+            case 6: return [2 /*return*/];
         }
     });
 }); };
