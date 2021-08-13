@@ -19,6 +19,7 @@ export const createIncident: RequestHandler = async (req, res, next) => {
   var date
   var body
   var link
+  var tag
   var type 
   var create_at = new Date()
   console.log(req.body)
@@ -67,6 +68,7 @@ export const createIncident: RequestHandler = async (req, res, next) => {
     req.body.body.metaScrape.url == undefined ? link = 'ไม่มีข้อมูล' : link = req.body.body.metaScrape.url
     req.body.body.metaScrape.title == undefined ? id = 'ไม่มีข้อมูล' : id = req.body.body.metaScrape.title
     req.body.body.deepScrape.date == undefined ? date = 'ไม่มีข้อมูล' : date = req.body.body.deepScrape.date
+    req.body.body.deepScrape.tag == undefined ? tag = 'ไม่มีข้อมูล' : tag = req.body.body.deepScrape.tag
     req.body.body.deepScrape.body == undefined ? body = 'ไม่มีข้อมูล' : body = req.body.body.deepScrape.body
     create_at = new Date()
     if(search_keyword.includes('ชน')){
@@ -86,6 +88,7 @@ export const createIncident: RequestHandler = async (req, res, next) => {
         date,
         body,
         link,
+        tag,
         type,
         check:false,
         create_at,
@@ -107,7 +110,7 @@ export const createIncident: RequestHandler = async (req, res, next) => {
   }
   else if (req.body.from == undefined){
     res.status(400).json({
-      message: 'Fail to create incident' + ' : ไม่พบแหล่งที่มาของข่าว'
+      message: 'Fail to create incident' + ' : ไม่ได้ใส่ที่มาของข่าว'
     });
   }
   else{

@@ -48,7 +48,7 @@ function ObjectLength(object) {
     return length;
 }
 var createIncident = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var from, search_keyword, id, date, body, link, type, create_at, newIncident, e_1, newIncident, e_2;
+    var from, search_keyword, id, date, body, link, tag, type, create_at, newIncident, e_1, newIncident, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -106,6 +106,7 @@ var createIncident = function (req, res, next) { return __awaiter(void 0, void 0
                 req.body.body.metaScrape.url == undefined ? link = 'ไม่มีข้อมูล' : link = req.body.body.metaScrape.url;
                 req.body.body.metaScrape.title == undefined ? id = 'ไม่มีข้อมูล' : id = req.body.body.metaScrape.title;
                 req.body.body.deepScrape.date == undefined ? date = 'ไม่มีข้อมูล' : date = req.body.body.deepScrape.date;
+                req.body.body.deepScrape.tag == undefined ? tag = 'ไม่มีข้อมูล' : tag = req.body.body.deepScrape.tag;
                 req.body.body.deepScrape.body == undefined ? body = 'ไม่มีข้อมูล' : body = req.body.body.deepScrape.body;
                 create_at = new Date();
                 if (search_keyword.includes('ชน')) {
@@ -127,6 +128,7 @@ var createIncident = function (req, res, next) { return __awaiter(void 0, void 0
                         date: date,
                         body: body,
                         link: link,
+                        tag: tag,
                         type: type,
                         check: false,
                         create_at: create_at
@@ -153,7 +155,7 @@ var createIncident = function (req, res, next) { return __awaiter(void 0, void 0
                 }
                 else if (req.body.from == undefined) {
                     res.status(400).json({
-                        message: 'Fail to create incident' + ' : ไม่พบแหล่งที่มาของข่าว'
+                        message: 'Fail to create incident' + ' : ไม่ได้ใส่ที่มาของข่าว'
                     });
                 }
                 else {

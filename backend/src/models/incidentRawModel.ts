@@ -20,6 +20,9 @@ const incidentRawSchema = new mongoose.Schema({
   link: {
     type: String,
   },
+  tag: {
+    type: String,
+  },
   type: {
     type: String,
   },
