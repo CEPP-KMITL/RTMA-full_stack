@@ -182,7 +182,9 @@ var scrapeThairatNews = function (targetURL) { return __awaiter(void 0, void 0, 
             case 30:
                 i++;
                 return [3 /*break*/, 9];
-            case 31: return [4 /*yield*/, browser_1.close()];
+            case 31:
+                allScrapeNews.pop(); //Delete Trash Selector
+                return [4 /*yield*/, browser_1.close()];
             case 32:
                 _a.sent();
                 return [2 /*return*/, allScrapeNews];

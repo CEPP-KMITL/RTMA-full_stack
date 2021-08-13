@@ -94,7 +94,7 @@ export const scrapeThairatNews = async (targetURL: string) => {
         },
       });
     }
-
+    allScrapeNews.pop(); //Delete Trash Selector
     await browser.close();
     return allScrapeNews;
   } catch (e) {
