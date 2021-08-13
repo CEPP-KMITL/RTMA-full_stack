@@ -151,6 +151,13 @@ def findTimeInText(text,date):
         time = getDateTimeTwitter(date)
     return time
 
+def getDateNow():
+    # -------- timezone +0 --------------
+    LocalTime = datetime.now()
+    EpochSecond = mktime(LocalTime.timetuple())
+    utcTime = datetime.utcfromtimestamp(EpochSecond).isoformat()
+    return utcTime
+
 # *------------------------------------------------
 
 
@@ -328,8 +335,11 @@ def getplace(text,tag=""):
             # print("continue")
             place+=sentence
         # if place!="ไม่ระบุ":
+    if tag != "":
+        response = getDataFormGoogleAPI(tag)
+    else:
+        response = "This is not place"
 
-    response = getDataFormGoogleAPI(tag)
     if response == "This is not place" :
         return ["not found","not found","not found"]
     else:
@@ -337,29 +347,31 @@ def getplace(text,tag=""):
 
 # *--------------------------------------------------------------------------
 
-
+#! RUN: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -V node-app filter
 
 # *-------------------- GET / POST Data ----------------------------
 
 def getData():
-    url = 'http://node-app:3000/api/v1/incidentsRaw/getAllIncidents'
+    url = 'http://178.128.89.207/api/v1/incidentsRaw/getAllIncidents'
     #! local url
+    # url = 'http://node-app:3000/api/v1/incidentsRaw/getAllIncidents'
     # url ='http://localhost:8000/api/v1/incidentsRaw/getAllIncidents'
-    try:
-        response = requests.get(url)
-        resp_json_payload = response.json()
-        # print(resp_json_payload)
-        if resp_json_payload['message'] == "Get all current incidents successfully.":
-            return resp_json_payload
-        return {'message': 'Error', 'results': 0, 'getIncidents': []}
-    except:
-        return {'message': "Error can't get data", 'results': 0, 'getIncidents': []}
+    # try:
+    response = requests.get(url)
+    resp_json_payload = response.json()
+    # print(resp_json_payload)
+    if resp_json_payload['message'] == "Get all current incidents successfully.":
+        return resp_json_payload
+    return {'message': 'Error', 'results': 0, 'getIncidents': []}
+    # except:
+        # return {'message': "Error can't get data", 'results': 0, 'getIncidents': []}
 
 def postTargetobj(myobj):
 
     # * -------------------- post new data ----------------------
-    url = 'http://node-app:3000/api/v1/incidentsRaw/postIncident'
+    url = 'http://178.128.89.207/api/v1/incidentsRaw/postIncident'
     # ! local url
+    # url = 'http://node-app:3000/api/v1/incidentsRaw/postIncident'
     # url = 'http://localhost:8000/api/v1/incidents/postIncident'
     try:
         fail = 0
@@ -372,7 +384,6 @@ def postTargetobj(myobj):
             else:
                 print(resp_json_payload['message'])
                 fail+=1
-
 
     except:
         print("Post obj fail")
@@ -392,7 +403,10 @@ def mainLoop():
                 formatted_address,location,province = getplace(incident['body'])
             elif incident['from'] == "THAIRAT":
                 time = getDateAndTimeThairuth(incident["body"],incident['date'])
-                formatted_address,location,province = getplace(incident["body"],incident['tag'])
+                if incident['tag']:
+                    formatted_address,location,province = getplace(incident["body"],incident['tag'])
+                else:
+                    formatted_address,location,province = getplace(incident["body"])
             print("location->", formatted_address,location,province)
 
             if location != "not found" and time != "not found":
@@ -407,6 +421,7 @@ def mainLoop():
                 obj['Latitude'] = copy.copy(location['lat'])
                 obj['Longitude'] = copy.copy(location['lng'])
                 obj['province'] = province
+                obj['create_at'] = getDateNow()
 
                 print(obj)
 
