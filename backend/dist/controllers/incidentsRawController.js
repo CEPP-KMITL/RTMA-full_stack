@@ -53,7 +53,6 @@ var createIncident = function (req, res, next) { return __awaiter(void 0, void 0
         switch (_a.label) {
             case 0:
                 create_at = new Date();
-                console.log(req.body);
                 if (!(req.body.from == 'TWITTER')) return [3 /*break*/, 5];
                 from = req.body.from;
                 req.body.search_keyword == undefined ? search_keyword = 'ไม่มีข้อมูล' : search_keyword = req.body.search_keyword;
@@ -184,7 +183,8 @@ var getAllIncidents = function (req, res, next) { return __awaiter(void 0, void 
                     }))];
             case 2:
                 _a.sent();
-                res.status(201).json({
+                console.log(allIncidents);
+                res.status(200).json({
                     message: 'Get all current incidents successfully.',
                     results: ObjectLength(allIncidents),
                     getIncidents: allIncidents
