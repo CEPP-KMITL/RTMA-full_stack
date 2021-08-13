@@ -8,39 +8,39 @@ var mongoose_1 = __importDefault(require("mongoose"));
 var incidentSchema = new mongoose_1["default"].Schema({
     type: {
         type: String,
-        require: [true, 'User must have a username']
+        require: [true, 'information must have a type']
     },
     formattedname: {
         type: String,
-        require: [true, 'User must have a username']
+        require: [true, 'information must have a formattedname']
     },
     content: {
         type: String,
-        require: [true, 'User must have a username']
+        require: [true, 'information must have a content']
     },
     link: {
         type: String,
-        require: [true, 'User must have a username']
+        require: [true, 'information must have a link']
     },
     date: {
         type: Date,
-        require: [true, 'User must have a username']
+        require: [true, 'information must have a date']
     },
     from: {
         type: String,
-        require: [true, 'User must have a username']
+        require: [true, 'information must have a from']
     },
     province: {
         type: String,
-        require: [true, 'User must have a username']
+        require: [true, 'information must have aprovince']
     },
     latitude: {
         type: Number,
-        require: [true, 'User must have a username']
+        require: [true, 'information must have a latitude']
     },
     longitude: {
         type: Number,
-        require: [true, 'User must have a username']
+        require: [true, 'information must have a longitude']
     }
 });
 var Incident = mongoose_1["default"].model('Incident', incidentSchema);
