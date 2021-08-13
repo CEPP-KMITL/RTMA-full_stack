@@ -1,0 +1,14 @@
+"use strict";
+exports.__esModule = true;
+var express_1 = require("express");
+var incidentsController_1 = require("../controllers/incidentsController");
+var router = express_1.Router();
+router.route('/patchIncident/:id').patch(incidentsController_1.updateIncident);
+router.route('/deleteIncident/:id')["delete"](incidentsController_1.deleteIncident);
+router.route('/postIncident').post(incidentsController_1.createIncident);
+router.get('/getAllIncidents', incidentsController_1.getAllIncidents);
+router.get('/getOneDay', incidentsController_1.getonedayincident);
+router.get('/getFive', incidentsController_1.getfiveprovince);
+router.get('/get8hours', incidentsController_1.get8hoursincident);
+router.get('/getIncident/:id', incidentsController_1.getIncident);
+exports["default"] = router;
