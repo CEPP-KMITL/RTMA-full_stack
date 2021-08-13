@@ -337,9 +337,9 @@ def getplace(text,tag=""):
 # *-------------------- GET / POST Data ----------------------------
 
 def getData():
-    url = 'http://178.128.89.207/api/v1/incidentsRaw/getAllIncidents'
+    # url = 'http://178.128.89.207/api/v1/incidentsRaw/getAllIncidents'
     #! local url
-    # url = 'http://node-app:3000/api/v1/incidentsRaw/getAllIncidents'
+    url = 'http://node-app:3000/api/v1/incidentsRaw/getAllIncidents'
     # url ='http://localhost:8000/api/v1/incidentsRaw/getAllIncidents'
     try:
         response = requests.get(url)
@@ -354,9 +354,9 @@ def getData():
 def postTargetobj(myobj):
 
     # * -------------------- post new data ----------------------
-    url = 'http://178.128.89.207/api/v1/incidents/postIncident'
+    # url = 'http://178.128.89.207/api/v1/incidents/postIncident'
     # ! local url
-    # url = 'http://node-app:3000/api/v1/incidentsRaw/postIncident'
+    url = 'http://node-app:3000/api/v1/incidents/postIncident'
     # url = 'http://localhost:8000/api/v1/incidents/postIncident'
     try:
         fail = 0
@@ -369,7 +369,6 @@ def postTargetobj(myobj):
             else:
                 print(resp_json_payload['message'])
                 fail+=1
-
     except:
         print("Post obj fail")
 
