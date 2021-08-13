@@ -5,4 +5,4 @@ search_string = ["รถชน", "ไฟไหม้", "อุบัติเห
                  "เพลิงไหม้", "ชนกับ", "ไฟไหม้", "เสียหลัก", "พุ่งชน"]
 #search_string = []
 
-scraping = TwintSearch(100, username_target, search_string, API_ENDPOINT)
+scraping = TwintSearch(200, username_target, search_string, API_ENDPOINT)

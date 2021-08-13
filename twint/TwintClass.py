@@ -15,14 +15,12 @@ class TwintSearch:
         self.__delay: int = delay
         self.__number_of_search_string: int = len(search_string)
         self.last_since: str = self.format_twint_time_now(self)
-        print("Current Time When This Class Is Instantiated : " + self.last_since)
         self.sched_number: int = 0
         self.username_target = username_target
         if len(search_string) == 0:
             search_string = [""]
         self.search_string = search_string
         self.API_ENDPOINT = api_end_point
-
         self.is_valid = self.__is_valid()
         if not self.is_valid:
             raise TypeError(
@@ -30,6 +28,7 @@ class TwintSearch:
         else:
             self.add_schedule()
             self.sched_object.run()
+        print("Current Date When This Class Is Instantiated : " + self.last_since)
 
     def __is_valid(self):
         if self.__delay < 1 or self.API_ENDPOINT == "" or self.API_ENDPOINT is None:
@@ -69,8 +68,7 @@ class TwintSearch:
         search_engine.Output = output_target
         search_engine.Store_json = True
         search_engine.Links = "include"
-        since_time = since_time.split()
-        search_engine.Since = since_time[0]
+        search_engine.Since = since_time
         search_engine.Custom["tweet"] = ["id", "created_at", "username", "date", "time",
                                          "timezone", "name", "place", "tweet", "urls", "photos", "hashtags", "link", "geo"]
         #search_engine.Since = "2021-8-7"
@@ -127,16 +125,5 @@ class TwintSearch:
 
     @staticmethod
     def format_twint_time_now(self):
-        python_time_now = datetime.datetime.now()
-        year_now = python_time_now.strftime("%Y")
-        month_now = self.split(python_time_now.strftime("%m"))
-        if month_now[0] == "0":
-            month_now.pop(0)
-        month_now = ' '.join([str(elem) for elem in month_now])
-        day_now = self.split(python_time_now.strftime("%d"))
-        if day_now[0] == "0":
-            day_now.pop(0)
-        day_now = ''.join([str(elem) for elem in day_now])
-        time_now = python_time_now.strftime("%X")
-        twint_date_since = year_now + "-" + month_now + "-" + day_now + " " + time_now
-        return twint_date_since
+        python_time_now = (str(datetime.datetime.now()).split())[0]
+        return python_time_now
