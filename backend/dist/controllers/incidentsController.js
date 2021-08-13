@@ -83,7 +83,7 @@ var createIncident = function (req, res, next) { return __awaiter(void 0, void 0
             case 0:
                 date = new Date();
                 temp = new Date();
-                check = true;
+                check = 1;
                 temp.setHours(temp.getHours() - 1);
                 return [4 /*yield*/, incidentModel_1.Incident.find().where('date').gt(temp.toISOString())];
             case 1:
@@ -98,10 +98,13 @@ var createIncident = function (req, res, next) { return __awaiter(void 0, void 0
                     c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
                     d = R * c;
                     if (d < 0.4) {
-                        check = false;
+                        check = 2;
+                    }
+                    else {
+                        check = 3;
                     }
                 }
-                if (!(check == true)) return [3 /*break*/, 6];
+                if (!(check == 3)) return [3 /*break*/, 6];
                 _a.label = 2;
             case 2:
                 _a.trys.push([2, 4, , 5]);
@@ -121,9 +124,16 @@ var createIncident = function (req, res, next) { return __awaiter(void 0, void 0
                 return [3 /*break*/, 5];
             case 5: return [3 /*break*/, 7];
             case 6:
-                res.status(400).json({
-                    message: 'Fail to create incident' + ' :  location duplicate information'
-                });
+                if (check == 2) {
+                    res.status(400).json({
+                        message: 'Fail to create incident' + ' :  location duplicate information'
+                    });
+                }
+                else if (check == 1) {
+                    res.status(400).json({
+                        message: 'Fail to create incident' + ' :  ไม่มีโลเคชั่น'
+                    });
+                }
                 _a.label = 7;
             case 7: return [2 /*return*/];
         }

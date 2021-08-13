@@ -14,9 +14,9 @@ function ObjectLength(object: Array<object>) {
 
 function heapify(count_province : number[],province_name: string[] ,n : number, i : number)
     {
-        var largest = i; 
+        var largest = i;
         var l = 2 * i + 1;
-        var r = 2 * i + 2; 
+        var r = 2 * i + 2;
         if (l < n && count_province[l] > count_province[largest])
             largest = l;
 
@@ -36,20 +36,20 @@ function heapify(count_province : number[],province_name: string[] ,n : number, 
 
 export const createIncident: RequestHandler = async (req, res, next) => {
   var date = new Date()
-  var temp = new Date() 
+  var temp = new Date()
   var check = true
   temp.setHours(temp.getHours()-1)
   const allIncidents = await Incident.find().where('date').gt(temp.toISOString());
   for (var i in allIncidents) {
     var R = 6371; // Radius of the earth in km
     var dLat = (allIncidents[i].latitude-req.body.latitude)* (Math.PI/180);  // deg2rad below
-    var dLon = (allIncidents[i].longitude-req.body.longitude)* (Math.PI/180); 
-    var a = 
+    var dLon = (allIncidents[i].longitude-req.body.longitude)* (Math.PI/180);
+    var a =
     Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(req.body.latitude* (Math.PI/180)) * Math.cos(allIncidents[i].latitude* (Math.PI/180)) * 
+    Math.cos(req.body.latitude* (Math.PI/180)) * Math.cos(allIncidents[i].latitude* (Math.PI/180)) *
     Math.sin(dLon/2) * Math.sin(dLon/2)
-    ; 
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    ;
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R * c; // Distance in km
     if (d<0.4){
       check = false
@@ -68,11 +68,12 @@ export const createIncident: RequestHandler = async (req, res, next) => {
       });
     }
   }
-  else{
+  else {
     res.status(400).json({
-      message: 'Fail to create incident' + ' :  location duplicate information' 
+      message: 'Fail to create incident' + ' :  location duplicate information'
     });
   }
+
 };
 
 export const getAllIncidents: RequestHandler = async (req, res, next) => {
@@ -100,13 +101,13 @@ export const getfiveprovince: RequestHandler = async (req, res, next) => {
     {"province":"จ.น่าน"}, {"province":"จ.บึงกาฬ"}, {"province":"จ.บุรีรัมย์"}, {"province":"จ.ปทุมธานี"}, {"province":"จ.ประจวบคีรีขันธ์"},
     {"province":"จ.ปราจีนบุรี"}, {"province":"จ.ปัตตานี"}, {"province":"จ.พระนครศรีอยุธยา"}, {"province":"จ.พังงา"}, {"province":"จ.พัทลุง"},
     {"province":"จ.พิจิตร"}, {"province":"จ.พิษณุโลก"}, {"province":"จ.เพชรบุรี"}, {"province":"จ.เพชรบูรณ์"}, {"province":"จ.แพร่"},
-    {"province":"จ.พะเยา"}, {"province":"จ.ภูเก็ต"}, {"province":"จ.มหาสารคาม"}, {"province":"จ.มุกดาหาร"}, {"province":"จ.แม่ฮ่องสอน"}, 
+    {"province":"จ.พะเยา"}, {"province":"จ.ภูเก็ต"}, {"province":"จ.มหาสารคาม"}, {"province":"จ.มุกดาหาร"}, {"province":"จ.แม่ฮ่องสอน"},
     {"province":"จ.ยะลา"}, {"province":"จ.ยโสธร"}, {"province":"จ.ร้อยเอ็ด"}, {"province":"จ.ระนอง"}, {"province":"จ.ระยอง"},
     {"province":"จ.ราชบุรี"}, {"province":"จ.ลพบุรี"}, {"province":"จ.ลำปาง"}, {"province":"จ.ลำพูน"},{"province":"จ.เลย"},
     {"province":"จ.ศรีสะเกษ"}, {"province":"จ.สกลนคร"}, {"province":"จ.สงขลา"}, {"province":"จ.สตูล"}, {"province":"จ.สมุทรปราการ"},
     {"province":"จ.สมุทรสงคราม"}, {"province":"จ.สมุทรสาคร"}, {"province":"จ.สระแก้ว"}, {"province":"จ.สระบุรี"}, {"province":"จ.สิงห์บุรี"},
     {"province":"จ.สุโขทัย"}, {"province":"จ.สุพรรณบุรี"}, {"province":"จ.สุราษฎร์ธานี"}, {"province":"จ.สุรินทร์"}, {"province":"จ.หนองคาย"},
-    {"province":"จ.หนองบัวลำภู"}, {"province":"จ.อ่างทอง"}, {"province":"จ.อุดรธานี"}, {"province":"จ.อุทัยธานี"}, {"province":"จ.อุตรดิตถ์"}, 
+    {"province":"จ.หนองบัวลำภู"}, {"province":"จ.อ่างทอง"}, {"province":"จ.อุดรธานี"}, {"province":"จ.อุทัยธานี"}, {"province":"จ.อุตรดิตถ์"},
     {"province":"จ.อุบลราชธานี"}, {"province":"จ.อำนาจเจริญ"}];
     let count_province = [0,0,0,0,0,0,0,0,0,0,
                           0,0,0,0,0,0,0,0,0,0,
@@ -116,7 +117,7 @@ export const getfiveprovince: RequestHandler = async (req, res, next) => {
                           0,0,0,0,0,0,0,0,0,0,
                           0,0,0,0,0,0,0,0,0,0,
                           0,0,0,0,0,0,0];
-  
+
     let province_name = ["จ.กรุงเทพมหานคร", "จ.กระบี่", "จ.กาญจนบุรี", "จ.กาฬสินธุ์", "จ.กำแพงเพชร",
     "จ.ขอนแก่น", "จ.จันทบุรี", "จ.ฉะเชิงเทรา", "จ.ชลบุรี", "จ.ชัยนาท",
     "จ.ชัยภูมิ", "จ.ชุมพร", "จ.เชียงราย", "จ.เชียงใหม่", "จ.ตรัง",
@@ -125,13 +126,13 @@ export const getfiveprovince: RequestHandler = async (req, res, next) => {
     "จ.น่าน", "จ.บึงกาฬ", "จ.บุรีรัมย์", "จ.ปทุมธานี", "จ.ประจวบคีรีขันธ์",
     "จ.ปราจีนบุรี", "จ.ปัตตานี", "จ.พระนครศรีอยุธยา", "จ.พังงา", "จ.พัทลุง",
     "จ.พิจิตร", "จ.พิษณุโลก", "จ.เพชรบุรี", "จ.เพชรบูรณ์", "จ.แพร่",
-    "จ.พะเยา", "จ.ภูเก็ต", "จ.มหาสารคาม", "จ.มุกดาหาร", "จ.แม่ฮ่องสอน", 
+    "จ.พะเยา", "จ.ภูเก็ต", "จ.มหาสารคาม", "จ.มุกดาหาร", "จ.แม่ฮ่องสอน",
     "จ.ยะลา", "จ.ยโสธร", "จ.ร้อยเอ็ด", "จ.ระนอง", "จ.ระยอง",
     "จ.ราชบุรี", "จ.ลพบุรี", "จ.ลำปาง", "จ.ลำพูน","จ.เลย",
     "จ.ศรีสะเกษ", "จ.สกลนคร", "จ.สงขลา", "จ.สตูล", "จ.สมุทรปราการ",
     "จ.สมุทรสงคราม", "จ.สมุทรสาคร", "จ.สระแก้ว", "จ.สระบุรี", "จ.สิงห์บุรี",
     "จ.สุโขทัย", "จ.สุพรรณบุรี", "จ.สุราษฎร์ธานี", "จ.สุรินทร์", "จ.หนองคาย",
-    "จ.หนองบัวลำภู", "จ.อ่างทอง", "จ.อุดรธานี", "จ.อุทัยธานี", "จ.อุตรดิตถ์", 
+    "จ.หนองบัวลำภู", "จ.อ่างทอง", "จ.อุดรธานี", "จ.อุทัยธานี", "จ.อุตรดิตถ์",
     "จ.อุบลราชธานี", "จ.อำนาจเจริญ"];
     let top5 : string[][] = [[],[],[],[],[]];
     for(var i = 0; i < province_counter.length; i++){
@@ -144,7 +145,7 @@ export const getfiveprovince: RequestHandler = async (req, res, next) => {
         if(j >= 5) {break}
         if(count_province[i] == count[j] && count_province[i] != 0){
           top5[j].push(province_name[i]);
-          
+
         }
       }
     }
@@ -165,11 +166,11 @@ export const getfiveprovince: RequestHandler = async (req, res, next) => {
       message: 'Fail to get all current incidents ' + ' : ' + e,
     });
   }
-  
+
 };
 
 export const getonedayincident: RequestHandler = async (req, res, next) => {
-  var temp = new Date() 
+  var temp = new Date()
   temp.setDate(temp.getDate()-1)
 
   try {
@@ -187,7 +188,7 @@ export const getonedayincident: RequestHandler = async (req, res, next) => {
 };
 
 export const get8hoursincident: RequestHandler = async (req, res, next) => {
-  var temp = new Date() 
+  var temp = new Date()
   temp.setHours(temp.getHours()-8)
 
   try {

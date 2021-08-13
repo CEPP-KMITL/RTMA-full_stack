@@ -358,10 +358,12 @@ def postTargetobj(myobj):
     # ! local url
     url = 'http://node-app:3000/api/v1/incidents/postIncident'
     # url = 'http://localhost:8000/api/v1/incidents/postIncident'
+    print("-->",myobj)
+
     try:
         fail = 0
         while fail < 3:
-            response = requests.post(url,myobj)
+            response = requests.post(url=url,json=myobj)
             resp_json_payload = response.json()
             if resp_json_payload['message'] == "Create incident successfully.":
                 print(resp_json_payload['message'])
@@ -407,7 +409,7 @@ def mainLoop():
                     obj['province'] = province
                     obj['create_at'] = getDateNow()
 
-                    print(obj)
+                    # print(obj)
 
                     postTargetobj(obj)
     except:
