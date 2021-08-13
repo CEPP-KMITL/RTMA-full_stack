@@ -4,5 +4,5 @@ username_target = ["js100radio", "traffic_1197", "fm91trafficpro"]
 search_string = ["รถชน", "ไฟไหม้", "อุบัติเหตุ", "ชนกัน",
                  "เพลิงไหม้", "ชนกับ", "ไฟไหม้", "เสียหลัก", "พุ่งชน"]
 #search_string = []
-
+print("START TWINT")
 scraping = TwintSearch(300, username_target, search_string, API_ENDPOINT)
