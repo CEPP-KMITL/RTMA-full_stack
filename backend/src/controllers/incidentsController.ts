@@ -52,10 +52,13 @@ export const createIncident: RequestHandler = async (req, res, next) => {
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R * c; // Distance in km
     if (d<0.4){
-      check = false
+      check = 2
+    }
+    else{
+      check = 3
     }
   }
-  if (check == true){
+  if (check == 3){
     try {
       const newIncident = await Incident.create({...req.body,date});
       res.status(201).json({
