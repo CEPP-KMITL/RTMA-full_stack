@@ -37,7 +37,7 @@ function heapify(count_province : number[],province_name: string[] ,n : number, 
 export const createIncident: RequestHandler = async (req, res, next) => {
   var date = new Date()
   var temp = new Date() 
-  var check = 1
+  var check = true
   temp.setHours(temp.getHours()-1)
   const allIncidents = await Incident.find().where('date').gt(temp.toISOString());
   for (var i in allIncidents) {
@@ -52,13 +52,10 @@ export const createIncident: RequestHandler = async (req, res, next) => {
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
     var d = R * c; // Distance in km
     if (d<0.4){
-      check = 2
-    }
-    else{
-      check = 3
+      check = false
     }
   }
-  if (check == 3){
+  if (check == true){
     try {
       const newIncident = await Incident.create({...req.body,date});
       res.status(201).json({
@@ -71,16 +68,12 @@ export const createIncident: RequestHandler = async (req, res, next) => {
       });
     }
   }
-  else if (check == 2){
+  else {
     res.status(400).json({
       message: 'Fail to create incident' + ' :  location duplicate information' 
     });
   }
-  else if (check == 1){
-    res.status(400).json({
-      message: 'Fail to create incident' + ' :  ไม่มีโลเคชั่น' 
-    });
-  }
+  
 };
 
 export const getAllIncidents: RequestHandler = async (req, res, next) => {
