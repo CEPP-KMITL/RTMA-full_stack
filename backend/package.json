@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node dist/app.js",
     "dev": "ts-node-dev --poll --clear --respawn ./src/app.ts",
-    "build": "rimraf ./build && tsc"
+    "clean": "rm -rf ./dist/* ",
+    "build": "tsc "
   },
   "author": "",
   "license": "ISC",

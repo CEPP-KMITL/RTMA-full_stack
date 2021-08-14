@@ -1,14 +1,14 @@
-FROM node:13.14-alpine
+#Stage 1
+FROM node:13.14-alpine as builder
 WORKDIR /frontend-app
 COPY package*.json ./
-RUN npm install -g @quasar/cli
-
 ARG NODE_ENV
-RUN if [ "$NODE_ENV" = "development" ]; \
-  then npm install; \
-  else npm install --only=production; \
-  fi
+RUN npm install && npm install --only=dev
+RUN npm install -g @quasar/cli
+COPY . .
+RUN npm run build
 
-COPY . /frontend-app/
-ENV PORT 8080
-EXPOSE $PORT
+FROM nginx:stable-alpine as production-stage
+COPY --from=builder /frontend-app/dist/spa /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
