@@ -9,7 +9,7 @@ RUN if [ "$NODE_ENV" = "development" ]; \
     fi
 RUN npm i -g rimraf
 RUN npm i -g tsc
-COPY . /backend-app
+COPY . .
 RUN npm run build
 
 #Stage 2
@@ -26,3 +26,4 @@ COPY --from=builder /backend-app/dist ./dist
 ENV PORT 3000
 EXPOSE $PORT
 CMD npm run start
+
