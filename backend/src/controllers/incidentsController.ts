@@ -38,6 +38,7 @@ export const createIncident: RequestHandler = async (req, res, next) => {
   var date = new Date()
   var temp = new Date()
   var check = true
+  console.log("req-->",req)
   temp.setHours(temp.getHours()-1)
   const allIncidents = await Incident.find().where('date').gt(temp.toISOString());
   for (var i in allIncidents) {
