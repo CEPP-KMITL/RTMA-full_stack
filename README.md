@@ -1,6 +1,6 @@
 # Real Time Monitoring Accident and Casualty in Thailand (RTMC)
 
-Data aggregation of news archive that allows user to historically search through the new and see the correlation with the location on the map for reference.
+Data aggregation of news archive that allows user to search incidents through the new and see the correlation with the location on the map for reference.
 
 ## Developer
 
