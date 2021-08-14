@@ -8,6 +8,7 @@ Data aggregation of news archive that allows user to historically search through
 - [@firstchnn](https://github.com/firstchnn)
 - [@DearSmc](https://github.com/DearSmc)
 - [@moondamon](https://github.com/moondamon)
+- [@saturnooi](https://github.com/saturnooi)
 
 ## Dependency Note
 
