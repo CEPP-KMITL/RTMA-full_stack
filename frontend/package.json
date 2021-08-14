@@ -10,7 +10,7 @@
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
     "build": "quasar build",
-    "start": "quasar serve"
+    "start": "quasar serve dist/spa"
   },
   "dependencies": {
     "@deck.gl/core": "8.0.0",
