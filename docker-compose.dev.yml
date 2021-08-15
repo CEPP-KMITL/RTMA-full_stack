@@ -1,8 +1,5 @@
 version: '3.9'
 services:
-  nginx:
-    ports:
-      - '8000:80'
   node-app:
     build:
       dockerfile: Dockerfile
@@ -36,8 +33,6 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./filter
-    ports:
-      - '5000:5000'
     volumes:
       - ./filter/:/filter-app
     environment:
@@ -46,8 +41,6 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./twint
-    ports:
-      - '6000:6000'
     volumes:
       - ./twint/:/twint-app
     environment:

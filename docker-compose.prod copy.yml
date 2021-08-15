@@ -3,6 +3,7 @@ services:
   nginx:
     ports:
       - '80:80'
+
   node-app:
     deploy:
       replicas: 8
@@ -13,17 +14,13 @@ services:
       update_config:
         parallelism: 2
         delay: 10s
-    build:
-      dockerfile: Dockerfile.prod
-      context: ./backend
-      args:
-        NODE_ENV: production
     environment:
       - NODE_ENV=production
       - MONGO_USER=${MONGO_USER}
       - MONGO_PASSWORD=${MONGO_PASSWORD}
       - SESSION_SECRET=${SESSION_SECRET}
     command: npm run start
+
   quasar:
     deploy:
       replicas: 8
@@ -34,21 +31,30 @@ services:
       update_config:
         parallelism: 2
         delay: 10s
-    build:
-      dockerfile: Dockerfile.prod
-      context: ./frontend
-      args:
-        NODE_ENV: production
-    command: npm run start
+
   mongo:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+
   filter:
-    build:
-      dockerfile: Dockerfile
-      context: ./filter
+    deploy:
+      replicas: 8
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+      update_config:
+        parallelism: 2
+        delay: 10s
+
   twint:
-    build:
-      dockerfile: Dockerfile
-      context: ./twint
+    deploy:
+      replicas: 8
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+      update_config:
+        parallelism: 2
+        delay: 10s

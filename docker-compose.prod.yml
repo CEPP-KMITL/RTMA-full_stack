@@ -1,8 +1,5 @@
 version: '3.9'
 services:
-  nginx:
-    ports:
-      - '8000:80'
   node-app:
     #deploy:
     #replicas: 8

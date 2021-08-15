@@ -18,7 +18,6 @@ services:
       - mongo
       - redis
       - nginx
-      #- quasar
 
   mongo:
     image: mongo
@@ -38,14 +37,10 @@ services:
   quasar:
     build: .
     image: ghcr.io/me-dev-house/rtma-quasar:latest
-    ports:
-      - '8080:8080'
 
   filter:
     build: .
     image: ghcr.io/me-dev-house/rtma-filter:latest
-    ports:
-      - '5000:5000'
     container_name: filter
     depends_on:
       - node-app
@@ -55,8 +50,6 @@ services:
   twint:
     build: .
     image: ghcr.io/me-dev-house/rtma-twint:latest
-    ports:
-      - '6000:6000'
     container_name: twint
     depends_on:
       - node-app
