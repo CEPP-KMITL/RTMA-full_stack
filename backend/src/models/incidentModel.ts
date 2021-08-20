@@ -29,11 +29,11 @@ const incidentSchema = new mongoose.Schema({
     type: String,
     require: [true, 'information must have aprovince'],
   },
-  latitude: {
+  Latitude: {
     type: Number,
     require: [true, 'information must have a latitude'],
   },
-  longitude: {
+  Longitude: {
     type: Number,
     require: [true, 'information must have a longitude'],
   },
