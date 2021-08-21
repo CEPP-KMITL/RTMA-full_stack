@@ -218,6 +218,9 @@
           </span>
         </button>
       </div>
+      <div>
+          <dBoard></dBoard>
+      </div>
     </div>
   </div>
 </template>
@@ -230,11 +233,13 @@ import { HeatmapLayer } from '@deck.gl/aggregation-layers';
 import { ScatterplotLayer } from '@deck.gl/layers';
 import { HexagonLayer } from '@deck.gl/aggregation-layers';
 import hamburgerBtn from './hamburgerBtn.vue';
+// import dashboard from './dashboard.vue';
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyD5OVCmPbVf6YZv6XRpN3NEfI1PzzOwBcU';
 export default defineComponent({
   components: {
     hBtn: hamburgerBtn,
+    // dBoard : dashboard,
     // searchBar: searchbar,
   },
   data() {
@@ -282,7 +287,6 @@ export default defineComponent({
       //   console.log('panned');
     },
     panToCurrentLocation() {
-      console.log('go to cur pos');
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -311,7 +315,6 @@ export default defineComponent({
       await this.zoomIn();
     },
     themeSwitch(theme) {
-      console.log('prev theme : ' + theme);
       if (theme == 'dark') {
         document.getElementById('productName').style.color = '#222831';
         document.getElementById('nearme').style.background = '#4D6180';
@@ -353,7 +356,6 @@ export default defineComponent({
         document.getElementById('hexIcon').style.color = '#222831';
         this.curTheme = 'dark';
       }
-      console.log('hi from themeswitch : ' + theme);
     },
     convertSelect() {
       //   console.log("isSelected toggle");
@@ -459,10 +461,9 @@ export default defineComponent({
   },
   mounted() {
     this.initMap();
-    let input = document.querySelector('input');
+    let input = document.getElementById('searchInput');
     input.addEventListener('keyup', (e) => {
       if (e.keyCode === 13) {
-          console.log('hi from textfield');
         this.fetchLatLng = null;
         fetch(
           'http://api.positionstack.com/v1/forward?access_key=5fc2925ba88b87feade4eaf068f4a2b4&query=' +
@@ -477,8 +478,6 @@ export default defineComponent({
               lat: fetchLat,
               lng: fetchLng,
             };
-            console.log('Lat : ', fetchLat);
-            console.log('Lng : ', fetchLng);
             this.myMap.setCenter(pos);
             this.myMap.setZoom(17);
             this.fetchLatLng = null;
@@ -486,7 +485,7 @@ export default defineComponent({
           .catch((err) => console.warn(err));
       }
     });
-    fetch('http://node-app:3000/api/v1/incidents/getOneDay')
+    fetch('http://178.128.89.207/api/v1/incidents/getOneDay')
       .then((res) => res.json())
       .then((data) => {
         this.accidentsData = data;
