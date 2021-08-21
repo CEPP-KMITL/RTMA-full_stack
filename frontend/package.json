@@ -6,10 +6,11 @@
   "author": "CHNW <cnw.first@gmail.com>",
   "private": true,
   "scripts": {
-    "serve": "quasar dev",
+    "dev": "quasar dev",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
     "build": "quasar build",
+    "build:pwa": "quasar build -m pwa",
     "start": "quasar serve dist/spa"
   },
   "dependencies": {
@@ -20,7 +21,7 @@
     "@quasar/extras": "^1.0.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "deck.gl": "^8.4.20",
+    "deck.gl": "^8.5.4",
     "load-google-maps-api": "^2.0.2",
     "quasar": "^2.0.0"
   },

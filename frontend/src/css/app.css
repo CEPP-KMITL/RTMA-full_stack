@@ -1,148 +1,314 @@
 /* app global css */
+:root {
+  /** sunny side **/
+  --blue-background: #c2e9f6;
+  --blue-border: #72cce3;
+  --blue-color: #96dcee;
+  --yellow-background: #fffaa8;
+  --yellow-border: #f5eb71;
+  /** dark side **/
+  --indigo-background: #808fc7;
+  --indigo-border: #5d6baa;
+  --indigo-color: #6b7abb;
+  --gray-border: #e8e8ea;
+  --gray-dots: #e8e8ea;
+  /** general **/
+  --white: #fff;
+}
 .myButton {
-    display: none;
+  display: none;
+}
+.myButton:hover {
+  cursor: pointer;
+}
+
+.myButton.selected {
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  border-radius: 8px;
+  font-family: Arial;
+  color: #222831;
+  font-size: 20px;
+  background: #f2b963;
+  margin-top: 16px;
+  width: 180px;
+  height: 48px;
+  text-align: start center;
+  padding: 0;
+  border: solid #707070 1px;
+  text-decoration: none;
+  display: inline-flex;
+  animation: fadeIn 600ms;
+  align-items: center;
+}
+.layerButton {
+  display: none;
+}
+.layerButton:hover {
+  cursor: pointer;
+}
+.layerButton.selected {
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  border-radius: 8px;
+  font-family: Arial;
+  color: #222831;
+  font-size: 20px;
+  background: #f2b963;
+  width: 40px;
+  height: 40px;
+  margin-left: 8px;
+  text-align: start center;
+  padding: 0;
+  border: solid #707070 1px;
+  text-decoration: none;
+  display: inline-flex;
+  animation: fadeIn 600ms;
+  align-items: center;
+}
+
+.myMenu {
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  border-radius: 8px;
+  font-family: Arial;
+  color: #222831 /*#F1ECE3 */;
+  font-size: 20px;
+  background: transparent;
+  margin-top: 16px;
+  width: 180px;
+  height: 48px;
+  text-align: start center;
+  padding: 0;
+  border: transparent 1px;
+  text-decoration: none;
+  display: inline-flex;
+  animation: fadeIn 600ms;
+  align-items: center;
+}
+.searchBar {
+  margin-left: 128px;
+  opacity: 50%;
+  transition: 450ms;
+  width: 15 vw;
+  background-color : #F1ECE3;
+  border: 2px transparent;
+  border-radius: 12px;
+}
+.searchBar:hover {
+  opacity: 100%;
+  transition: 300ms;
+}
+.searchBar:focus {
+  opacity: 100%;
+  /* background-color: #f2b963; */
+}
+.pac-icon {
+  display: none;
+}
+.pac-item {
+  opacity: 0.7;
+}
+.pac-item:hover {
+  cursor: pointer;
+}
+
+.menu {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  padding: 0;
+}
+.line {
+  fill: none;
+  stroke: #f2b963;
+  stroke-width: 100px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+    stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line1 {
+  stroke-dasharray: 60 207;
+  stroke-width: 10;
+}
+.line2 {
+  stroke-dasharray: 60 60;
+  stroke-width: 10;
+}
+.line3 {
+  stroke-dasharray: 60 207;
+  stroke-width: 10;
+}
+.opened .line1 {
+  stroke-dasharray: 90 207;
+  stroke-dashoffset: -134;
+  stroke-width: 10;
+}
+.opened .line2 {
+  stroke-dasharray: 1 60;
+  stroke-dashoffset: -30;
+  stroke-width: 10;
+}
+.opened .line3 {
+  stroke-dasharray: 90 207;
+  stroke-dashoffset: -134;
+  stroke-width: 10;
+}
+
+.toggle--checkbox {
+  display: none;
+}
+.toggle--checkbox:checked {
+  /** This will all flip from sun to moon **/
+  /** Change the label color **/
+}
+.toggle--checkbox:checked ~ .background {
+  background: var(--indigo-background);
+}
+.toggle--checkbox:checked + .toggle--label {
+  background: var(--indigo-color);
+  border-color: var(--indigo-border);
+  /** Change the cloud to stars **/
+  /** Change the sun into the moon **/
+  /** Show the dimples on the moon **/
+}
+.toggle--checkbox:checked + .toggle--label .toggle--label-background {
+  left: 15px;
+  width: 1.25px;
+}
+.toggle--checkbox:checked + .toggle--label .toggle--label-background:before {
+  width: 1.25px;
+  height: 1.25px;
+  top: -6.25px;
+}
+.toggle--checkbox:checked + .toggle--label .toggle--label-background:after {
+  width: 1.25px;
+  height: 1.25px;
+  left: -7.5px;
+  top: 5px;
+}
+.toggle--checkbox:checked + .toggle--label:before {
+  background: var(--white);
+  border-color: var(--gray-border);
+  animation-name: switch;
+  animation-duration: 350ms;
+  animation-fill-mode: forwards;
+}
+.toggle--checkbox:checked + .toggle--label:after {
+  transition-delay: 350ms;
+  opacity: 1;
+}
+.toggle--label {
+  /** Placeholder element, starting at blue **/
+  width: 50px;
+  height: 25px;
+  background: var(--blue-color);
+  border-radius: 25px;
+  border: 1.25px solid var(--blue-border);
+  display: flex;
+  position: relative;
+  transition: all 350ms ease-in;
+  /** The sun cloud and moon stars **/
+  /** Sun/Moon element **/
+  /** Gray dots on the moon **/
+}
+.toggle--label-background {
+  width: 2.5px;
+  height: 1.25px;
+  border-radius: 1.25px;
+  position: relative;
+  background: var(--white);
+  left: 33.75px;
+  top: 11.25px;
+  transition: all 150ms ease-in;
+}
+.toggle--label-background:before {
+  content: '';
+  position: absolute;
+  top: -1.25px;
+  width: 1px;
+  height: 1.25px;
+  border-radius: 1.25px;
+  background: var(--white);
+  left: -5px;
+  transition: all 150ms ease-in;
+}
+.toggle--label-background:after {
+  content: '';
+  position: absolute;
+  top: 1.25px;
+  width: 10px;
+  height: 1.25px;
+  border-radius: 1.25px;
+  background: var(--white);
+  left: -2.5px;
+  transition: all 150ms ease-in;
+}
+.toggle--label:before {
+  animation-name: reverse;
+  animation-duration: 350ms;
+  animation-fill-mode: forwards;
+  transition: all 350ms ease-in;
+  content: '';
+  width: 20.5px;
+  height: 20.5px;
+  border: 1.25px solid var(--yellow-border);
+  top: 1px;
+  left: 1px;
+  position: absolute;
+  border-radius: 20.5px;
+  background: var(--yellow-background);
+}
+.toggle--label:after {
+  transition-delay: 0ms;
+  transition: all 250ms ease-in;
+  position: absolute;
+  content: '';
+  box-shadow: var(--gray-dots) -3.25px 0 0 0.5px, var(--gray-dots) -6px 3.5px 0 -0.5px;
+  left: 35.75px;
+  top: 5.75px;
+  width: 2.5px;
+  height: 2.5px;
+  background: transparent;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+@keyframes switch {
+  0% {
+    left: 1px;
   }
-  .myButton:hover {
-    cursor: pointer;
+  60% {
+    left: 1px;
+    width: 28px;
   }
-  
-  .myButton.selected {
-    -webkit-border-radius: 8;
-    -moz-border-radius: 8;
-    border-radius: 8px;
-    font-family: Arial;
-    color: #222831;
-    font-size: 20px;
-    background: #f2b963;
-    margin-top: 16px;
-    width: 180px;
-    height: 48px;
-    text-align: start center;
-    padding: 0;
-    border: solid #707070 1px;
-    text-decoration: none;
-    display: inline-flex;
-    animation: fadeIn 600ms;
-    align-items: center;
+  100% {
+    left: 26px;
+    width: 20.5px;
   }
-  .layerButton {
-    display: none;
+}
+@keyframes reverse {
+  0% {
+    left: 26px;
+    width: 20.5px;
   }
-  .layerButton:hover {
-    cursor: pointer;
+  60% {
+    left: 18px;
+    width: 28px;
   }
-  .layerButton.selected {
-    -webkit-border-radius: 8;
-    -moz-border-radius: 8;
-    border-radius: 8px;
-    font-family: Arial;
-    color: #222831;
-    font-size: 20px;
-    background: #f2b963;
-    width: 40px;
-    height: 40px;
-    margin-left: 8px;
-    text-align: start center;
-    padding: 0;
-    border: solid #707070 1px;
-    text-decoration: none;
-    display: inline-flex;
-    animation: fadeIn 600ms;
-    align-items: center;
+  100% {
+    left: 1px;
   }
-  
-  .myMenu {
-    -webkit-border-radius: 8;
-    -moz-border-radius: 8;
-    border-radius: 8px;
-    font-family: Arial;
-    color: #222831 /*#F1ECE3 */;
-    font-size: 20px;
-    background: transparent;
-    margin-top: 16px;
-    width: 180px;
-    height: 48px;
-    text-align: start center;
-    padding: 0;
-    border: transparent 1px;
-    text-decoration: none;
-    display: inline-flex;
-    animation: fadeIn 600ms;
-    align-items: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  .searchBar {
-    margin-left: 128px;
-    opacity: 50%;
-    transition: 450ms;
+  to {
+    opacity: 1;
   }
-  .searchBar:hover {
-    opacity: 100%;
-    transition: 300ms;
-  }
-  .searchBar:focus {
-    opacity: 100%;
-    /* background-color: #f2b963; */
-  }
-  .pac-icon {
-    display: none;
-  }
-  .pac-item {
-    opacity: 0.7;
-  }
-  .pac-item:hover {
-    cursor: pointer;
-  }
-  
-  .menu {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    padding: 0;
-  }
-  .line {
-    fill: none;
-    stroke: #f2b963;
-    stroke-width: 100px;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
-      stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .line1 {
-    stroke-dasharray: 60 207;
-    stroke-width: 10;
-  }
-  .line2 {
-    stroke-dasharray: 60 60;
-    stroke-width: 10;
-  }
-  .line3 {
-    stroke-dasharray: 60 207;
-    stroke-width: 10;
-  }
-  .opened .line1 {
-    stroke-dasharray: 90 207;
-    stroke-dashoffset: -134;
-    stroke-width: 10;
-  }
-  .opened .line2 {
-    stroke-dasharray: 1 60;
-    stroke-dashoffset: -30;
-    stroke-width: 10;
-  }
-  .opened .line3 {
-    stroke-dasharray: 90 207;
-    stroke-dashoffset: -134;
-    stroke-width: 10;
-  }
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
+}

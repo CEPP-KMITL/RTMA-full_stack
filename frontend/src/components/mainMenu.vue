@@ -145,12 +145,10 @@
 </template>
 
 <script>
-import dropDownBtn from "./dropDownBtn.vue";
 import hamburgerBtn from "./hamburgerBtn.vue";
 import searchbar from "./searchBar.vue"
 export default {
   components: {
-    dBtn: dropDownBtn,
     hBtn: hamburgerBtn,
     searchBar: searchbar,
   },
