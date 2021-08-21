@@ -1,13 +1,8 @@
 <template>
   <div>
-    <q-btn
-      label="Card"
-      color="primary"
-      @click="isClose = true"
-      class="text-weight-bold"
-    />
 
     <q-dialog
+      ref="dBroad"
       v-model="isClose"
       class="flex justify-center items-center content-center"
       style="height: 100vh"
@@ -82,22 +77,13 @@ export default {
   data() {
     return {
       interval: 0,
-      first: 'First',
-      second: 'Second',
-      third: 'Third',
-      fourth: 'Fourth',
-      fifth: 'Fifth',
+      first: [],
+      second: [],
+      third: [],
+      fourth: [],
+      fifth: [],
     };
   },
-//   computed: {
-//     ...mapGetters({
-//       first: 'getFirst',
-//       second: 'getSecond',
-//       third: 'getThird',
-//       fourth: 'getFourth',
-//       fifth: 'getFifth',
-//     }),
-//   },
   methods: {
     async fetchData() {
       const url = 'http://178.128.89.207/api/v1/incidents/getFive';
@@ -118,6 +104,12 @@ export default {
         console.log(err);
       }
     },
+    externalInit() {
+      this.$refs["dBroad"].onToggle();
+    },
+    onToggle(){
+      this.isClose = !this.isClose
+    }
   },
   setup() {
     return {

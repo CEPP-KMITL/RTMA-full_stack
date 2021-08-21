@@ -53,7 +53,7 @@
         <label for="toggle" class="toggle--label">
           <span class="toggle--label-background"></span>
         </label>
-        </span> 
+        </span>
           <span
             ><input
               class="searchBar"
@@ -186,9 +186,10 @@
       </div>
       <!-- DashBoard Button -->
       <div>
-        <button
+        <div
           id="dashboard"
           class="myButton"
+          @click="openDashboard"
           :class="{ selected: isSelected }"
         >
           <span
@@ -216,11 +217,11 @@
           >
             chevron_right
           </span>
-        </button>
+        </div>
       </div>
-      <div>
-          <dBoard></dBoard>
-      </div>
+
+        <dBoard ref="dBoard" />
+
     </div>
   </div>
 </template>
@@ -458,6 +459,10 @@ export default defineComponent({
       );
       this.renderLayer();
     },
+    openDashboard()
+    {
+      this.$refs["dBoard"].externalInit();
+    }
   },
   mounted() {
     this.initMap();
