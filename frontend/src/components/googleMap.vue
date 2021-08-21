@@ -218,9 +218,9 @@
           </span>
         </button>
       </div>
-      <!-- <div>
+      <div>
           <dBoard></dBoard>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -233,13 +233,13 @@ import { HeatmapLayer } from '@deck.gl/aggregation-layers';
 import { ScatterplotLayer } from '@deck.gl/layers';
 import { HexagonLayer } from '@deck.gl/aggregation-layers';
 import hamburgerBtn from './hamburgerBtn.vue';
-// import dashboard from './dashboard.vue';
+import dashboard from './dashboard.vue';
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyD5OVCmPbVf6YZv6XRpN3NEfI1PzzOwBcU';
 export default defineComponent({
   components: {
     hBtn: hamburgerBtn,
-    // dBoard : dashboard,
+    dBoard : dashboard,
     // searchBar: searchbar,
   },
   data() {
@@ -490,45 +490,6 @@ export default defineComponent({
       .then((data) => {
         this.accidentsData = data;
         console.log(this.accidentsData.getIncidents);
-        // this.accidentsData.getIncidents.push({
-        //     _id: '610e32d827251c001a84a034',
-        //     type: 'kokoko',
-        //     formattedname: 'ข้อมูลข่าว',
-        //     content: 'ชนิดข่าว',
-        //     link: 'แหล่งที่มาข่าว',
-        //     from: 'ตำแหน่งการเกิดเหตุ',
-        //     province: 'ตำแหน่งการเกิดเหตุ',
-        //     latitude: 18.796143,
-        //     longitude: 98.979263,
-        //     date: '2021-08-07T07:14:32.354Z',
-        //     __v: 0,
-        //   },
-        //   {
-        //     _id: '610e32d827251c001a84a034',
-        //     type: 'kokoko',
-        //     formattedname: 'ข้อมูลข่าว',
-        //     content: 'ชนิดข่าว',
-        //     link: 'แหล่งที่มาข่าว',
-        //     from: 'ตำแหน่งการเกิดเหตุ',
-        //     province: 'ตำแหน่งการเกิดเหตุ',
-        //     latitude: 19.796143,
-        //     longitude: 98.979263,
-        //     date: '2021-08-07T07:14:32.354Z',
-        //     __v: 0,
-        //   },
-        //   {
-        //     _id: '610e32d827251c001a84a034',
-        //     type: 'kokoko',
-        //     formattedname: 'ข้อมูลข่าว',
-        //     content: 'ชนิดข่าว',
-        //     link: 'แหล่งที่มาข่าว',
-        //     from: 'ตำแหน่งการเกิดเหตุ',
-        //     province: 'ตำแหน่งการเกิดเหตุ',
-        //     latitude: 18.9,
-        //     longitude: 98.979263,
-        //     date: '2021-08-07T07:14:32.354Z',
-        //     __v: 0,
-        //   });
       })
       .catch((err) => console.warn(err));
   },
