@@ -43,35 +43,11 @@
             "
             >SONAR</span
           >
-          <span style="margin-left:24px">
-            <input
-          type="checkbox"
-          id="toggle"
-          class="toggle--checkbox"
-          @click="toggleMapTheme(this.currMapId), themeSwitch(this.curTheme)"
-        />
-        <label for="toggle" class="toggle--label">
-          <span class="toggle--label-background"></span>
-        </label>
-        </span> 
-          <span
-            ><input
-              class="searchBar"
-              :class="{ selected: isSelected }"
-              id="searchInput"
-              type="text"
-              placeholder=" Enter Location..."
-              style="item-align: center"
-          /></span>
+          <span><searchBar v-model="searched_location"></searchBar></span>
         </button>
       </div>
       <div>
-        <button
-          id="nearme"
-          class="myButton"
-          :class="{ selected: isSelected }"
-          @click="locateCurrent()"
-        >
+        <button id="nearme" class="myButton" :class="{ selected: isSelected }">
           <span
             id="nearmeIcon"
             class="material-icons"
@@ -121,13 +97,11 @@
           </span>
           <span style="margin-top: 8px; margin-left: 12px; margin-bottom: 7px"
             ><button
-              id="scatterButton"
               class="layerButton"
               :class="{ selected: layerSelected }"
               @click="convertLayer(), toggleScatter()"
             >
               <span
-                id="scatterIcon"
                 class="material-icons"
                 style="
                   font-size: 28px;
@@ -142,13 +116,11 @@
           >
           <span style="margin-top: 8px; margin-left: 8px; margin-bottom: 7px"
             ><button
-              id="heatButton"
               class="layerButton"
               :class="{ selected: layerSelected }"
               @click="convertLayer(), toggleHeat()"
             >
               <span
-                id="heatIcon"
                 class="material-icons"
                 style="
                   font-size: 28px;
@@ -157,19 +129,17 @@
                   color: #222831;
                 "
               >
-                local_fire_department
+                fmd_good
               </span>
             </button></span
           >
           <span style="margin-top: 8px; margin-left: 8px; margin-bottom: 7px"
             ><button
               class="layerButton"
-              id="hexButton"
               :class="{ selected: layerSelected }"
-              @click="convertLayer(), toggleHex()"
+              @click="convertLayer()"
             >
               <span
-                id="hexIcon"
                 class="material-icons"
                 style="
                   font-size: 28px;
@@ -218,31 +188,66 @@
           </span>
         </button>
       </div>
+      <div>
+        <button
+          id="darkmodeBtn"
+          class="myButton"
+          :class="{ selected: isSelected }"
+          @click="toggleMapTheme(this.currMapId), themeSwitch(this.curTheme)"
+        >
+          <span
+            class="material-icons"
+            style="
+              font-size: 28px;
+              margin-left: 4px;
+              margin-right: 8px;
+              color: #222831;
+            "
+          >
+            layers
+          </span>
+          <span style="font-family: Prompt; font-weight: 400">Dark Mode</span>
+          <span
+            class="material-icons"
+            style="margin-left: 8px"
+            @click="layerSelected = !layerSelected"
+          >
+            chevron_right
+          </span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
+import { useGeolocation } from '/src/useGeolocation.js';
 import { Loader } from '@googlemaps/js-api-loader';
 import { GoogleMapsOverlay } from '@deck.gl/google-maps';
 import { HeatmapLayer } from '@deck.gl/aggregation-layers';
 import { ScatterplotLayer } from '@deck.gl/layers';
 import { HexagonLayer } from '@deck.gl/aggregation-layers';
 import hamburgerBtn from './hamburgerBtn.vue';
+import searchbar from './searchBar.vue';
+import axios from 'axios';
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyD5OVCmPbVf6YZv6XRpN3NEfI1PzzOwBcU';
 export default defineComponent({
   components: {
     hBtn: hamburgerBtn,
-    // searchBar: searchbar,
+    searchBar: searchbar,
   },
   data() {
     return {
       isSelected: false,
       layerSelected: false,
       searched_location: '',
-      currPos: null,
+      coords: useGeolocation(),
+      currPos: computed(() => ({
+        lat: coords.value.latitude,
+        lng: coords.value.longitude,
+      })),
       sourceData: './gundata.json',
       myMap: null,
       loader: new Loader({
@@ -251,65 +256,12 @@ export default defineComponent({
       }),
       scatterStatus: false,
       heatStatus: false,
-      hexStatus: false,
       currMapId: '77019c2d28bf4b75',
       curTheme: 'dark',
       accidentsData: [],
-      overlay: null,
-      searchPlace: document.querySelector('input'),
     };
   },
   methods: {
-    showPlace() {
-      var input = document.getElementById('searchInput');
-      alert(input.value);
-    },
-    zoomOut() {
-      this.myMap.setZoom(5);
-    },
-    zoomIn() {
-      this.myMap.setZoom(17);
-    },
-    panToNY() {
-      var latLng = new google.maps.LatLng(40.745255, -74.034775);
-      this.myMap.panTo(latLng);
-      this.myMap.setZoom(10);
-      //   console.log('panned');
-    },
-    panToBKK() {
-      var latLng = new google.maps.LatLng(18.811, 98.999);
-      this.myMap.panTo(latLng);
-      //   console.log('panned');
-    },
-    panToCurrentLocation() {
-      console.log('go to cur pos');
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            };
-            this.myMap.setCenter(pos);
-          },
-          () => {
-            handleLocationError(this.myMap.getCenter());
-          },
-        );
-      } else {
-        handleLocationError(this.myMap.getCenter());
-      }
-    },
-    async locateBKK() {
-      await this.zoomOut();
-      await this.panToBKK();
-      await this.zoomIn();
-    },
-    async locateCurrent() {
-      await this.zoomOut();
-      await this.panToCurrentLocation();
-      await this.zoomIn();
-    },
     themeSwitch(theme) {
       console.log('prev theme : ' + theme);
       if (theme == 'dark') {
@@ -325,12 +277,6 @@ export default defineComponent({
         document.getElementById('dashboardIcon').style.color = '#F1ECE3';
         document.getElementById('dashboardLabel').style.color = '#F1ECE3';
         document.getElementById('dashboardArrow').style.color = '#F1ECE3';
-        document.getElementById('scatterButton').style.background = '#4D6180';
-        document.getElementById('heatButton').style.background = '#4D6180';
-        document.getElementById('hexButton').style.background = '#4D6180';
-        document.getElementById('scatterIcon').style.color = '#F1ECE3';
-        document.getElementById('heatIcon').style.color = '#F1ECE3';
-        document.getElementById('hexIcon').style.color = '#F1ECE3';
         this.curTheme = 'light';
       } else if (theme == 'light') {
         document.getElementById('productName').style.color = '#F1ECE3';
@@ -345,12 +291,6 @@ export default defineComponent({
         document.getElementById('dashboardIcon').style.color = '#222831';
         document.getElementById('dashboardLabel').style.color = '#222831';
         document.getElementById('dashboardArrow').style.color = '#222831';
-        document.getElementById('scatterButton').style.background = '#F2B963';
-        document.getElementById('heatButton').style.background = '#F2B963';
-        document.getElementById('hexButton').style.background = '#F2B963';
-        document.getElementById('scatterIcon').style.color = '#222831';
-        document.getElementById('heatIcon').style.color = '#222831';
-        document.getElementById('hexIcon').style.color = '#222831';
         this.curTheme = 'dark';
       }
       console.log('hi from themeswitch : ' + theme);
@@ -359,9 +299,6 @@ export default defineComponent({
       //   console.log("isSelected toggle");
       return (this.isSelected = !this.isSelected);
     },
-    clearLayer() {
-      this.overlay.setMap(null);
-    },
     setLayerDefault() {
       //   console.log("setlayerdefault");
       return (this.layerSelected = false);
@@ -369,20 +306,15 @@ export default defineComponent({
     convertLayer() {
       return (this.layerSelected = !this.layerSelected);
     },
-    async toggleScatter() {
+    toggleScatter() {
       this.scatterStatus = !this.scatterStatus;
-      await this.clearLayer();
-      await this.renderLayer();
+      // console.warn(this.scatterStatus);
+      this.renderLayer();
     },
-    async toggleHeat() {
+    toggleHeat() {
       this.heatStatus = !this.heatStatus;
-      await this.clearLayer();
-      await this.renderLayer();
-    },
-    async toggleHex() {
-      this.hexStatus = !this.hexStatus;
-      await this.clearLayer();
-      await this.renderLayer();
+      // console.warn(this.scatterStatus);
+      this.initMap();
     },
     toggleMapTheme(id) {
       if (id == '77019c2d28bf4b75') {
@@ -393,46 +325,36 @@ export default defineComponent({
       console.warn(this.currMapId + ' is current MapId');
       this.initMap();
     },
+    // newRender(){
+    //     const deckOverlay = new deck,GoogleMapsOverlay
+    // },
     renderLayer() {
       const scatterplot = () =>
         new ScatterplotLayer({
           id: 'scatter',
-          data: this.accidentsData.getIncidents, //this.accidentsData.getIncidents
+          data: this.accidentsData.getIncidents,
           opacity: 0.8,
           filled: true,
           radiusMinPixels: 5,
-          radiusMaxPixels: 15,
+          radiusMaxPixels: 13,
           getPosition: (d) => [d.longitude, d.latitude],
-          getFillColor: (d) => [200, 0, 40],
-          visible: this.scatterStatus,
+          getFillColor: (d) => [200, 0, 40, 150],
+          visible: true,
         });
+
       const heatmap = () =>
         new HeatmapLayer({
           id: 'heat',
-          data: this.accidentsData.getIncidents,
+          data: this.sourceData,
           getPosition: (d) => [d.longitude, d.latitude],
-          getWeight: (d) => 0.5,
+          getWeight: (d) => d.n_killed + d.n_injured * 0.5,
           radiusPixel: 60,
           visible: this.heatStatus,
         });
-      const hexagon = () =>
-        new HexagonLayer({
-          id: 'hex',
-          data: this.accidentsData.getIncidents,
-          getPosition: (d) => [d.longitude, d.latitude],
-          getElevationWeight: (d) => 3,
-          elevationScale: 100,
-          extruded: true,
-          radius: 1609,
-          opacity: 0.6,
-          coverage: 0.88,
-          lowerPercentile: 50,
-          visible: this.hexStatus,
-        });
-      this.overlay = new GoogleMapsOverlay({
+      const overlay = new GoogleMapsOverlay({
         layers: [heatmap(), scatterplot()],
       });
-      this.overlay.setMap(this.myMap);
+      overlay.setMap(this.myMap);
     },
     async initMap() {
       await this.loader.load();
@@ -443,7 +365,7 @@ export default defineComponent({
         mapTypeControl: false,
         zoomControl: false,
         minZoom: 4,
-        maxZoom: 17,
+        maxZoom: 15,
         mapId: this.currMapId,
       });
       new google.maps.places.Autocomplete(
@@ -458,39 +380,14 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.initMap();
-    let input = document.querySelector('input');
-    input.addEventListener('keyup', (e) => {
-      if (e.keyCode === 13) {
-        this.fetchLatLng = null;
-        fetch(
-          'http://api.positionstack.com/v1/forward?access_key=5fc2925ba88b87feade4eaf068f4a2b4&query=' +
-            e.target.value,
-        )
-          .then((res) => res.json())
-          .then((data) => {
-            this.fetchLatLng = data;
-            let fetchLat = this.fetchLatLng.data[0].latitude;
-            let fetchLng = this.fetchLatLng.data[0].longitude;
-            let pos = {
-              lat: fetchLat,
-              lng: fetchLng,
-            };
-            console.log('Lat : ', fetchLat);
-            console.log('Lng : ', fetchLng);
-            this.myMap.setCenter(pos);
-            this.myMap.setZoom(17);
-            this.fetchLatLng = null;
-          })
-          .catch((err) => console.warn(err));
-      }
-    });
-    fetch('http://node-app:3000/api/v1/incidents/getOneDay')
-      .then((res) => res.json())
-      .then((data) => {
-        this.accidentsData = data;
+    fetch('http://localhost:8000/api/v1/incidents/getOneDay')
+      .then(res => res.json())
+      .then(data => {
+          this.accidentsData = data;
+          console.log('Data is : ',this.accidentsData.getIncidents);
       })
-      .catch((err) => console.warn(err));
+      .catch(err => console.warn(err));
+    this.initMap();
   },
 });
 </script>
