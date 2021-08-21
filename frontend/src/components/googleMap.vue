@@ -218,9 +218,9 @@
           </span>
         </button>
       </div>
-      <div>
+      <!-- <div>
           <dBoard></dBoard>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -404,7 +404,7 @@ export default defineComponent({
           filled: true,
           radiusMinPixels: 5,
           radiusMaxPixels: 15,
-          getPosition: (d) => [d.longitude, d.latitude],
+          getPosition: (d) => [d.Longitude, d.Latitude],
           getFillColor: (d) => [200, 0, 40],
           visible: this.scatterStatus,
         });
@@ -412,7 +412,7 @@ export default defineComponent({
         new HeatmapLayer({
           id: 'heat',
           data: this.accidentsData.getIncidents,
-          getPosition: (d) => [d.longitude, d.latitude],
+          getPosition: (d) => [d.Longitude, d.Latitude],
           getWeight: (d) => 0.5,
           radiusPixel: 60,
           visible: this.heatStatus,
@@ -489,6 +489,46 @@ export default defineComponent({
       .then((res) => res.json())
       .then((data) => {
         this.accidentsData = data;
+        console.log(this.accidentsData.getIncidents);
+        // this.accidentsData.getIncidents.push({
+        //     _id: '610e32d827251c001a84a034',
+        //     type: 'kokoko',
+        //     formattedname: 'ข้อมูลข่าว',
+        //     content: 'ชนิดข่าว',
+        //     link: 'แหล่งที่มาข่าว',
+        //     from: 'ตำแหน่งการเกิดเหตุ',
+        //     province: 'ตำแหน่งการเกิดเหตุ',
+        //     latitude: 18.796143,
+        //     longitude: 98.979263,
+        //     date: '2021-08-07T07:14:32.354Z',
+        //     __v: 0,
+        //   },
+        //   {
+        //     _id: '610e32d827251c001a84a034',
+        //     type: 'kokoko',
+        //     formattedname: 'ข้อมูลข่าว',
+        //     content: 'ชนิดข่าว',
+        //     link: 'แหล่งที่มาข่าว',
+        //     from: 'ตำแหน่งการเกิดเหตุ',
+        //     province: 'ตำแหน่งการเกิดเหตุ',
+        //     latitude: 19.796143,
+        //     longitude: 98.979263,
+        //     date: '2021-08-07T07:14:32.354Z',
+        //     __v: 0,
+        //   },
+        //   {
+        //     _id: '610e32d827251c001a84a034',
+        //     type: 'kokoko',
+        //     formattedname: 'ข้อมูลข่าว',
+        //     content: 'ชนิดข่าว',
+        //     link: 'แหล่งที่มาข่าว',
+        //     from: 'ตำแหน่งการเกิดเหตุ',
+        //     province: 'ตำแหน่งการเกิดเหตุ',
+        //     latitude: 18.9,
+        //     longitude: 98.979263,
+        //     date: '2021-08-07T07:14:32.354Z',
+        //     __v: 0,
+        //   });
       })
       .catch((err) => console.warn(err));
   },
