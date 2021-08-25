@@ -12,6 +12,7 @@
         z-index: 0;
       "
     />
+    <div id="tooltip"></div>
     <div
       id="myMenu"
       style="
@@ -43,17 +44,19 @@
             "
             >SONAR</span
           >
-          <span style="margin-left:24px">
+          <span style="margin-left: 24px">
             <input
-          type="checkbox"
-          id="toggle"
-          class="toggle--checkbox"
-          @click="toggleMapTheme(this.currMapId), themeSwitch(this.curTheme)"
-        />
-        <label for="toggle" class="toggle--label">
-          <span class="toggle--label-background"></span>
-        </label>
-        </span>
+              type="checkbox"
+              id="toggle"
+              class="toggle--checkbox"
+              @click="
+                toggleMapTheme(this.currMapId), themeSwitch(this.curTheme)
+              "
+            />
+            <label for="toggle" class="toggle--label">
+              <span class="toggle--label-background"></span>
+            </label>
+          </span>
           <span
             ><input
               class="searchBar"
@@ -189,7 +192,7 @@
         <div
           id="dashboard"
           class="myButton"
-          @click="openDashboard"
+          @click="openDashboard()"
           :class="{ selected: isSelected }"
         >
           <span
@@ -220,8 +223,7 @@
         </div>
       </div>
 
-        <dBoard ref="dBoard" />
-
+      <dBoard ref="dBoard" />
     </div>
   </div>
 </template>
@@ -240,8 +242,7 @@ const GOOGLE_MAPS_API_KEY = 'AIzaSyD5OVCmPbVf6YZv6XRpN3NEfI1PzzOwBcU';
 export default defineComponent({
   components: {
     hBtn: hamburgerBtn,
-    dBoard : dashboard,
-    // searchBar: searchbar,
+    dBoard: dashboard,
   },
   data() {
     return {
@@ -258,8 +259,8 @@ export default defineComponent({
       scatterStatus: false,
       heatStatus: false,
       hexStatus: false,
-      currMapId: '77019c2d28bf4b75',
-      curTheme: 'dark',
+      currMapId: '142837500402f49f',
+      curTheme: 'light',
       accidentsData: [],
       overlay: null,
       searchPlace: document.querySelector('input'),
@@ -314,6 +315,26 @@ export default defineComponent({
       await this.zoomOut();
       await this.panToCurrentLocation();
       await this.zoomIn();
+    },
+    setDefaultTheme() {
+      document.getElementById('productName').style.color = '#222831';
+      document.getElementById('nearme').style.background = '#4D6180';
+      document.getElementById('nearmeIcon').style.color = '#F1ECE3';
+      document.getElementById('nearmeLabel').style.color = '#F1ECE3';
+      document.getElementById('layer').style.background = '#4D6180';
+      document.getElementById('layerIcon').style.color = '#F1ECE3';
+      document.getElementById('layerLabel').style.color = '#F1ECE3';
+      document.getElementById('layerArrow').style.color = '#F1ECE3';
+      document.getElementById('dashboard').style.background = '#4D6180';
+      document.getElementById('dashboardIcon').style.color = '#F1ECE3';
+      document.getElementById('dashboardLabel').style.color = '#F1ECE3';
+      document.getElementById('dashboardArrow').style.color = '#F1ECE3';
+      document.getElementById('scatterButton').style.background = '#4D6180';
+      document.getElementById('heatButton').style.background = '#4D6180';
+      document.getElementById('hexButton').style.background = '#4D6180';
+      document.getElementById('scatterIcon').style.color = '#F1ECE3';
+      document.getElementById('heatIcon').style.color = '#F1ECE3';
+      document.getElementById('hexIcon').style.color = '#F1ECE3';
     },
     themeSwitch(theme) {
       if (theme == 'dark') {
@@ -408,6 +429,32 @@ export default defineComponent({
           getPosition: (d) => [d.Longitude, d.Latitude],
           getFillColor: (d) => [200, 0, 40],
           visible: this.scatterStatus,
+          pickable: true,
+          onHover: ({ object, x, y }) => {
+            const el = document.getElementById('tooltip');
+            if (object) {
+              const { date, from, content , _id, Latitude, Longitude, type } = object;
+              el.innerHTML = `
+              <p style="font-weight:bold">ID : ${_id}</p>
+              <p style="font-weight:bold;color:#F2B963">Type : ${type}</p>
+              <div style="text-overflow:ellipsis"><p>${content}</p></div>
+              <p style="font-weight:bold">Date : ${date}</p>
+              <p style="font-weight:bold">Lat : ${Latitude}, Lng : ${Longitude}</p>
+              <p style="font-weight:bold">Source : ${from}</p>
+              `;
+              el.style.display = 'block';
+              el.style.opacity = 0.9;
+              el.style.margin = '0 px';
+              el.style.left = x + 'px';
+              el.style.top = y + 'px';
+            } else {
+              el.style.opacity = 0.0;
+              el.innerHTML = ``;
+            }
+          },
+          onClick: ({ object, x, y }) => {
+            window.open(`${object.link}`);
+          },
         });
       const heatmap = () =>
         new HeatmapLayer({
@@ -459,13 +506,14 @@ export default defineComponent({
       );
       this.renderLayer();
     },
-    openDashboard()
-    {
-      this.$refs["dBoard"].externalInit();
-    }
+    openDashboard() {
+      console.log('Hello From openDashboard()');
+      this.$refs['dBoard'].externalInit();
+    },
   },
   mounted() {
     this.initMap();
+    this.setDefaultTheme();
     let input = document.getElementById('searchInput');
     input.addEventListener('keyup', (e) => {
       if (e.keyCode === 13) {

@@ -15,6 +15,29 @@
     /** general **/
     --white: #fff;
   }
+  body {
+    overflow: hidden;
+}
+  #tooltip {
+    position: absolute; 
+    background: black;
+    color : white;
+    opacity:0.0;
+    margin: 10px; padding: 10px;
+    z-index : 0;
+    width : 25vw;
+    border-radius:16px;
+    text-overflow:ellipsis
+    /* height : 30vh; */
+}
+#tt_content {
+    width : 23vw;
+    margin-left: 0.5vw;
+    margin-top:0.4vw;
+}
+#tt_id{
+    font-weight: 24px;
+}
   .myButton {
     display: none;
   }
