@@ -1,12 +1,11 @@
 <template>
   <div>
-
     <q-dialog
-      ref="dBroad"
       v-model="isClose"
       class="flex justify-center items-center content-center"
       style="height: 100vh"
     >
+
       <q-card class="my-card bg-secondary" bordered>
         <q-card-section class="text-white q-py-xs q-mx-md">
           <div class="text-h4 q-mt-sm q-mb-sm">Top 5 Risk Area</div>
@@ -104,11 +103,9 @@ export default {
         console.log(err);
       }
     },
-    externalInit() {
-      this.$refs["dBroad"].onToggle();
-    },
     onToggle(){
       this.isClose = !this.isClose
+      // console.log("isclose: ",this.isClose)
     }
   },
   setup() {

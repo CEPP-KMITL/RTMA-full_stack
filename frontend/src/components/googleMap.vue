@@ -223,7 +223,8 @@
         </div>
       </div>
 
-      <dBoard ref="dBoard" />
+
+      <dBoard id="dashBoard" ref="dBoard"></dBoard>
     </div>
   </div>
 </template>
@@ -508,8 +509,8 @@ export default defineComponent({
       this.renderLayer();
     },
     openDashboard() {
-      console.log('Hello From openDashboard()');
-      this.$refs['dBoard'].externalInit();
+      // console.log('Hello From openDashboard()');
+      this.$refs['dBoard'].onToggle();
     },
   },
   mounted() {
