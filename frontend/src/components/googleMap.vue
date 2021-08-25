@@ -176,12 +176,12 @@
                 class="material-icons"
                 style="
                   font-size: 28px;
-                  margin-left: 4px;
+                  margin-left: 5px;
                   margin-right: 8px;
                   color: #222831;
                 "
               >
-                fmd_good
+                dangerous
               </span>
             </button></span
           >
@@ -433,7 +433,8 @@ export default defineComponent({
           onHover: ({ object, x, y }) => {
             const el = document.getElementById('tooltip');
             if (object) {
-              const { date, from, content , _id, Latitude, Longitude, type } = object;
+              const { date, from, content, _id, Latitude, Longitude, type } =
+                object;
               el.innerHTML = `
               <p style="font-weight:bold">ID : ${_id}</p>
               <p style="font-weight:bold;color:#F2B963">Type : ${type}</p>
@@ -469,18 +470,18 @@ export default defineComponent({
         new HexagonLayer({
           id: 'hex',
           data: this.accidentsData.getIncidents,
-          getPosition: (d) => [d.longitude, d.latitude],
-          getElevationWeight: (d) => 3,
+          getPosition: (d) => [d.Longitude, d.Latitude],
+          getElevationWeight: (d) => 1,
           elevationScale: 100,
           extruded: true,
-          radius: 1609,
+          radius: 6000,
           opacity: 0.6,
           coverage: 0.88,
           lowerPercentile: 50,
           visible: this.hexStatus,
         });
       this.overlay = new GoogleMapsOverlay({
-        layers: [heatmap(), scatterplot()],
+        layers: [heatmap(), scatterplot(), hexagon()],
       });
       this.overlay.setMap(this.myMap);
     },
