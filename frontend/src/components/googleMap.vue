@@ -36,7 +36,7 @@
           <span
             id="productName"
             style="
-              font-family: Prompt;
+              font-family: 'Prompt', sans-serif;
               font-weight: 750;
               font-size: 30px;
               margin-left: 8px;
@@ -87,7 +87,7 @@
           >
             radar
           </span>
-          <span id="nearmeLabel" style="font-family: Prompt; font-weight: 400"
+          <span id="nearmeLabel" style="font-family: 'Prompt', sans-serif; font-weight: 400"
             >Near Me</span
           >
         </button>
@@ -112,7 +112,7 @@
           >
             layers
           </span>
-          <span id="layerLabel" style="font-family: Prompt; font-weight: 400"
+          <span id="layerLabel" style="font-family: 'Prompt', sans-serif; font-weight: 400"
             >Layer</span
           >
           <span
@@ -205,11 +205,11 @@
               color: #222831;
             "
           >
-            layers
+            leaderboard
           </span>
           <span
             id="dashboardLabel"
-            style="font-family: Prompt; font-weight: 400"
+            style="font-family: 'Prompt', sans-serif; font-weight: 400"
             >Dashboard</span
           >
           <span
@@ -223,8 +223,31 @@
         </div>
       </div>
 
-
       <dBoard id="dashBoard" ref="dBoard"></dBoard>
+      <div>
+        <button
+          id="history"
+          class="myButton"
+          :class="{ selected: isSelected }"
+          @click="toggleDataRange()"
+        >
+          <span
+            id="historyIcon"
+            class="material-icons"
+            style="
+              font-size: 28px;
+              margin-left: 4px;
+              margin-right: 8px;
+              color: #222831;
+            "
+          >
+            remove_red_eye
+          </span>
+          <span id="historyLabel" style="font-family: 'Prompt', sans-serif; font-weight: 400"
+            >View History</span
+          >
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -251,7 +274,6 @@ export default defineComponent({
       layerSelected: false,
       searched_location: '',
       currPos: null,
-      sourceData: './gundata.json',
       myMap: null,
       loader: new Loader({
         apiKey: GOOGLE_MAPS_API_KEY,
@@ -262,15 +284,29 @@ export default defineComponent({
       hexStatus: false,
       currMapId: '142837500402f49f',
       curTheme: 'light',
-      accidentsData: [],
+      currentData: [],
       overlay: null,
       searchPlace: document.querySelector('input'),
+      alltimeData: [],
+      oneDayData: [],
+      dataState: 0,
     };
   },
   methods: {
     showPlace() {
       var input = document.getElementById('searchInput');
       alert(input.value);
+    },
+    async toggleDataRange() {
+      if (this.dataState == 1) {
+        this.dataState = 0;
+        this.currentData = this.oneDayData;
+      } else {
+        this.dataState = 1;
+        this.currentData = this.alltimeData;
+      }
+      await this.clearLayer();
+      await this.renderLayer();
     },
     zoomOut() {
       this.myMap.setZoom(5);
@@ -307,11 +343,6 @@ export default defineComponent({
         handleLocationError(this.myMap.getCenter());
       }
     },
-    async locateBKK() {
-      await this.zoomOut();
-      await this.panToBKK();
-      await this.zoomIn();
-    },
     async locateCurrent() {
       await this.zoomOut();
       await this.panToCurrentLocation();
@@ -336,6 +367,9 @@ export default defineComponent({
       document.getElementById('scatterIcon').style.color = '#F1ECE3';
       document.getElementById('heatIcon').style.color = '#F1ECE3';
       document.getElementById('hexIcon').style.color = '#F1ECE3';
+      document.getElementById('history').style.background = '#4D6180';
+      document.getElementById('historyIcon').style.color = '#F1ECE3';
+      document.getElementById('historyLabel').style.color = '#F1ECE3';
     },
     themeSwitch(theme) {
       if (theme == 'dark') {
@@ -357,6 +391,9 @@ export default defineComponent({
         document.getElementById('scatterIcon').style.color = '#F1ECE3';
         document.getElementById('heatIcon').style.color = '#F1ECE3';
         document.getElementById('hexIcon').style.color = '#F1ECE3';
+        document.getElementById('history').style.background = '#4D6180';
+        document.getElementById('historyIcon').style.color = '#F1ECE3';
+        document.getElementById('historyLabel').style.color = '#F1ECE3';
         this.curTheme = 'light';
       } else if (theme == 'light') {
         document.getElementById('productName').style.color = '#F1ECE3';
@@ -377,6 +414,9 @@ export default defineComponent({
         document.getElementById('scatterIcon').style.color = '#222831';
         document.getElementById('heatIcon').style.color = '#222831';
         document.getElementById('hexIcon').style.color = '#222831';
+        document.getElementById('history').style.background = '#F2B963';
+        document.getElementById('historyIcon').style.color = '#222831';
+        document.getElementById('historyLabel').style.color = '#222831';
         this.curTheme = 'dark';
       }
     },
@@ -415,14 +455,14 @@ export default defineComponent({
       } else {
         this.currMapId = '77019c2d28bf4b75';
       }
-      console.warn(this.currMapId + ' is current MapId');
+    //   console.warn(this.currMapId + ' is current MapId');
       this.initMap();
     },
     renderLayer() {
       const scatterplot = () =>
         new ScatterplotLayer({
           id: 'scatter',
-          data: this.accidentsData.getIncidents, //this.accidentsData.getIncidents
+          data: this.currentData.getIncidents, //this.accidentsData.getIncidents
           opacity: 0.8,
           filled: true,
           radiusMinPixels: 5,
@@ -461,7 +501,7 @@ export default defineComponent({
       const heatmap = () =>
         new HeatmapLayer({
           id: 'heat',
-          data: this.accidentsData.getIncidents,
+          data: this.currentData.getIncidents,
           getPosition: (d) => [d.Longitude, d.Latitude],
           getWeight: (d) => 0.5,
           radiusPixel: 60,
@@ -470,7 +510,7 @@ export default defineComponent({
       const hexagon = () =>
         new HexagonLayer({
           id: 'hex',
-          data: this.accidentsData.getIncidents,
+          data: this.currentData.getIncidents,
           getPosition: (d) => [d.Longitude, d.Latitude],
           getElevationWeight: (d) => 1,
           elevationScale: 100,
@@ -543,10 +583,18 @@ export default defineComponent({
     fetch('http://178.128.89.207/api/v1/incidents/getOneDay')
       .then((res) => res.json())
       .then((data) => {
-        this.accidentsData = data;
-        console.log(this.accidentsData.getIncidents);
+        this.oneDayData = data;
+        console.log(this.oneDayData);
       })
       .catch((err) => console.warn(err));
+    fetch('http://178.128.89.207/api/v1/incidents/getAllIncidents')
+      .then((res) => res.json())
+      .then((data) => {
+        this.alltimeData = data;
+        console.log(this.alltimeData);
+      })
+      .catch((err) => console.warn(err));
+    this.currentData = this.oneDayData;
   },
 });
 </script>

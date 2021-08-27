@@ -49,7 +49,7 @@
     -webkit-border-radius: 8;
     -moz-border-radius: 8;
     border-radius: 8px;
-    font-family: Arial;
+    font-family: 'Prompt', sans-serif;
     color: #222831;
     font-size: 20px;
     background: #f2b963;
@@ -74,7 +74,7 @@
     -webkit-border-radius: 8;
     -moz-border-radius: 8;
     border-radius: 8px;
-    font-family: Arial;
+    font-family: 'Prompt', sans-serif;
     color: #222831;
     font-size: 20px;
     background: #f2b963;
@@ -94,7 +94,7 @@
     -webkit-border-radius: 8;
     -moz-border-radius: 8;
     border-radius: 8px;
-    font-family: Arial;
+    font-family: 'Prompt', sans-serif;
     color: #222831 /*#F1ECE3 */;
     font-size: 20px;
     background: transparent;

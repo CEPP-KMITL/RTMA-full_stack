@@ -7,42 +7,6 @@
       size="md"
       style="margin-left:5vw;margin-top:6.25vh"
     >
-      <!-- <div class="container">
-        <link rel="stylesheet" href="./css/toggleBtn.css"/>
-        <q-item clickable>
-            <q-btn 
-            color="accent"
-            :class="{selected : isSelected}"></q-btn>
-        </q-item>
-    </div> -->
-
-      <!-- <q-list>
-      <q-item clickable>
-        <q-btn color="accent" label="Near Me" />
-      </q-item>
-
-      <q-item clickable> 
-        <q-item-section>Preferences</q-item-section>
-        <q-item-section side>
-          <q-icon name="keyboard_arrow_right" />
-        </q-item-section>
-        <q-btn-toggle
-          v-model="model"
-          toggle-color="primary"
-          :options="[
-            { label: 'One', value: 'one' },
-            { label: 'Two', value: 'two' },
-            { label: 'Three', value: 'three' },
-          ]"
-        />
-      </q-item>
-
-      <q-item clickable>
-        <q-item-section>
-          <q-item-label>Articles</q-item-label>
-        </q-item-section>
-      </q-item>
-    </q-list> -->
     </q-btn-dropdown>
   </div>
 </template>

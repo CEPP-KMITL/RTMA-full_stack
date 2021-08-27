@@ -8,7 +8,7 @@
 
       <q-card class="my-card bg-secondary" bordered>
         <q-card-section class="text-white q-py-xs q-mx-md">
-          <div class="text-h4 q-mt-sm q-mb-sm">Top 5 Risk Area</div>
+          <div class="text-h4 q-mt-sm q-mb-sm" style="font-family: 'Prompt', sans-serif;">Top 5 Risk Area</div>
           <div
             v-if="
               first.length ||
@@ -19,31 +19,31 @@
               fifth.length
             "
           >
-            <div v-if="first.length" class="text-base q-mx-md q-my-xs">
+            <div v-if="first.length" class="text-base q-mx-md q-my-xs" style="font-family: 'Prompt', sans-serif;">
               อันดับที่ 1
               <span v-for="(item, index) in first" v-bind:key="index">
                 {{ item }}
               </span>
             </div>
-            <div v-if="second.length" class="text-base q-mx-md q-my-xs">
+            <div v-if="second.length" class="text-base q-mx-md q-my-xs" style="font-family: 'Prompt', sans-serif;">
               อันดับที่ 2
               <span v-for="(item, index) in second" v-bind:key="index">
                 {{ item }}
               </span>
             </div>
-            <div v-if="third.length" class="text-base q-mx-md q-my-xs">
+            <div v-if="third.length" class="text-base q-mx-md q-my-xs" style="font-family: 'Prompt', sans-serif;">
               อันดับที่ 3
               <span v-for="(item, index) in third" v-bind:key="index">
                 {{ item }}
               </span>
             </div>
-            <div v-if="fourth.length" class="text-base q-mx-md q-my-xs">
+            <div v-if="fourth.length" class="text-base q-mx-md q-my-xs" style="font-family: 'Prompt', sans-serif;">
               อันดับที่ 4
               <span v-for="(item, index) in fourth" v-bind:key="index">
                 {{ item }}
               </span>
             </div>
-            <div v-if="fifth.length" class="text-base q-mx-md q-my-xs">
+            <div v-if="fifth.length" class="text-base q-mx-md q-my-xs" style="font-family: 'Prompt', sans-serif;">
               อันดับที่ 5
               <span v-for="(item, index) in fifth" v-bind:key="index">
                 {{ item }}
@@ -51,13 +51,14 @@
             </div>
           </div>
 
-          <div v-else>ไม่มีข้อมูล</div>
+          <div v-else style="font-family: 'Prompt', sans-serif;">ไม่มีข้อมูล</div>
         </q-card-section>
 
         <q-card-actions class="bg-secondary float-right">
           <q-btn
             rounded
             class="bg-white text-secondary text-weight-bold"
+            style="font-family: 'Prompt', sans-serif;"
             @click="isClose = false"
             size="md"
             label="close"
