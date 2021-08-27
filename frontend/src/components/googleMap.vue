@@ -584,6 +584,7 @@ export default defineComponent({
       .then((res) => res.json())
       .then((data) => {
         this.oneDayData = data;
+        this.currentData = data;
         console.log(this.oneDayData);
       })
       .catch((err) => console.warn(err));
@@ -594,7 +595,6 @@ export default defineComponent({
         console.log(this.alltimeData);
       })
       .catch((err) => console.warn(err));
-    this.currentData = this.oneDayData;
   },
 });
 </script>
