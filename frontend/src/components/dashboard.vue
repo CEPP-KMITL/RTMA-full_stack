@@ -20,34 +20,19 @@
             "
           >
             <div v-if="first.length" class="text-base q-mx-md q-my-xs" style="font-family: 'Prompt', sans-serif;">
-              อันดับที่ 1
-              <span v-for="(item, index) in first" v-bind:key="index">
-                {{ item }}
-              </span>
+              อันดับที่ 1 {{first.join(',')}}
             </div>
             <div v-if="second.length" class="text-base q-mx-md q-my-xs" style="font-family: 'Prompt', sans-serif;">
-              อันดับที่ 2
-              <span v-for="(item, index) in second" v-bind:key="index">
-                {{ item }}
-              </span>
+              อันดับที่ 2 {{second.join(',')}}
             </div>
             <div v-if="third.length" class="text-base q-mx-md q-my-xs" style="font-family: 'Prompt', sans-serif;">
-              อันดับที่ 3
-              <span v-for="(item, index) in third" v-bind:key="index">
-                {{ item }}
-              </span>
+              อันดับที่ 3 {{third.join(',')}}
             </div>
             <div v-if="fourth.length" class="text-base q-mx-md q-my-xs" style="font-family: 'Prompt', sans-serif;">
-              อันดับที่ 4
-              <span v-for="(item, index) in fourth" v-bind:key="index">
-                {{ item }}
-              </span>
+              อันดับที่ 4 {{fourth.join(',')}}
             </div>
             <div v-if="fifth.length" class="text-base q-mx-md q-my-xs" style="font-family: 'Prompt', sans-serif;">
-              อันดับที่ 5
-              <span v-for="(item, index) in fifth" v-bind:key="index">
-                {{ item }}
-              </span>
+              อันดับที่ 5 {{fifth.join(',')}}
             </div>
           </div>
 

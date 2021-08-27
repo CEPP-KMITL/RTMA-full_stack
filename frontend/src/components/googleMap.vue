@@ -585,14 +585,12 @@ export default defineComponent({
       .then((data) => {
         this.oneDayData = data;
         this.currentData = data;
-        console.log(this.oneDayData);
       })
       .catch((err) => console.warn(err));
     fetch('http://178.128.89.207/api/v1/incidents/getAllIncidents')
       .then((res) => res.json())
       .then((data) => {
         this.alltimeData = data;
-        console.log(this.alltimeData);
       })
       .catch((err) => console.warn(err));
   },
