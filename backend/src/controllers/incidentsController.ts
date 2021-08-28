@@ -139,7 +139,7 @@ export const getfiveprovince: RequestHandler = async (req, res, next) => {
       const addcount = await Incident.where( province_counter[i] ).count();
       count_province[i] += addcount;
     }
-    const count = Array.from(new Set(count_province)).sort().reverse();
+    const count = Array.from(new Set(count_province)).sort( (a, b) => a-b).reverse();
     for (let i = 0; i < province_name.length ; i++) {
       for(let j = 0; j < count.length; j++){
         if(j >= 5) {break}
@@ -156,7 +156,6 @@ export const getfiveprovince: RequestHandler = async (req, res, next) => {
       "th4" : top5[3],
       "th5" : top5[4]
     }
-    console.log(count)
     res.status(201).json({
       message: 'Get all current incidents successfully.',
       getIncidents: gettop,
