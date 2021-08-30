@@ -2,6 +2,14 @@
 
 Data aggregation of news archive that allows user to search incidents through the new and see the correlation with the location on the map for reference.
 
+![](2021-08-30-23-03-46.png)
+![](2021-08-30-23-02-10.png)
+![](2021-08-30-23-02-42.png)
+![](2021-08-30-23-02-29.png)
+![](2021-08-30-23-02-59.png)
+![](2021-08-30-23-03-18.png)
+![](2021-08-30-23-03-26.png)
+
 ## Developer
 
 - [@T-Pakorn](https://github.com/T-Pakorn)
